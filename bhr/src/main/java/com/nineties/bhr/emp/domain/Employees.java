@@ -1,12 +1,18 @@
 package com.nineties.bhr.emp.domain;
 
+import com.nineties.bhr.annual.domain.Annual;
+import com.nineties.bhr.annual.domain.AnnualList;
+import com.nineties.bhr.attendance.domain.Attendance;
+import com.nineties.bhr.badge.domain.BadgeGrantLog;
+import com.nineties.bhr.badge.domain.EmpBadge;
+import com.nineties.bhr.dept.domain.Dept;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.ArrayList;
 import java.util.Date;
-
-import static com.nineties.bhr.emp.domain.Status.WORKING;
+import java.util.List;
 
 @Entity
 @Table
@@ -52,6 +58,7 @@ public class Employees {
     @Lob
     private Byte[] profilePicture;
 
+    @Column(columnDefinition = "TEXT")
     private String introduction;
 
     @Column(nullable = false)
@@ -68,4 +75,26 @@ public class Employees {
     @Column(nullable = false)
     @Enumerated (EnumType.STRING)
     private Role authorization;
+
+    @ManyToOne
+    @JoinColumn(name = "dept_id")
+    private Dept dept;
+
+    @OneToOne(mappedBy = "leaderId")
+    private Dept depts;
+
+    @OneToMany(mappedBy = "employees")
+    private List<Attendance> attendances = new ArrayList<>();
+
+    @OneToMany(mappedBy = "employees")
+    private List<AnnualList> annualLists = new ArrayList<>();
+
+    @OneToOne(mappedBy = "employees")
+    private Annual annual;
+
+    @OneToOne(mappedBy = "employees")
+    private EmpBadge empBadge;
+
+    @OneToMany(mappedBy = "employees")
+    private List<BadgeGrantLog> badgeGrantLogs = new ArrayList<>();
 }

@@ -1,28 +1,31 @@
 package com.nineties.bhr.attendance.domain;
 
+import com.nineties.bhr.emp.domain.Employees;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "ATTENDANCE")
-
+@Table
 public class Attendance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "att_id")
-    private Long attId;
+    private Long id;
 
-    @Column(name = "emp_id", nullable = false)
-    private Long empId;
-
-    @Column(name = "date")
+    @Temporal(TemporalType.DATE)
     private Date date;
 
-    @Column(name = "time_in")
+    @Temporal(TemporalType.TIME)
     private Date timeIn;
 
-    @Column(name = "time_out")
+    @Temporal(TemporalType.TIME)
     private Date timeOut;
+
+    @ManyToOne
+    @JoinColumn(name = "emp_id")
+    private Employees employees;
 }

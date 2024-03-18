@@ -1,21 +1,23 @@
 package com.nineties.bhr.annual.domain;
 
+import com.nineties.bhr.emp.domain.Employees;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "ANNUAL")
+@Table
 public class Annual {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "annual_id")
-    private Long annualId;
+    private Long id;
 
-    @Column(name = "emp_id", nullable = false)
-    private Long empId;
-
-    @Column(name = "annual_total", columnDefinition = "int default 15")
+    @Column(columnDefinition = "int default 15")
     private Long annualTotal;
 
-    @Column(name = "annual_count", nullable = true)
+    @Column(nullable = true)
     private Long annualCount;
-    }
+
+    @OneToOne
+    @JoinColumn(name = "emp_id")
+    private Employees employees;
+}

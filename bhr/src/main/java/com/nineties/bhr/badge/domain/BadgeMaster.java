@@ -1,26 +1,33 @@
 package com.nineties.bhr.badge.domain;
 
+import com.nineties.bhr.annual.domain.AnnualList;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Table(name = "BADGE_MASTER")
+@Table
 public class BadgeMaster {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "badge_id")
-    private Long badgeId;
+    private Long id;
 
-    @Column(name = "badge_name", length = 20, nullable = false)
+    @Column(nullable = false)
     private String badgeName;
 
-    @Column(name = "badge_description", length = 100, nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String badgeDescription;
 
-    @Column(name = "badge_standard", nullable = false)
+    @Column(nullable = false)
     private Long badgeStandard;
 
     @Lob
-    @Column(name = "badge_image", nullable = false)
+    @Column(nullable = false)
     private byte[] badgeImage;
+
+    @OneToMany(mappedBy = "badgeMaster")
+    private List<BadgeGrantLog> badgeGrantLogs = new ArrayList<>();
 
 }

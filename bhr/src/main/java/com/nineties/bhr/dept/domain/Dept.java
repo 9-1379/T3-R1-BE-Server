@@ -1,19 +1,27 @@
 package com.nineties.bhr.dept.domain;
 
+import com.nineties.bhr.emp.domain.Employees;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Table(name = "DEPT")
+@Table
 public class Dept {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dept_id")
-    private Long deptId;
+    private Long id;
 
-    @Column(name = "dept_name", nullable = false)
+    @Column(nullable = false)
     private String deptName;
 
-    //@ManyToOne
-    @Column(name = "emp_id", nullable = false)
-    private Long empId;
+    @OneToOne
+    @JoinColumn(name = "leader_id")
+    private Employees leaderId;
+
+    @OneToMany
+    @JoinColumn(name = "emp_id")
+    private List<Employees> employees = new ArrayList<>();
 }
