@@ -149,3 +149,6 @@ replay_pid*
 .nfs*
 
 # End of https://www.toptal.com/developers/gitignore/api/linux,intellij,java
+
+#idea 차단
+.idea
