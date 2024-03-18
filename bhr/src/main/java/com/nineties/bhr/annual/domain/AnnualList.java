@@ -11,7 +11,7 @@ public class AnnualList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "annual_list_id")
-    private Integer id;
+    private Long id;
 
     @Temporal(TemporalType.DATE)
     private Date annualDate;

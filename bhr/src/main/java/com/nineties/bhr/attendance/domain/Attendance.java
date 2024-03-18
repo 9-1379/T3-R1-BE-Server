@@ -16,13 +16,10 @@ public class Attendance {
     @Column(name = "att_id")
     private Long id;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
-
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date timeIn;
 
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date timeOut;
 
     @ManyToOne

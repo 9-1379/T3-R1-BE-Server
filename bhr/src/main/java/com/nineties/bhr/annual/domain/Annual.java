@@ -11,10 +11,10 @@ public class Annual {
     @Column(name = "annual_id")
     private Long id;
 
-    @Column(columnDefinition = "int default 15")
+    @Column
     private Long annualTotal;
 
-    @Column(nullable = true)
+    @Column
     private Long annualCount;
 
     @OneToOne

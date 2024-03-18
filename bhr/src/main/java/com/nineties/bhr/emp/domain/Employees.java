@@ -50,7 +50,7 @@ public class Employees {
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date hire_date;
+    private Date hireDate;
 
     @Embedded
     private Address address;
@@ -73,15 +73,13 @@ public class Employees {
     private Status status;
 
     @Column(nullable = false)
+    @ColumnDefault("'EMPLOYEE'")
     @Enumerated (EnumType.STRING)
     private Role authorization;
 
     @ManyToOne
     @JoinColumn(name = "dept_id")
     private Dept dept;
-
-    @OneToOne(mappedBy = "leaderId")
-    private Dept depts;
 
     @OneToMany(mappedBy = "employees")
     private List<Attendance> attendances = new ArrayList<>();
