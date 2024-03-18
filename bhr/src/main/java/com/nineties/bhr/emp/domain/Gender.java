@@ -5,6 +5,6 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Status {
-    WORKING, REST, LEAVE;
+public enum Gender {
+    MALE, FEMALE;
 }

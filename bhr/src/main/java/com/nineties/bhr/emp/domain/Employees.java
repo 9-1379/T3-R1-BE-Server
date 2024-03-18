@@ -1,10 +1,12 @@
 package com.nineties.bhr.emp.domain;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.Date;
+
+import static com.nineties.bhr.emp.domain.Status.WORKING;
 
 @Entity
 @Table
@@ -21,12 +23,49 @@ public class Employees {
     @Column(nullable = false)
     private String name;
 
-    @Lob
-    private Byte[] profile_picture;
+    @Column(nullable = false)
+    @Enumerated (EnumType.STRING)
+    private Gender gender;
 
+    @Column(nullable = false)
+    private Long age;
+
+    @Column(nullable = false)
+    private String phoneNumber;
+
+    @Email
+    private String email;
+
+    @Column(nullable = false)
+    private String position;
+
+    @Column(nullable = false)
+    private String job;
+
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date hire_date;
 
-    @ColumnDefault("1")
+    @Embedded
+    private Address address;
+
+    @Lob
+    private Byte[] profilePicture;
+
+    private String introduction;
+
+    @Column(nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    @ColumnDefault("'WORKING'")
+    @Enumerated (EnumType.STRING)
     private Status status;
+
+    @Column(nullable = false)
+    @Enumerated (EnumType.STRING)
+    private Role authorization;
 }
