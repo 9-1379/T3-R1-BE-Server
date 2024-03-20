@@ -8,6 +8,10 @@ import com.nineties.bhr.badge.domain.EmpBadge;
 import com.nineties.bhr.dept.domain.Dept;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
@@ -15,7 +19,9 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table
+@Getter @Setter
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class Employees {
 
     @Id
