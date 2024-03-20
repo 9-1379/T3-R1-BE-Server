@@ -22,6 +22,6 @@ public class Dept {
     @JoinColumn(name = "leader_id")
     private Employees leaderId;
 
-    @OneToMany
+    @OneToMany (mappedBy = "dept")
     private List<Employees> employees = new ArrayList<>();
 }
