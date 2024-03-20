@@ -8,13 +8,20 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Table
 public class Attendance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "att_id")
     private Long id;
+
+    //출근일
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
+
+    //퇴근일
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeIn;

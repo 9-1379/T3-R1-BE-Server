@@ -6,15 +6,22 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table
 public class AnnualList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "annual_list_id")
     private Long id;
 
+    private String annualYear;
+
     @Temporal(TemporalType.DATE)
-    private Date annualDate;
+    private Date startDate;
+
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
+
+    //사용 개수
+    private Long annualCnt;
 
     @ManyToOne
     @JoinColumn(name = "emp_id")

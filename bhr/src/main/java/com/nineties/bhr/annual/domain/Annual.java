@@ -4,18 +4,20 @@ import com.nineties.bhr.emp.domain.Employees;
 import jakarta.persistence.*;
 
 @Entity
-@Table
 public class Annual {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "annual_id")
     private Long id;
 
-    @Column
+    //귀속 연도
+    private String annualYear;
+
+    //총 생성 연차
     private Long annualTotal;
 
-    @Column
-    private Long annualCount;
+    //선 사용 연차
+    private Long annualUsed;
 
     @OneToOne
     @JoinColumn(name = "emp_id")

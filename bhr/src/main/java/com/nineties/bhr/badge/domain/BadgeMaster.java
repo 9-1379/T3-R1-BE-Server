@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
 public class BadgeMaster {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,16 +17,13 @@ public class BadgeMaster {
     private String badgeName;
 
     @Column(columnDefinition = "TEXT", nullable = false)
-    private String badgeDescription;
-
-    @Column(nullable = false)
-    private Long badgeStandard;
+    private String badgeDetail;
 
     @Lob
     @Column(nullable = false)
     private byte[] badgeImage;
 
     @OneToMany(mappedBy = "badgeMaster")
-    private List<BadgeGrantLog> badgeGrantLogs = new ArrayList<>();
+    private List<EmpBadge> empBadges = new ArrayList<>();
 
 }

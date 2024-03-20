@@ -3,7 +3,6 @@ package com.nineties.bhr.emp.domain;
 import com.nineties.bhr.annual.domain.Annual;
 import com.nineties.bhr.annual.domain.AnnualList;
 import com.nineties.bhr.attendance.domain.Attendance;
-import com.nineties.bhr.badge.domain.BadgeGrantLog;
 import com.nineties.bhr.badge.domain.EmpBadge;
 import com.nineties.bhr.dept.domain.Dept;
 import jakarta.persistence.*;
@@ -26,8 +25,7 @@ public class Employees {
 
     @Id
     @Column(name = "emp_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @Column(nullable = false)
     private Long empNo;
@@ -40,7 +38,7 @@ public class Employees {
     private Gender gender;
 
     @Column(nullable = false)
-    private Long age;
+    private String birthday;
 
     @Column(nullable = false)
     private String phoneNumber;
@@ -52,7 +50,7 @@ public class Employees {
     private String position;
 
     @Column(nullable = false)
-    private String job;
+    private String jobId;
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
@@ -96,9 +94,6 @@ public class Employees {
     @OneToOne(mappedBy = "employees")
     private Annual annual;
 
-    @OneToOne(mappedBy = "employees")
-    private EmpBadge empBadge;
-
     @OneToMany(mappedBy = "employees")
-    private List<BadgeGrantLog> badgeGrantLogs = new ArrayList<>();
+    private List<EmpBadge> empBadges = new ArrayList<>();
 }
