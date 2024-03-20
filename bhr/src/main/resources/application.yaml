@@ -1,23 +1,29 @@
 spring:
-    sql:
-      init:
-        platform: mariadb
-        encoding: UTF-8
-        mode: always
-#    datasource:
-#      driver-class-name: org.mariadb.jdbc.Driver
-#      url: jdbc:mariadb://localhost:3377/bhr
-#      username: root
-#      password: maria
-    #JPA
-    jpa:
-      hibernate:
-        ddl-auto: create
-      generate-ddl: false
-      show-sql: true
-    # private yml import
-    profiles:
-      include: private
+  sql:
+    init:
+      platform: mariadb
+      encoding: UTF-8
+      mode: always
+  #    datasource:
+  #      driver-class-name: org.mariadb.jdbc.Driver
+  #      url: jdbc:mariadb://localhost:3377/bhr
+  #      username: root
+  #      password: maria
+  #JPA
+  jpa:
+    hibernate:
+      ddl-auto: create
+    generate-ddl: false
+    show-sql: true
+  # private yml import
+  profiles:
+    include: private
+  mvc:
+    cors:
+      allowed-origins: http://localhost:3000
+      allowed-methods:
+        - GET
+        - POST
 
 server:
   port: 8000
