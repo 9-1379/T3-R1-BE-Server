@@ -2,8 +2,10 @@ package com.nineties.bhr.annual.domain;
 
 import com.nineties.bhr.emp.domain.Employees;
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 public class Annual {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

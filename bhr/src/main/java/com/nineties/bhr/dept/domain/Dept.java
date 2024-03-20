@@ -2,11 +2,13 @@ package com.nineties.bhr.dept.domain;
 
 import com.nineties.bhr.emp.domain.Employees;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
 public class Dept {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +23,5 @@ public class Dept {
     private Employees leaderId;
 
     @OneToMany
-    @JoinColumn(name = "emp_id")
     private List<Employees> employees = new ArrayList<>();
 }

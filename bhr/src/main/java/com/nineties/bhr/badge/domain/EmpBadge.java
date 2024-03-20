@@ -2,10 +2,12 @@ package com.nineties.bhr.badge.domain;
 
 import com.nineties.bhr.emp.domain.Employees;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Date;
 
 @Entity
+@Data
 public class EmpBadge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

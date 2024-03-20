@@ -2,11 +2,13 @@ package com.nineties.bhr.badge.domain;
 
 import com.nineties.bhr.annual.domain.AnnualList;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
 public class BadgeMaster {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

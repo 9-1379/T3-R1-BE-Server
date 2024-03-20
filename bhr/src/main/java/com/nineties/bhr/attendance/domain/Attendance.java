@@ -2,12 +2,14 @@ package com.nineties.bhr.attendance.domain;
 
 import com.nineties.bhr.emp.domain.Employees;
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
+@Data
 public class Attendance {
 
     @Id

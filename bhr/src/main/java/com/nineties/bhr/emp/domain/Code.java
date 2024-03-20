@@ -3,15 +3,10 @@ package com.nineties.bhr.emp.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
-@Getter @Setter
-@RequiredArgsConstructor
-@AllArgsConstructor
+@Data
 public class Code {
 
     @Id @Column(name = "code_id")
