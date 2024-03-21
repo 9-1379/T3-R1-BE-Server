@@ -4,20 +4,19 @@ spring:
         platform: mariadb
         encoding: UTF-8
         mode: always
-#    datasource:
-#      driver-class-name: org.mariadb.jdbc.Driver
-#      url: jdbc:mariadb://localhost:3377/bhr
-#      username: root
-#      password: maria
+    datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      url: ${LOCAL_DB_URL}
+      username: ${LOCAL_DB_USERNAME}
+      password: ${LOCAL_DB_PASSWORD}
     #JPA
     jpa:
       hibernate:
         ddl-auto: create
       generate-ddl: false
       show-sql: true
-    # private yml import
-    profiles:
-      include: private
+
+
 
 server:
   port: 8000
