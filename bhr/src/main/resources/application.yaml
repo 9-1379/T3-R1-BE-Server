@@ -18,6 +18,8 @@ spring:
     # private yml import
     profiles:
       include: private
+    jwt:
+      secret: lskfjalijefnalavagiowrngwoianwefokldfmaefieanfwwoeifnwnfoeinfowinf
 
 server:
   port: 8000

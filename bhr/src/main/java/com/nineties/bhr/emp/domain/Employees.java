@@ -75,7 +75,6 @@ public class Employees {
     private String password;
 
     @Column(nullable = false)
-    @ColumnDefault("'WORKING'")
     @Enumerated (EnumType.STRING)
     private Status status;
 

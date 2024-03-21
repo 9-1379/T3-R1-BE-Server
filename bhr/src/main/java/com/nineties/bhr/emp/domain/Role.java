@@ -13,4 +13,14 @@ public enum Role {
     }
 
     private String value;
+
+    public static Role getRole(String roleStr) {
+        roleStr = roleStr.split("_")[1];
+        for (Role role : values()) {
+            if (role.name().equalsIgnoreCase(roleStr)) {
+                return role;
+            }
+        }
+        return null; // 또는 기본값 또는 예외 처리
+    }
 }

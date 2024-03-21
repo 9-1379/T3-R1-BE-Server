@@ -34,7 +34,6 @@ class EmployeesRepositoryTest {
         emp1.setHireDate(new Date());
         emp1.setUsername("aaa");
         emp1.setPassword("aaa");
-        emp1.setStatus(Status.WORKING);
         emp1.setAuthorization(Role.EMPLOYEE);
 
         Employees emp2 = new Employees();
