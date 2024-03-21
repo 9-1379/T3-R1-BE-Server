@@ -1,4 +1,6 @@
 spring:
+  jwt:
+    secret: ${JWT_SECRET}
   sql:
     init:
       platform: mariadb
