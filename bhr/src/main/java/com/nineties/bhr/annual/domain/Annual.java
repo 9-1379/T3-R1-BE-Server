@@ -14,7 +14,7 @@ public class Annual {
     @Id
     private String annualYear;
 
-    @Id @OneToOne
+    @Id @ManyToOne
     @JoinColumn(name = "emp_id")
     private Employees employees;
 
