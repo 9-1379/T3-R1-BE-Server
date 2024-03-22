@@ -97,12 +97,9 @@ public class Employees {
     private List<Annual> annuals = new ArrayList<>();
 
     @OneToMany(mappedBy = "employees")
-<<<<<<< HEAD
-    private List<BadgeGrantLog> badgeGrantLogs = new ArrayList<>();
+    private List<EmpBadge> empBadges = new ArrayList<>();
 
     public void setId(Long id) {
     }
-=======
-    private List<EmpBadge> empBadges = new ArrayList<>();
->>>>>>> dev
+
 }

@@ -16,7 +16,7 @@ public class EmployeesService {
     }
 
     public Employees getEmployeesById(Long id) {
-        return employeesRepository.findById(id).orElse(null);
+        return (Employees) employeesRepository.findById(id).orElse(null);
     }
 
     public Employees updateEmployees(Employees employees) {
