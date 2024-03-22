@@ -1,24 +1,23 @@
 spring:
-    sql:
-      init:
-        platform: mariadb
-        encoding: UTF-8
-        mode: always
-    datasource:
-      driver-class-name: org.mariadb.jdbc.Driver
-      url: ${LOCAL_DB_URL}
-      username: ${LOCAL_DB_USERNAME}
-      password: ${LOCAL_DB_PASSWORD}
-    #JPA
-    jpa:
-      hibernate:
-        ddl-auto: create
-      generate-ddl: false
-      show-sql: true
-
+  jwt:
+    secret: ${JWT_SECRET}
+  sql:
+    init:
+      platform: mariadb
+      encoding: UTF-8
+      mode: always
+  datasource:
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  #JPA
+  jpa:
+    hibernate:
+      ddl-auto: create
+    generate-ddl: false
+    show-sql: true
 
 
 server:
   port: 8000
-
-

@@ -3,26 +3,33 @@ package com.nineties.bhr.emp.domain;
 import com.nineties.bhr.annual.domain.Annual;
 import com.nineties.bhr.annual.domain.AnnualList;
 import com.nineties.bhr.attendance.domain.Attendance;
-import com.nineties.bhr.badge.domain.BadgeGrantLog;
 import com.nineties.bhr.badge.domain.EmpBadge;
 import com.nineties.bhr.dept.domain.Dept;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table
+@Data
 public class Employees {
 
+    //a+숫자
     @Id
-    @Column(name = "emp_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "custom-sequence-gen")
+    @GenericGenerator(
+            name = "custom-sequence-gen",
+            strategy = "com.nineties.bhr.emp.domain.CustomSequenceGenerator"
+    )
+    private String id;
 
+    //숫자 자동 +1
     @Column(nullable = false)
     private Long empNo;
 
@@ -34,7 +41,7 @@ public class Employees {
     private Gender gender;
 
     @Column(nullable = false)
-    private Long age;
+    private String birthday;
 
     @Column(nullable = false)
     private String phoneNumber;
@@ -46,7 +53,7 @@ public class Employees {
     private String position;
 
     @Column(nullable = false)
-    private String job;
+    private String jobId;
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
@@ -68,7 +75,6 @@ public class Employees {
     private String password;
 
     @Column(nullable = false)
-    @ColumnDefault("'WORKING'")
     @Enumerated (EnumType.STRING)
     private Status status;
 
@@ -87,12 +93,9 @@ public class Employees {
     @OneToMany(mappedBy = "employees")
     private List<AnnualList> annualLists = new ArrayList<>();
 
-    @OneToOne(mappedBy = "employees")
-    private Annual annual;
-
-    @OneToOne(mappedBy = "employees")
-    private EmpBadge empBadge;
+    @OneToMany(mappedBy = "employees")
+    private List<Annual> annuals = new ArrayList<>();
 
     @OneToMany(mappedBy = "employees")
-    private List<BadgeGrantLog> badgeGrantLogs = new ArrayList<>();
+    private List<EmpBadge> empBadges = new ArrayList<>();
 }

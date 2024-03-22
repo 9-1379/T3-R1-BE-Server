@@ -2,22 +2,27 @@ package com.nineties.bhr.annual.domain;
 
 import com.nineties.bhr.emp.domain.Employees;
 import jakarta.persistence.*;
+import lombok.Data;
+
+import java.io.Serializable;
 
 @Entity
-@Table
+@Data
+@IdClass(AnnualPK.class)
 public class Annual {
+    //귀속 연도
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "annual_id")
-    private Long id;
+    private String annualYear;
 
-    @Column
-    private Long annualTotal;
-
-    @Column
-    private Long annualCount;
-
-    @OneToOne
+    @Id @ManyToOne
     @JoinColumn(name = "emp_id")
     private Employees employees;
+
+    //총 생성 연차
+    private Long annualTotal;
+
+    //선 사용 연차
+    private Long annualUsed;
+
+
 }
