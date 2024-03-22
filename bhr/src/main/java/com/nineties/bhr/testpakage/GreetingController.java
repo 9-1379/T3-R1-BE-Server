@@ -1,4 +1,4 @@
-package testpakage;
+package com.nineties.bhr.testpakage;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
