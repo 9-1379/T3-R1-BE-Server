@@ -2,12 +2,13 @@ package com.nineties.bhr.badge.domain;
 
 import com.nineties.bhr.annual.domain.AnnualList;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
+@Data
 public class BadgeMaster {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,16 +19,13 @@ public class BadgeMaster {
     private String badgeName;
 
     @Column(columnDefinition = "TEXT", nullable = false)
-    private String badgeDescription;
-
-    @Column(nullable = false)
-    private Long badgeStandard;
+    private String badgeDetail;
 
     @Lob
     @Column(nullable = false)
     private byte[] badgeImage;
 
     @OneToMany(mappedBy = "badgeMaster")
-    private List<BadgeGrantLog> badgeGrantLogs = new ArrayList<>();
+    private List<EmpBadge> empBadges = new ArrayList<>();
 
 }
