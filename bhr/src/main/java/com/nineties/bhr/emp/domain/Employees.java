@@ -22,6 +22,7 @@ public class Employees {
 
     //a+숫자
     @Id
+    @Column(name = "emp_id")
     @GeneratedValue(generator = "custom-sequence-gen")
     @GenericGenerator(
             name = "custom-sequence-gen",
