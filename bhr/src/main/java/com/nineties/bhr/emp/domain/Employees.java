@@ -95,4 +95,7 @@ public class Employees {
 
     @OneToMany(mappedBy = "employees")
     private List<BadgeGrantLog> badgeGrantLogs = new ArrayList<>();
+
+    public void setId(Long id) {
+    }
 }
