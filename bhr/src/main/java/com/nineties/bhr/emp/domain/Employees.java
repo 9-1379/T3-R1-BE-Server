@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;
@@ -99,7 +98,4 @@ public class Employees {
     @OneToMany(mappedBy = "employees")
     private List<EmpBadge> empBadges = new ArrayList<>();
 
-    public void setId(Long id) {
     }
-
-}

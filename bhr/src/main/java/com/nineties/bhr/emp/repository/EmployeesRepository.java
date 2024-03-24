@@ -7,11 +7,12 @@ import java.util.Optional;
 
 
 @Repository
-public interface EmployeesRepository extends JpaRepository<Employees, String> {
+public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 
-    Optional<Employees> findById(String id);
+    Optional<Employees> findById(Long id);
+
     Employees findByUsername(String username);
+
     Boolean existsByUsername(String username);
 
-    Optional<Object> findById(Long id);
 }

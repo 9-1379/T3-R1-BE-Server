@@ -15,11 +15,28 @@ public class EmployeesService {
         this.employeesRepository = employeesRepository;
     }
 
-    public Employees getEmployeesById(Long id) {
-        return (Employees) employeesRepository.findById(id).orElse(null);
+    public Employees getEmployeeById(Long id) {
+        return employeesRepository.findById(id).orElse(null);
     }
 
-    public Employees updateEmployees(Employees employees) {
-        return employeesRepository.save(employees);
+    public Employees updateEmployee(Long id, Employees employeeDetails) {
+        Employees employee = employeesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found for this id :: " + id));
+
+        employee.setName(employeeDetails.getName());
+        employee.setDept(employeeDetails.getDept());
+        employee.setPosition(employeeDetails.getPosition());
+        employee.setIntroduction(employeeDetails.getIntroduction());
+
+        return employeesRepository.save(employee);
+    }
+
+    public boolean deleteIntroduction(Long id) {
+        Employees employee = employeesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found for this id :: " + id));
+
+        employee.setIntroduction(null);
+        employeesRepository.save(employee);
+        return true;
     }
 }
