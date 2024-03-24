@@ -1,8 +1,7 @@
 package com.nineties.bhr.emp.service;
 
-import com.nineties.bhr.emp.domain.Employees;
-import com.nineties.bhr.emp.dto.AdminDTO;
-import com.nineties.bhr.emp.mapper.EmployeeMapper;
+import com.nineties.bhr.admin.dto.AdminDTO;
+import com.nineties.bhr.admin.mapper.EmployeeMapper;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

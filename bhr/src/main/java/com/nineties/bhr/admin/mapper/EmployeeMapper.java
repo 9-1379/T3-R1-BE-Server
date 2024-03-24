@@ -1,7 +1,7 @@
-package com.nineties.bhr.emp.mapper;
+package com.nineties.bhr.admin.mapper;
 
 import com.nineties.bhr.emp.domain.Employees;
-import com.nineties.bhr.emp.dto.AdminDTO;
+import com.nineties.bhr.admin.dto.AdminDTO;
 import org.springframework.stereotype.Component;
 
 @Component
