@@ -2,6 +2,7 @@ package com.nineties.bhr.emp.controller;
 
 import com.nineties.bhr.emp.service.AdminDashBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,11 @@ public class AdminDashBoardController {
     }
 
     @GetMapping("/count")
-    public Long getEmployeeCount() {
-        return adminDashBoardService.getEmployeeCount();
+    public ResponseEntity<Long> getEmployeeCount() {
+        Long count = adminDashBoardService.getEmployeeCount();
+        return ResponseEntity.ok().body(count);
     }
+
+//    @GetMapping
+//    public List<>
 }
