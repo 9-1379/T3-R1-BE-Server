@@ -61,8 +61,8 @@ public class Employees {
     @Embedded
     private Address address;
 
-    @Lob
-    private Byte[] profilePicture;
+    @Column
+    private String profilePicturePath; // 프로필 사진 파일 경로를 저장할 새 필드
 
     @Column(columnDefinition = "TEXT")
     private String introduction;
@@ -85,9 +85,9 @@ public class Employees {
     @ManyToOne
     @JoinColumn(name = "dept_id")
     private Dept dept;
-
     @OneToMany(mappedBy = "employees")
     private List<Attendance> attendances = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "employees")
     private List<AnnualList> annualLists = new ArrayList<>();
