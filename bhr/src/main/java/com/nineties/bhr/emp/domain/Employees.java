@@ -22,6 +22,7 @@ public class Employees {
 
     //a+숫자
     @Id
+    @Column(name = "emp_id")
     @GeneratedValue(generator = "custom-sequence-gen")
     @GenericGenerator(
             name = "custom-sequence-gen",
@@ -33,7 +34,7 @@ public class Employees {
     @Column(nullable = false)
     private Long empNo;
 
-    @Column(nullable = false)
+    @Column(name = "emp_name", nullable = false)
     private String name;
 
     @Column(nullable = false)
