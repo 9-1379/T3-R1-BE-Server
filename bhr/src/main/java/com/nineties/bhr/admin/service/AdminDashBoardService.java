@@ -1,4 +1,4 @@
-package com.nineties.bhr.emp.service;
+package com.nineties.bhr.admin.service;
 
 import com.nineties.bhr.admin.dto.AdminDTO;
 import com.nineties.bhr.admin.mapper.EmployeeMapper;

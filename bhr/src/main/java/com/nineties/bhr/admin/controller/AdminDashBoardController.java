@@ -1,7 +1,7 @@
 package com.nineties.bhr.admin.controller;
 
 import com.nineties.bhr.admin.dto.AdminDTO;
-import com.nineties.bhr.emp.service.AdminDashBoardService;
+import com.nineties.bhr.admin.service.AdminDashBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
