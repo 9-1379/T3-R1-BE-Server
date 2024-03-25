@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import com.nineties.bhr.emp.domain.Status;
+
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -18,4 +20,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employees> findAllEmployees() {
         return employeesRepository.findAll();
     }
+
+//    @Override
+//    public void retireEmployee(String employeeId) {
+//        Employees employee = employeesRepository.findById(employeeId)
+//                .orElseThrow(() -> new RuntimeException("Employee not found"));
+//        employee.setStatus(Status.LEAVE); // 직원 상태를 LEAVE로 변경
+//        employeesRepository.save(employee);
+//    }
 }

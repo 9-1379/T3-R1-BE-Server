@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface EmployeeService {
     List<Employees> findAllEmployees();
+//    void retireEmployee(String employeeId); // 퇴직 처리 메서드 추가
 }
 
