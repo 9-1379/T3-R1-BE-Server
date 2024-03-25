@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 import com.nineties.bhr.emp.domain.Status;
 
 
@@ -20,6 +22,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employees> findAllEmployees() {
         return employeesRepository.findAll();
     }
+
+    @Override
+    public Employees getEmployeeById(String id) {
+        Optional<Employees> optionalEmployee = employeesRepository.findById(id);
+        return optionalEmployee.orElse(null);
+    }
+
 
 //    @Override
 //    public void retireEmployee(String employeeId) {
