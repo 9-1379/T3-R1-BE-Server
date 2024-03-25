@@ -10,4 +10,5 @@ public class AdminDTO {
     private Long empNo;
     private String name;
     private String deptName;
+
 }

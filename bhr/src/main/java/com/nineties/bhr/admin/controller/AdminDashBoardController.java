@@ -29,9 +29,14 @@ public class AdminDashBoardController {
         Map<String, Object> result = new HashMap<>();
         List<AdminDTO> employeeList = adminDashBoardService.getAllEmployees();
         Long count = adminDashBoardService.getCount();
+        Long employeesBeforeNineAM = adminDashBoardService.countEmployeesBeforeNinAM();
+//        List<AttendanceDTO> attendanceDTOS = adminDashBoardService.findEmployeesArrivedBefore9AM();
 
         result.put("employeeList", employeeList);
         result.put("count", count);
+        result.put("employeesBeforeNineAM", employeesBeforeNineAM);
+//        result.put("attendanceDTOS", attendanceDTOS);
+
 
         return result;
     }

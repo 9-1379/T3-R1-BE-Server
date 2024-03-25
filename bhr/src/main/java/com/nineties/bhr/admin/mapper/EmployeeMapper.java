@@ -11,17 +11,14 @@ public class EmployeeMapper {
         AdminDTO dto = new AdminDTO();
         dto.setName(employees.getName());
         dto.setEmpNo(employees.getEmpNo());
-        dto.setDeptName(employees.getDept().getDeptName());;
+        dto.setDeptName(employees.getDept().getDeptName());
 
         return dto;
-
-//        Dept deptName = null;
-//        // 부서 이름 설정
-//        if (employees.getDept() != null) {
-//            Dept deptName = employeesRepository.findDeptNameById(employees.getDept().getId());
-//        }
-//        dto.setDeptName(deptName);
-
-
     }
+//    public AttendanceDTO attendanceDTO(Attendance attendance) {
+//        AttendanceDTO attendDTO = new AttendanceDTO();
+//        attendDTO.setTimeIn(attendance.getTimeIn());
+//
+//        return attendDTO;
+//    }
 }

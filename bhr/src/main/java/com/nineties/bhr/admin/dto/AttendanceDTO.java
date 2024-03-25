@@ -3,11 +3,13 @@ package com.nineties.bhr.admin.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
+
 @Getter
 @Setter
-public class deptDTO {
+public class AttendanceDTO {
     private Long empNo;
     private Long id;
-    private String deptName;
-    private int numOfEmployeesInDept;
+    private Date timeIn;
 }
