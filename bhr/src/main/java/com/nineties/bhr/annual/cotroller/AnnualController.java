@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +20,12 @@ public class AnnualController {
         this.annualService = annualService;
     }
 
+
     @PostMapping("/save")
     public ResponseEntity<Object> annualSave(@RequestBody @Valid AnnualListDTO annualListDTO, HttpServletResponse response) {
-        annualService.annualSave(annualListDTO);
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        annualService.annualList(annualListDTO, name);
+
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
