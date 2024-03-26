@@ -5,10 +5,14 @@ import com.nineties.bhr.dept.repository.DeptRepository;
 import com.nineties.bhr.emp.domain.*;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import com.nineties.bhr.join.dto.JoinDTO;
+import com.nineties.bhr.join.dto.JoinPageDTO;
+import com.nineties.bhr.sequence.domain.SequenceTable;
+import com.nineties.bhr.sequence.repository.SequenceTableRespository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class JoinService {
@@ -16,12 +20,14 @@ public class JoinService {
     private final EmployeesRepository employeesRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final DeptRepository deptRepository;
+    private final SequenceTableRespository sequenceTableRespository;
 
-    public JoinService(EmployeesRepository employeesRepository, BCryptPasswordEncoder bCryptPasswordEncoder, DeptRepository deptRepository) {
+    public JoinService(EmployeesRepository employeesRepository, BCryptPasswordEncoder bCryptPasswordEncoder, DeptRepository deptRepository, SequenceTableRespository sequenceTableRespository) {
 
         this.employeesRepository = employeesRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.deptRepository = deptRepository;
+        this.sequenceTableRespository = sequenceTableRespository;
     }
 
     public void joinProcess(JoinDTO joinDTO) {
@@ -72,5 +78,28 @@ public class JoinService {
         data.setAuthorization(Role.EMPLOYEE);
 
         employeesRepository.save(data);
+    }
+
+    public JoinPageDTO showId() {
+        JoinPageDTO joinPageDTO = new JoinPageDTO();
+
+        Long maxEmpNo = employeesRepository.findMaxEmpNo();
+        if (maxEmpNo == null) {
+            maxEmpNo = 1L; // empNo가 아직 없으면, 초기값으로 1 설정
+        } else {
+            maxEmpNo += 1; // 기존 최대값에서 1 증가
+        }
+
+        joinPageDTO.setEmpNum(maxEmpNo);
+
+        SequenceTable sequenceTable = sequenceTableRespository.findById("entity_sequence").orElseThrow();
+
+        Long empId = sequenceTable.getNextVal();
+        joinPageDTO.setEmpId("e" + empId);
+
+        List<String> deptNames = deptRepository.findAllDeptNames();
+        joinPageDTO.setDeptNames(deptNames);
+
+        return joinPageDTO;
     }
 }
