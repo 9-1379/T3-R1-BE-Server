@@ -15,6 +15,7 @@ public interface EmployeesRepository extends JpaRepository<Employees, Long> {
     Employees findByUsername(String username);
 
     Boolean existsByUsername(String username);
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 =======
@@ -22,3 +23,7 @@ public interface EmployeesRepository extends JpaRepository<Employees, Long> {
     Long findMaxEmpNo();
 >>>>>>> dev
 }
+=======
+  
+}
+>>>>>>> 055ea48f302dc7c6a87de3e8e3a15d57537025de
