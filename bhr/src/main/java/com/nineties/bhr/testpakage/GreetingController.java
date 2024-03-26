@@ -11,6 +11,6 @@ public class GreetingController {
     @GetMapping("/greeting")
 //    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public String greeting() {
-        return "Hello from Spring Boot";
+        return "Hello from Spring Boot YA";
     }
 }
