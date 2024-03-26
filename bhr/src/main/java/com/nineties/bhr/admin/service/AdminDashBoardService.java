@@ -6,8 +6,6 @@ import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,31 +27,10 @@ public class AdminDashBoardService {
                 .collect(Collectors.toList());
     }
 
-//    public List<AttendanceDTO> findEmployeesArrivedBefore9AM() {
-//        // 9시 이전 출근자 조회
-//        Timestamp nineAMTimestamp = Timestamp.valueOf("2024-03-25 09:00:00"); // 출근 기준 시간 설정
-//        List<Attendance> attendances = employeesRepository.findByTimeInBefore(nineAMTimestamp);
-//        return attendances.stream()
-//                .map(employeeMapper::attendanceDTO)
-//                .collect(Collectors.toList());
-//    }
-
     public Long getCount() {
         return employeesRepository.countBy();
     }
 
-    public Long countEmployeesBeforeNinAM() {
-        Date today = new Date();
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(today);
-        cal.set(Calendar.HOUR_OF_DAY, 9);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        Date nineAM = cal.getTime();
-
-        return employeesRepository.countByTimeInBefore(nineAM);
-    }
 
 }
 

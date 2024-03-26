@@ -1,6 +1,8 @@
 package com.nineties.bhr.admin.mapper;
 
 import com.nineties.bhr.admin.dto.AdminDTO;
+import com.nineties.bhr.admin.dto.AttendanceCountDto;
+import com.nineties.bhr.attendance.domain.Attendance;
 import com.nineties.bhr.emp.domain.Employees;
 import org.springframework.stereotype.Component;
 
@@ -21,4 +23,11 @@ public class EmployeeMapper {
 //
 //        return attendDTO;
 //    }
+
+    public AttendanceCountDto attendanceCountDto(Attendance attendance) {
+        AttendanceCountDto countDto = new AttendanceCountDto();
+        countDto.setEarlyBirdsCount(attendance.getTimeIn().getTime());
+
+        return countDto;
+    }
 }
