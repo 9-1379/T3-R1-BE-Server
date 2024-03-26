@@ -21,7 +21,7 @@ public class JoinDTO {
     private String position;
     private String jobId;
     private Date hireDate;
-    private Address address;
+    private Address addr;
     private String username;
     private String password;
     private String deptName;

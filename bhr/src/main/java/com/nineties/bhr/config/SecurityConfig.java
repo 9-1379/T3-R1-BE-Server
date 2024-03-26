@@ -79,7 +79,7 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/login","/login", "/api/login/join").permitAll()
+                        .requestMatchers("/api/join","/api/login","/login", "/api/login/join").permitAll()
                         .requestMatchers("/admin").hasRole("MANAGER")
                         .requestMatchers("/admin").hasRole("HRMANAGER")
                         .anyRequest().authenticated());

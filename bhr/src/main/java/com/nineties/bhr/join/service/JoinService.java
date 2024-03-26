@@ -34,7 +34,7 @@ public class JoinService {
         String position = joinDTO.getPosition();
         String jobId = joinDTO.getJobId();
         Date hireDate = joinDTO.getHireDate();
-        Address address = joinDTO.getAddress();
+        Address address = joinDTO.getAddr();
         String username = joinDTO.getUsername();
         String password = joinDTO.getPassword();
         Dept dept = deptRepository.findByDeptName(joinDTO.getDeptName());
