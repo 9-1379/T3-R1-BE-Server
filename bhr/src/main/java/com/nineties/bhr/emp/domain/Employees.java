@@ -80,7 +80,6 @@ public class Employees {
     private Status status;
 
     @Column(nullable = false)
-    @ColumnDefault("'EMPLOYEE'")
     @Enumerated (EnumType.STRING)
     private Role authorization;
 
