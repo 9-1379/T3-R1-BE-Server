@@ -7,6 +7,10 @@ import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+
 @Service
 public class AnnualListService {
     private final AnnualListRepository annualListRepository;
@@ -18,6 +22,9 @@ public class AnnualListService {
         this.employeesRepository = employeesRepository;
     }
 
+    public long calculateDaysDifference(LocalDate startDate, LocalDate endDate) {
+        return ChronoUnit.DAYS.between(startDate, endDate);
+    }
     public void annualList(AnnualListDTO annualListDTO, String username) {
         AnnualList list = new AnnualList();
         list.setAnnualYear(annualListDTO.getAnnualYear());
@@ -28,7 +35,13 @@ public class AnnualListService {
         employees = employeesRepository.findByUsername(username);
         list.setEmployees(employees);
 
-        list.setAnnualCnt(); // working
-         annualListRepository.save(list);
+        // Calculate days difference
+        LocalDate startDate = annualListDTO.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate endDate = annualListDTO.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        long daysDifference = calculateDaysDifference(startDate, endDate) + 1;
+        list.setAnnualCnt(daysDifference);
+
+        annualListRepository.save(list);
+
     }
 }
