@@ -1,6 +1,6 @@
 package com.nineties.bhr.emp.controller;
 
-import com.nineties.bhr.emp.domain.Employees;
+import com.nineties.bhr.emp.dto.EmployeeDTO;
 import com.nineties.bhr.emp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,24 +16,37 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping
-    public List<Employees> getAllEmployees() {
+    public List<EmployeeDTO> getAllEmployees() {
         return employeeService.findAllEmployees();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employees> getEmployeeById(@PathVariable String id) {
-        Employees employee = employeeService.getEmployeeById(id);
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable String id) {
+        EmployeeDTO employee = employeeService.getEmployeeById(id);
         if (employee != null) {
-            return ResponseEntity.ok().body(employee);
+            return ResponseEntity.ok(employee);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
+    @PutMapping("/{employeeId}/retire")
+    public ResponseEntity<?> retireEmployee(@PathVariable String employeeId) {
+        try {
+            employeeService.retireEmployee(employeeId);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-//    // 새로운 엔드포인트 추가
-//    @PutMapping("/{employeeId}/retire")
-//    public void retireEmployee(@PathVariable String employeeId) {
-//        employeeService.retireEmployee(employeeId);
-//    }
+    @PutMapping("/retire-multiple")
+    public ResponseEntity<?> retireMultipleEmployees(@RequestBody List<String> employeeIds) {
+        try {
+            employeeService.retireMultipleEmployees(employeeIds);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error retiring employees: " + e.getMessage());
+        }
+    }
 }

@@ -1,12 +1,15 @@
 package com.nineties.bhr.emp.service;
 
-import com.nineties.bhr.emp.domain.Employees;
+import com.nineties.bhr.emp.dto.EmployeeDTO;
+import com.nineties.bhr.emp.dto.EmployeeDTO;
 
 import java.util.List;
 
 public interface EmployeeService {
-    List<Employees> findAllEmployees();
-    Employees getEmployeeById(String id);
-//    void retireEmployee(String employeeId); // 퇴직 처리 메서드 추가
-}
+    List<EmployeeDTO> findAllEmployees();
+    EmployeeDTO getEmployeeById(String id);
+    void retireEmployee(String employeeId);
 
+    void retireMultipleEmployees(List<String> employeeIds);
+
+}
