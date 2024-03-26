@@ -18,9 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class AnnualListService {
     private final AnnualListRepository annualListRepository;
-
     private final EmployeesRepository employeesRepository;
-
     private final AnnualMapper annualMapper;
 
     @Autowired
@@ -52,7 +50,6 @@ public class AnnualListService {
 
         annualListRepository.save(annual);
     }
-
     public List<AnnualListDTO> getlist(String name) {
 
         return annualListRepository.findByEmployees_Username(name).stream()
