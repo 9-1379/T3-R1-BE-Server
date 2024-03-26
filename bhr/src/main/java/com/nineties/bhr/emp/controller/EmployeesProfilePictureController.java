@@ -17,10 +17,11 @@ public class EmployeesProfilePictureController {
         this.employeesService = employeesService;
     }
 
-    @PostMapping("/api/employees/{id}/profile-picture")
+    @PostMapping("/{id}/profile-picture")
     public ResponseEntity<?> uploadProfilePicture(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
         try {
             // 파일 업로드 로직 호출. 예를 들어, employeesService.uploadProfilePicture(id, file);
+            employeesService.uploadProfilePicture(id, file);
 
             String message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.ok().body(message);
