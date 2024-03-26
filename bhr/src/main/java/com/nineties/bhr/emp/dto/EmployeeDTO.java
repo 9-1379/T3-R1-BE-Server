@@ -23,6 +23,7 @@ public class EmployeeDTO {
     private String username;
     private String status;
     private String authorization;
+    private String introduction;
     private String deptName; // 간단히 부서 이름만 포함
 
     // 생성자, getter 및 setter
