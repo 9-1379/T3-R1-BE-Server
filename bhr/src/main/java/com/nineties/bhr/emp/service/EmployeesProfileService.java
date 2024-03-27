@@ -15,20 +15,20 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Service
-public class EmployeesService {
+public class EmployeesProfileService {
 
     private final EmployeesRepository employeesRepository;
 
     @Autowired
-    public EmployeesService(EmployeesRepository employeesRepository) {
+    public EmployeesProfileService(EmployeesRepository employeesRepository) {
         this.employeesRepository = employeesRepository;
     }
 
-    public Employees getEmployeeById(Long id) {
+    public Employees getEmployeeById(String id) {
         return employeesRepository.findById(id).orElse(null);
     }
 
-    public Employees updateEmployee(Long id, Employees employeeDetails) {
+    public Employees updateEmployee(String id, Employees employeeDetails) {
         Employees employee = employeesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Employee not found for this id :: " + id));
 
@@ -40,7 +40,7 @@ public class EmployeesService {
         return employeesRepository.save(employee);
     }
 
-    public boolean deleteIntroduction(Long id) {
+    public boolean deleteIntroduction(String id) {
         Employees employee = employeesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Employee not found for this id :: " + id));
 
@@ -49,7 +49,7 @@ public class EmployeesService {
         return true;
     }
 
-    public void uploadProfilePicture(Long id, MultipartFile file) {
+    public void uploadProfilePicture(String id, MultipartFile file) {
         if (file.isEmpty()) {
             throw new RuntimeException("File is empty");
         }

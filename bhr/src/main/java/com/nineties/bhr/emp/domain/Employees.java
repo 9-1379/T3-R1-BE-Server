@@ -7,14 +7,6 @@ import com.nineties.bhr.badge.domain.EmpBadge;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
-<<<<<<< HEAD
-<<<<<<< HEAD
-import org.hibernate.annotations.ColumnDefault;
-=======
->>>>>>> dev
-=======
-import org.hibernate.annotations.ColumnDefault;
->>>>>>> 4993b8ed8dcd85890c1eeb7c5f9052e293159667
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;

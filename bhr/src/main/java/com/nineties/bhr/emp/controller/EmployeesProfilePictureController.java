@@ -1,6 +1,6 @@
 package com.nineties.bhr.emp.controller;
 
-import com.nineties.bhr.emp.Service.EmployeesService;
+import com.nineties.bhr.emp.service.EmployeesProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,18 +10,18 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/employees")
 public class EmployeesProfilePictureController {
 
-    private final EmployeesService employeesService;
+    private final EmployeesProfileService employeesProfileService;
 
     @Autowired
-    public EmployeesProfilePictureController(EmployeesService employeesService) {
-        this.employeesService = employeesService;
+    public EmployeesProfilePictureController(EmployeesProfileService employeesProfileService) {
+        this.employeesProfileService = employeesProfileService;
     }
 
     @PostMapping("/{id}/profile-picture")
-    public ResponseEntity<?> uploadProfilePicture(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> uploadProfilePicture(@PathVariable String id, @RequestParam("file") MultipartFile file) {
         try {
             // 파일 업로드 로직 호출. 예를 들어, employeesService.uploadProfilePicture(id, file);
-            employeesService.uploadProfilePicture(id, file);
+            employeesProfileService.uploadProfilePicture(id, file);
 
             String message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.ok().body(message);
