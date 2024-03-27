@@ -54,6 +54,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         dto.setStatus(employee.getStatus().name());
         dto.setAuthorization(employee.getAuthorization().name());
         dto.setIntroduction(employee.getIntroduction());
+        if (employee.getAddress() != null) { // 주소 정보 추가
+            dto.setAddress(employee.getAddress());
+        }
         if (employee.getDept() != null) {
             dto.setDeptName(employee.getDept().getDeptName());
         }
