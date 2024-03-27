@@ -1,8 +1,9 @@
-package com.nineties.bhr.join.controller;
+package com.nineties.bhr.admin.controller;
 
-import com.nineties.bhr.join.dto.JoinDTO;
-import com.nineties.bhr.join.dto.JoinPageDTO;
-import com.nineties.bhr.join.service.JoinService;
+
+import com.nineties.bhr.admin.dto.JoinDTO;
+import com.nineties.bhr.admin.dto.JoinPageDTO;
+import com.nineties.bhr.admin.service.JoinService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class JoinController {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<Object> newEmployee ( @RequestBody @Valid JoinDTO joinDTO, HttpServletResponse response ) {
+    public ResponseEntity<Object> newEmployee (@RequestBody @Valid JoinDTO joinDTO, HttpServletResponse response ) {
 
         joinService.joinProcess(joinDTO);
 
