@@ -73,7 +73,7 @@ public class EmployeesProfileService {
 
             // 데이터베이스에 파일 경로 업데이트
             Employees employee = employeesRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee not found for this id :: " + id));
-            employee.setProfilePicturePath(filePath.toString());
+            employee.setProfilePicture(filePath.toString());
             employeesRepository.save(employee);
         } catch (IOException e) {
             throw new RuntimeException("Could not store file " + filename + ". Please try again!", e);

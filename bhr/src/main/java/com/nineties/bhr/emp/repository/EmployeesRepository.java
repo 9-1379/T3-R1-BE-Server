@@ -1,22 +1,12 @@
 package com.nineties.bhr.emp.repository;
 
-
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.dto.EmployeeProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
 import java.util.List;
->>>>>>> dev
-=======
-import java.util.List;
->>>>>>> b71afd00853551b17ad04d6ba3284a68829f8a21
 import java.util.Optional;
-
 
 @Repository
 public interface EmployeesRepository extends JpaRepository<Employees, String> {

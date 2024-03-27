@@ -61,7 +61,7 @@ public class Employees {
     private Address address;
 
     @Column
-    private String profilePicturePath; // 프로필 사진 파일 경로를 저장할 새 필드
+    private String profilePicture;
 
     @Column(columnDefinition = "TEXT")
     private String introduction;
