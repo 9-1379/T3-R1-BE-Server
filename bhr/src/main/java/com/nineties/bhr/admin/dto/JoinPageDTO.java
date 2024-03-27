@@ -1,6 +1,5 @@
-package com.nineties.bhr.join.dto;
+package com.nineties.bhr.admin.dto;
 
-import com.nineties.bhr.dept.domain.Dept;
 import lombok.Getter;
 import lombok.Setter;
 

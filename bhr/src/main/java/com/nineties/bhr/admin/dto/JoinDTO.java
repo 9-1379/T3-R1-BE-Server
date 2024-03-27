@@ -1,9 +1,7 @@
-package com.nineties.bhr.join.dto;
+package com.nineties.bhr.admin.dto;
 
 import com.nineties.bhr.emp.domain.Address;
 import com.nineties.bhr.emp.domain.Gender;
-import com.nineties.bhr.emp.domain.Role;
-import com.nineties.bhr.emp.domain.Status;
 import lombok.Getter;
 import lombok.Setter;
 
