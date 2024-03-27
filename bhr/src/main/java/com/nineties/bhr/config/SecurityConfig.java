@@ -79,10 +79,6 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-<<<<<<< HEAD
-=======
-
->>>>>>> 055ea48f302dc7c6a87de3e8e3a15d57537025de
                         .requestMatchers("/api/join","/api/login","/login", "/api/login/join").permitAll()
                         .requestMatchers("/admin").hasRole("MANAGER")
                         .requestMatchers("/admin").hasRole("HRMANAGER")
