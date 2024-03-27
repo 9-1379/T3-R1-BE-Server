@@ -1,4 +1,4 @@
-package com.nineties.bhr.emp.Service;
+package com.nineties.bhr.emp.service;
 
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
