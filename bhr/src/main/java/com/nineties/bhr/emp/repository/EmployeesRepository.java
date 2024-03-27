@@ -7,10 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 import java.util.List;
 >>>>>>> dev
+=======
+import java.util.List;
+>>>>>>> b71afd00853551b17ad04d6ba3284a68829f8a21
 import java.util.Optional;
 
 
