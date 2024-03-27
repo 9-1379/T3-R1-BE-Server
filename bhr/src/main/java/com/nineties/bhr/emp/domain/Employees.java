@@ -4,12 +4,9 @@ import com.nineties.bhr.annual.domain.Annual;
 import com.nineties.bhr.annual.domain.AnnualList;
 import com.nineties.bhr.attendance.domain.Attendance;
 import com.nineties.bhr.badge.domain.EmpBadge;
-import com.nineties.bhr.dept.domain.Dept;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;

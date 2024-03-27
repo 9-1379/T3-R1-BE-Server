@@ -1,7 +1,7 @@
 package com.nineties.bhr.admin.service;
 
-import com.nineties.bhr.dept.domain.Dept;
-import com.nineties.bhr.dept.repository.DeptRepository;
+import com.nineties.bhr.emp.domain.Dept;
+import com.nineties.bhr.emp.repository.DeptRepository;
 import com.nineties.bhr.emp.domain.*;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import com.nineties.bhr.admin.dto.JoinDTO;
