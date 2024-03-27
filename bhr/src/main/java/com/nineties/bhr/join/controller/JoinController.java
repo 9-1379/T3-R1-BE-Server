@@ -1,15 +1,13 @@
 package com.nineties.bhr.join.controller;
 
 import com.nineties.bhr.join.dto.JoinDTO;
+import com.nineties.bhr.join.dto.JoinPageDTO;
 import com.nineties.bhr.join.service.JoinService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -20,6 +18,11 @@ public class JoinController {
     public JoinController(JoinService joinService) {
 
         this.joinService = joinService;
+    }
+
+    @GetMapping("/join")
+    public JoinPageDTO joinPage() {
+        return joinService.showId();
     }
 
     @PostMapping("/join")

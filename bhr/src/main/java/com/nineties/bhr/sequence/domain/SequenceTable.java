@@ -1,4 +1,4 @@
-package com.nineties.bhr.sequence;
+package com.nineties.bhr.sequence.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
