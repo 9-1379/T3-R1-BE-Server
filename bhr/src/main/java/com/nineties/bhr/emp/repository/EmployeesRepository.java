@@ -22,5 +22,5 @@ public interface EmployeesRepository extends JpaRepository<Employees, String> {
     Long findMaxEmpNo();
 
     @Query("SELECT e.empNo, e.name, e.dept.deptName, e.email from Employees e")
-    List<EmpListDTO> findAllByDept(Dept dept);
+    List<EmpListDTO> findAllforlist();
 }
