@@ -1,4 +1,4 @@
-package com.nineties.bhr.join.controller;
+package com.nineties.bhr.emp.controller;
 
 import com.nineties.bhr.join.dto.JoinDTO;
 import com.nineties.bhr.join.dto.JoinPageDTO;
