@@ -1,4 +1,4 @@
-package com.nineties.bhr.dept.dto;
+package com.nineties.bhr.emp.dto;
 
 import lombok.Getter;
 import lombok.Setter;

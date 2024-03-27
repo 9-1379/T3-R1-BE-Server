@@ -1,6 +1,5 @@
-package com.nineties.bhr.dept.domain;
+package com.nineties.bhr.emp.domain;
 
-import com.nineties.bhr.emp.domain.Employees;
 import jakarta.persistence.*;
 import lombok.Data;
 
