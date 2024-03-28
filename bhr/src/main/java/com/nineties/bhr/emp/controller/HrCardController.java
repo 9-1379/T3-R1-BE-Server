@@ -2,6 +2,7 @@ package com.nineties.bhr.emp.controller;
 
 
 import com.nineties.bhr.emp.domain.Employees;
+import com.nineties.bhr.emp.dto.EmployeeProjection;
 import com.nineties.bhr.emp.service.HrCardService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class HrCardController {
     }
 
     @GetMapping("/hrCard/empList")
-    public List<Employees> getEmployeeSummaries() {
+    public List<EmployeeProjection> getEmployeeSummaries() {
         return hrCardService.findAllEmployeeSummary();
     }
 
