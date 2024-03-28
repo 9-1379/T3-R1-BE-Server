@@ -1,7 +1,7 @@
-package com.nineties.bhr.emp.controller;
+package com.nineties.bhr.admin.controller;
 
-import com.nineties.bhr.emp.dto.EmployeeDTO;
-import com.nineties.bhr.emp.service.EmployeeService;
+import com.nineties.bhr.admin.dto.EmployeeDTO;
+import com.nineties.bhr.admin.service.EmployeeService; // Importing EmployeeService
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import java.util.List;
 public class EmployeeController {
 
     @Autowired
-    private EmployeeService employeeService;
+    private EmployeeService employeeService; // Autowiring EmployeeService
 
     @GetMapping
     public List<EmployeeDTO> getAllEmployees() {

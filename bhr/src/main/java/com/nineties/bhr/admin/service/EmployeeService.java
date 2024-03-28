@@ -1,8 +1,8 @@
-package com.nineties.bhr.emp.service;
+package com.nineties.bhr.admin.service;
+
 import com.nineties.bhr.emp.domain.Status;
 import com.nineties.bhr.emp.domain.Employees;
-import com.nineties.bhr.emp.dto.EmployeeDTO;
-import com.nineties.bhr.emp.dto.EmployeeDTO;
+import com.nineties.bhr.admin.dto.EmployeeDTO;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,26 +11,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeService {
 
     @Autowired
     private EmployeesRepository employeesRepository;
 
-    @Override
     public List<EmployeeDTO> findAllEmployees() {
         return employeesRepository.findAll().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
-    @Override
     public EmployeeDTO getEmployeeById(String id) {
         return employeesRepository.findById(id)
                 .map(this::convertToDTO)
                 .orElse(null);
     }
 
-    @Override
     public void retireEmployee(String employeeId) {
         Employees employee = employeesRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
@@ -64,7 +61,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return dto;
     }
 
-    @Override
     public void retireMultipleEmployees(List<String> employeeIds) {
         List<Employees> employeesToRetire = employeesRepository.findAllById(employeeIds);
         employeesToRetire.forEach(employee -> employee.setStatus(Status.LEAVE));
