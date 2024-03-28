@@ -60,8 +60,8 @@ public class Employees {
     @Embedded
     private Address address;
 
-    @Lob
-    private Byte[] profilePicture;
+    @Column
+    private String profilePicture;
 
     @Column(columnDefinition = "TEXT")
     private String introduction;
@@ -83,9 +83,9 @@ public class Employees {
     @ManyToOne
     @JoinColumn(name = "dept_id")
     private Dept dept;
-
     @OneToMany(mappedBy = "employees")
     private List<Attendance> attendances = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "employees")
     private List<AnnualList> annualLists = new ArrayList<>();
@@ -95,4 +95,5 @@ public class Employees {
 
     @OneToMany(mappedBy = "employees")
     private List<EmpBadge> empBadges = new ArrayList<>();
-}
+
+    }

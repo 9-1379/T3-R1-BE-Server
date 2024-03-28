@@ -23,6 +23,4 @@ public class Annual {
 
     //선 사용 연차
     private Long annualUsed;
-
-
 }
