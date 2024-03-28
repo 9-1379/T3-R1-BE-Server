@@ -2,6 +2,7 @@ package com.nineties.bhr.emp.service;
 
 
 import com.nineties.bhr.emp.domain.Employees;
+import com.nineties.bhr.emp.dto.EmployeeProjection;
 import com.nineties.bhr.emp.repository.DeptRepository;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,8 @@ public class HrCardService {
         this.deptRepository = deptRepository;
     }
 
-    public List<Employees> findAllEmployeeSummary() {
-        return employeesRepository.findAll();
+    public List<EmployeeProjection> findAllEmployeeSummary() {
+        return employeesRepository.findEmpNoNameDeptNameEmail();
     }
 
     public List<String> findAllDept() {
