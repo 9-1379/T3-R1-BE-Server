@@ -1,14 +1,13 @@
-package com.nineties.bhr.hrcard.controller;
+package com.nineties.bhr.emp.controller;
 
-import com.nineties.bhr.hrcard.dto.EmpListDTO;
-import com.nineties.bhr.hrcard.service.HrCardService;
+
+import com.nineties.bhr.emp.domain.Employees;
+import com.nineties.bhr.emp.service.HrCardService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -20,8 +19,13 @@ public class HrCardController {
         this.hrCardService = hrCardService;
     }
 
-    @GetMapping("/emp/hrCard")
-    public List<EmpListDTO> ShowEmpList() {
-        return hrCardService.showEmpList();
+    @GetMapping("/hrCard/empList")
+    public List<Employees> getEmployeeSummaries() {
+        return hrCardService.findAllEmployeeSummary();
+    }
+
+    @GetMapping("/hrCard/deptList")
+    public List<String> getDeptList() {
+        return hrCardService.findAllDept();
     }
 }
