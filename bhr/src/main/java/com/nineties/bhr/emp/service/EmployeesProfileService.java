@@ -4,6 +4,7 @@ import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -20,6 +21,7 @@ public Employees getEmployeeById(String id) {
     return employeesRepository.findById(id).orElse(null);
 }
 
+@Transactional
 public Employees updateEmployee(String id, Employees employeeDetails) {
     Employees employee = employeesRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Employee not found for this id :: " + id));

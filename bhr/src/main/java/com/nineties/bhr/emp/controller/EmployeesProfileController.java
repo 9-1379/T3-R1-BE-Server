@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/employees/dashboard")
 public class EmployeesProfileController {
 
 private final EmployeesProfileService employeesProfileService;
@@ -21,7 +21,7 @@ public EmployeesProfileController(EmployeesProfileService employeesProfileServic
 }
 
 @GetMapping("/{id}")
-public ResponseEntity<Map<String, Object>> getEmployeeById(@PathVariable("id") String id) {
+public ResponseEntity<Map<String, Object>> getEmployeeById(@PathVariable String id) {
     Employees employee = employeesProfileService.getEmployeeById(id);
     if (employee == null) {
         return ResponseEntity.notFound().build();
