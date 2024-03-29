@@ -29,6 +29,7 @@ public class AnnualController {
     public Map<String, Object> getAnnualList() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
 
+//        System.out.println(name);
         Map<String, Object> result = new HashMap<>();
         List<AnnualListDTO> annualList = annualService.getlist(name);
 
@@ -36,7 +37,7 @@ public class AnnualController {
 
         return result;
     }
-    @PostMapping("/save")
+    @PostMapping("/annualSave")
     public ResponseEntity<Object> annualSave(@RequestBody @Valid AnnualListDTO annualListDTO) {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         annualService.newAnnual(annualListDTO, name);
