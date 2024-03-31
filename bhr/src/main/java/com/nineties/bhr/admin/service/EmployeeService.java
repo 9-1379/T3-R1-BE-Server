@@ -1,10 +1,9 @@
 package com.nineties.bhr.admin.service;
 
-import com.nineties.bhr.emp.domain.Gender;
-import com.nineties.bhr.emp.domain.Status;
-import com.nineties.bhr.emp.domain.Employees;
+import com.nineties.bhr.emp.domain.*;
 import com.nineties.bhr.admin.dto.EmployeeDTO;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
+import jakarta.persistence.Embedded;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +12,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
+
+    @Embedded
+    private Address address;
 
     @Autowired
     private EmployeesRepository employeesRepository;
@@ -79,6 +81,29 @@ public class EmployeeService {
         employee.setPosition(updatedEmployee.getPosition());
         employee.setJobId(updatedEmployee.getJobId());
         employee.setHireDate(updatedEmployee.getHireDate());
+        employee.setStatus(Status.valueOf(updatedEmployee.getStatus())); // Status 업데이트
+        employee.setAuthorization(Role.valueOf(updatedEmployee.getAuthorization())); // Authorization 업데이트
+        employee.setIntroduction(updatedEmployee.getIntroduction()); // Introduction 업데이트
+
+        // 주소 업데이트
+        Address updatedAddress = updatedEmployee.getAddress();
+        if (updatedAddress != null) {
+            employee.setAddress(updatedAddress);
+        }
+
+        // 부서 업데이트
+        String deptName = updatedEmployee.getDeptName();
+        if (deptName != null) {
+            // 부서를 찾기 위해 직접 해당 직원의 부서를 조회합니다.
+            // 이 경우에는 부서가 하나만 존재한다고 가정합니다.
+            Dept dept = employee.getDept();
+            if (dept == null) {
+                throw new RuntimeException("Department not found for employee: " + id);
+            }
+            // 부서명을 업데이트합니다.
+            dept.setDeptName(deptName);
+        }
+
         // 권한 및 부서 업데이트
         // 추가적으로 필요한 필드 업데이트
         // 주의: 모든 필드를 업데이트하는 방법에 대해 고려해야 함
