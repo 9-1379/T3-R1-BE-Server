@@ -1,5 +1,6 @@
 package com.nineties.bhr.admin.service;
 
+import com.nineties.bhr.emp.domain.Gender;
 import com.nineties.bhr.emp.domain.Status;
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.admin.dto.EmployeeDTO;
@@ -65,6 +66,24 @@ public class EmployeeService {
         List<Employees> employeesToRetire = employeesRepository.findAllById(employeeIds);
         employeesToRetire.forEach(employee -> employee.setStatus(Status.LEAVE));
         employeesRepository.saveAll(employeesToRetire);
+    }
+
+    public EmployeeDTO updateEmployee(String id, EmployeeDTO updatedEmployee) {
+        Employees employee = employeesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+        employee.setName(updatedEmployee.getName());
+        employee.setGender(Gender.valueOf(updatedEmployee.getGender()));
+        employee.setBirthday(updatedEmployee.getBirthday());
+        employee.setPhoneNumber(updatedEmployee.getPhoneNumber());
+        employee.setEmail(updatedEmployee.getEmail());
+        employee.setPosition(updatedEmployee.getPosition());
+        employee.setJobId(updatedEmployee.getJobId());
+        employee.setHireDate(updatedEmployee.getHireDate());
+        // 권한 및 부서 업데이트
+        // 추가적으로 필요한 필드 업데이트
+        // 주의: 모든 필드를 업데이트하는 방법에 대해 고려해야 함
+        employeesRepository.save(employee);
+        return convertToDTO(employee);
     }
 
 }

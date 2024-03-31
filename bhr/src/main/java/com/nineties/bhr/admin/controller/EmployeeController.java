@@ -30,6 +30,16 @@ public class EmployeeController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable String id, @RequestBody EmployeeDTO updatedEmployee) {
+        EmployeeDTO employee = employeeService.updateEmployee(id, updatedEmployee);
+        if (employee != null) {
+            return ResponseEntity.ok(employee);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PutMapping("/{employeeId}/retire")
     public ResponseEntity<?> retireEmployee(@PathVariable String employeeId) {
         try {
