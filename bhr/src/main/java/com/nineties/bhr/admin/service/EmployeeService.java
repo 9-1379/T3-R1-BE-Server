@@ -2,6 +2,7 @@ package com.nineties.bhr.admin.service;
 
 import com.nineties.bhr.emp.domain.*;
 import com.nineties.bhr.admin.dto.EmployeeDTO;
+import com.nineties.bhr.emp.repository.DeptRepository;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import jakarta.persistence.Embedded;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class EmployeeService {
 
     @Embedded
     private Address address;
+
+    @Autowired
+    private DeptRepository deptRepository;
 
     @Autowired
     private EmployeesRepository employeesRepository;
@@ -86,22 +90,33 @@ public class EmployeeService {
         employee.setIntroduction(updatedEmployee.getIntroduction()); // Introduction 업데이트
 
         // 주소 업데이트
-        Address updatedAddress = updatedEmployee.getAddress();
-        if (updatedAddress != null) {
-            employee.setAddress(updatedAddress);
+        if (updatedEmployee.getAddress() != null) {
+            Address updatedAddress = updatedEmployee.getAddress();
+            if (employee.getAddress() == null) {
+                employee.setAddress(new Address());
+            }
+            employee.getAddress().setPostcode(updatedAddress.getPostcode());
+            employee.getAddress().setAddress(updatedAddress.getAddress());
+            employee.getAddress().setDetailAddress(updatedAddress.getDetailAddress());
+            employee.getAddress().setExtraAddress(updatedAddress.getExtraAddress());
+        } else {
+            // 주소가 없는 경우 기존 주소를 null로 설정
+            employee.setAddress(null);
         }
+
 
         // 부서 업데이트
         String deptName = updatedEmployee.getDeptName();
         if (deptName != null) {
-            // 부서를 찾기 위해 직접 해당 직원의 부서를 조회합니다.
-            // 이 경우에는 부서가 하나만 존재한다고 가정합니다.
-            Dept dept = employee.getDept();
+            // 새로운 부서를 찾거나 생성합니다.
+            Dept dept = deptRepository.findByDeptName(deptName);
             if (dept == null) {
-                throw new RuntimeException("Department not found for employee: " + id);
+                // 부서가 없으면 새로운 부서를 생성합니다.
+                dept = new Dept();
+                dept.setDeptName(deptName);
             }
-            // 부서명을 업데이트합니다.
-            dept.setDeptName(deptName);
+            // 직원의 부서를 업데이트합니다.
+            employee.setDept(dept);
         }
 
         // 권한 및 부서 업데이트
