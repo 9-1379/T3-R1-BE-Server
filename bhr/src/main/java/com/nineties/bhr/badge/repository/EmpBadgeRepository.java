@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface EmpBadgeRepository extends JpaRepository<EmpBadge, Long> {
@@ -20,4 +21,6 @@ public interface EmpBadgeRepository extends JpaRepository<EmpBadge, Long> {
     boolean existsByEmployeesAndBadgeMasterAndDateAfterAndDateBeforeAndEndDateAfter(Employees employee, BadgeMaster leaveBadge, Date annualListStartDate, Date todayDate, Date todayDate1);
 
     boolean existsByEmployeesAndBadgeMasterAndEndDateAfterOrIsNull(Employees employee, BadgeMaster workLifeBadge, Date todayDate);
+
+    List<EmpBadge> findByBadgeMaster(BadgeMaster badgeMaster);
 }
