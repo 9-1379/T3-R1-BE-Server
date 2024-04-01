@@ -56,4 +56,8 @@ public class AnnualListService {
                 .map(annualMapper::annualListDTO)
                 .collect(Collectors.toList());
     }
+
+    public void deleteAnnual(Long id) {
+        annualListRepository.deleteById(id);
+    }
 }
