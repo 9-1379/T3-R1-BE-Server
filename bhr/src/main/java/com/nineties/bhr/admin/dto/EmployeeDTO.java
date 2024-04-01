@@ -1,4 +1,4 @@
-package com.nineties.bhr.emp.dto;
+package com.nineties.bhr.admin.dto;
 
 import com.nineties.bhr.emp.domain.Address;
 import lombok.AllArgsConstructor;
