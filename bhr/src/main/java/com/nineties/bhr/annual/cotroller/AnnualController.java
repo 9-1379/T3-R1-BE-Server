@@ -6,10 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,21 +23,24 @@ public class AnnualController {
 
 
     @GetMapping("/annualList")
-    public Map<String, Object> getAnnualList() {
+    public List<AnnualListDTO> getAnnualList() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        Map<String, Object> result = new HashMap<>();
         List<AnnualListDTO> annualList = annualService.getlist(name);
 
-        result.put("annualList", annualList);
-
-        return result;
+        return annualList;
     }
-    @PostMapping("/save")
+    @PostMapping("/annualSave")
     public ResponseEntity<Object> annualSave(@RequestBody @Valid AnnualListDTO annualListDTO) {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         annualService.newAnnual(annualListDTO, name);
 
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @DeleteMapping("/annualList/{id}")
+    public ResponseEntity<String> deleteAnnual(@PathVariable Long id) {
+        annualService.deleteAnnual(id);
+        return ResponseEntity.ok("delete");
     }
 }

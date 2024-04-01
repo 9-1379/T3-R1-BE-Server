@@ -9,6 +9,7 @@ import java.util.Date;
 @Setter
 public class AnnualListDTO {
 
+    private Long id;
     private String annualYear;
     private Date startDate;
     private Date endDate;
