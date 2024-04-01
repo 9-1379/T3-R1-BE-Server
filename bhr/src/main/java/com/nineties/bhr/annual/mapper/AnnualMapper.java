@@ -11,6 +11,7 @@ public class AnnualMapper {
     public AnnualListDTO annualListDTO(AnnualList annualList) {
 
         AnnualListDTO annualListDTO = new AnnualListDTO();
+        annualListDTO.setId(annualList.getId());
         annualListDTO.setAnnualYear(annualList.getAnnualYear());
         annualListDTO.setStartDate(annualList.getStartDate());
         annualListDTO.setEndDate(annualList.getEndDate());
