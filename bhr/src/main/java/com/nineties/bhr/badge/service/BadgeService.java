@@ -165,6 +165,15 @@ public class BadgeService {
         }
     }
 
+    // 매일 밤 12시에 실행
+    @Scheduled(cron = "0 0 0 * * *")
+    public void assignWorkLifeBalanceBadgeToAllEmployees() {
+        List<Employees> allEmployees = employeesRepository.findAll();
+        for (Employees employee : allEmployees) {
+            workLifeBalanceBadge(employee);
+        }
+    }
+
     // 워라벨 마스터 배지
     public void workLifeBalanceBadge(Employees employee) {
         LocalDate today = LocalDate.now();
