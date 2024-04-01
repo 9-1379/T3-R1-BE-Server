@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +28,6 @@ public interface EmployeesRepository extends JpaRepository<Employees, String> {
     List<Employees> findAll();
 
     @Query("SELECT e FROM Employees e WHERE e.hireDate <= :cutoffDate")
-    List<Employees> findByHireDateBefore(LocalDate cutoffDate);
+    List<Employees> findByHireDateBefore(Date cutoffDate);
 
 }

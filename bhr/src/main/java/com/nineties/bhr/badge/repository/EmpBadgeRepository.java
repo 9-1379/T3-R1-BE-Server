@@ -14,4 +14,10 @@ public interface EmpBadgeRepository extends JpaRepository<EmpBadge, Long> {
     boolean existsByEmployeesAndBadgeMaster(Employees employee, BadgeMaster decadeBadge);
 
     boolean existsByEmployeesAndBadgeMasterAndDate(Employees employee, BadgeMaster leaveBadge, Date todayDate);
+
+    boolean existsByEmployeesAndBadgeMasterAndEndDateAfterOrEndDateIsNull(Employees employee, BadgeMaster decadeBadge, Date date);
+
+    boolean existsByEmployeesAndBadgeMasterAndDateAfterAndDateBeforeAndEndDateAfter(Employees employee, BadgeMaster leaveBadge, Date annualListStartDate, Date todayDate, Date todayDate1);
+
+    boolean existsByEmployeesAndBadgeMasterAndEndDateAfterOrIsNull(Employees employee, BadgeMaster workLifeBadge, Date todayDate);
 }
