@@ -2,9 +2,11 @@ package com.nineties.bhr.emp.domain;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
+import lombok.Setter;
 
 @Embeddable
 @Getter
+@Setter
 public class Address {
 
     private String postcode;
@@ -12,7 +14,7 @@ public class Address {
     private String detailAddress;
     private String extraAddress;
 
-    protected Address() {
+    public Address() {
     }
 
     public Address(String postcode, String address, String detailAddress, String extraAddress) {
