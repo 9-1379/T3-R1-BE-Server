@@ -5,6 +5,12 @@ import com.nineties.bhr.emp.dto.EmployeeProfileDTO;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 public class EmployeeProfileService {
@@ -32,4 +38,31 @@ public class EmployeeProfileService {
         dto.setIntroduction(employee.getIntroduction());
         return dto;
     }
-}
+
+    private final Path rootLocation = Paths.get("upload-dir");
+
+    public String uploadProfilePicture(String id, MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                throw new RuntimeException("파일을 업로드할 수 없습니다. 파일이 비어 있습니다.");
+
+            }
+
+            Path destinationFile = this.rootLocation.resolve(Paths.get(id))
+                    .normalize().toAbsolutePath().resolve(file.getOriginalFilename());
+
+            if (!destinationFile.getParent().toFile().exists()) {
+                Files.createDirectories(destinationFile.getParent());
+            }
+
+            Files.copy(file.getInputStream(), destinationFile);
+
+            return destinationFile.toString();
+        } catch (IOException e) {
+            throw new RuntimeException("파일을 저장하는데 실패했습니다.", e);
+
+             }
+
+        }
+
+    }
