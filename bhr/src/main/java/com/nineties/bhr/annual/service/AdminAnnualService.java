@@ -11,6 +11,7 @@ import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,6 +43,27 @@ public class AdminAnnualService {
         }
     }
 
-    public List<AdminAnnualStatusDTO>
+    public List<AdminAnnualStatusDTO> empStatusAll(String annualYear) {
+
+        List<Employees> employeesList = employeesRepository.findAll();
+        List<Annual> annualInfo = adminAnnualRepository.findAll();
+        List<AnnualList> annualLists = annualListRepository.findAll();
+
+        List<AdminAnnualStatusDTO> statusDTOList = new ArrayList<>();
+
+        for (int i = 0; i < employeesList.size(); i++){
+            Employees employees = employeesList.get(i);
+            Annual annualIF = adminAnnualRepository.findByEmployeesAndAnnualYear(employees, annualYear);
+            Long cnt = annualListRepository.findAnnualCountByEmployeeAndYear(employees.getId(), annualYear);
+
+            AdminAnnualStatusDTO statusDTO = new AdminAnnualStatusDTO();
+
+            statusDTO.setName(employees.getName());
+            statusDTO.setAnnualTotal(annualIF.getAnnualTotal());
+            statusDTO.setAnnualCnt(cnt);
+
+            statusDTOList.add(statusDTO);
+        }
+       return statusDTOList;
     }
 }
