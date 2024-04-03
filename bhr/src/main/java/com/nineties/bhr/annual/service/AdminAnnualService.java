@@ -1,8 +1,11 @@
 package com.nineties.bhr.annual.service;
 
 import com.nineties.bhr.annual.domain.Annual;
+import com.nineties.bhr.annual.domain.AnnualList;
 import com.nineties.bhr.annual.dto.AdminAnnualDTO;
+import com.nineties.bhr.annual.dto.AdminAnnualStatusDTO;
 import com.nineties.bhr.annual.repository.AdminAnnualRepository;
+import com.nineties.bhr.annual.repository.AnnualListRepository;
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +18,13 @@ public class AdminAnnualService {
 
     private final AdminAnnualRepository adminAnnualRepository;
     private final EmployeesRepository employeesRepository;
+    private final AnnualListRepository annualListRepository;
 
     @Autowired
-    public AdminAnnualService(AdminAnnualRepository adminAnnualRepository, EmployeesRepository employeesRepository) {
+    public AdminAnnualService(AdminAnnualRepository adminAnnualRepository, EmployeesRepository employeesRepository, AnnualListRepository annualListRepository) {
         this.adminAnnualRepository = adminAnnualRepository;
         this.employeesRepository = employeesRepository;
+        this.annualListRepository = annualListRepository;
     }
 
     public void newTotalAnnual(AdminAnnualDTO adminAnnualDTO) {
@@ -35,5 +40,8 @@ public class AdminAnnualService {
             annual.setAnnualUsed(0L);
             adminAnnualRepository.save(annual);
         }
+    }
+
+    public List<AdminAnnualStatusDTO>
     }
 }
