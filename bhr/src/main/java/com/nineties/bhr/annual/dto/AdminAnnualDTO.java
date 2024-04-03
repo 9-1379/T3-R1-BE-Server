@@ -11,15 +11,4 @@ public class AdminAnnualDTO {
 
     private String annualYear;
     private Long annualTotal;
-    private Long annualUsed;
-    private String empId;
-
-    public Annual toEntity(Employees employees){
-        Annual annual = new Annual();
-        annual.setAnnualYear(this.annualYear);
-        annual.setAnnualTotal(this.annualTotal);
-        annual.setAnnualUsed(this.annualUsed);
-        annual.setEmployees(employees);
-        return annual;
-    }
 }
