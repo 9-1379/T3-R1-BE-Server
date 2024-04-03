@@ -1,6 +1,6 @@
 package com.nineties.bhr.attendance.controller;
 
-import com.nineties.bhr.attendance.domain.Attendance;
+import com.nineties.bhr.attendance.dto.AttendanceDTO;
 import com.nineties.bhr.attendance.service.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +13,14 @@ public class AttendanceController {
     private AttendanceService attendanceService;
 
     @PostMapping("/startWork")
-    public Attendance startWork(@RequestParam Long employeeId) {
+    public AttendanceDTO startWork(@RequestParam Long employeeId) {
         return attendanceService.recordStartWork(employeeId);
     }
 
+    // attendanceId 대신 employeeId를 사용하여 퇴근 기록을 처리하는 메서드로 수정
     @PostMapping("/endWork")
-    public Attendance endWork(@RequestParam Long attendanceId) {
-        return attendanceService.recordEndWork(attendanceId);
+    public AttendanceDTO endWork(@RequestParam Long employeeId) {
+        // 서비스 메서드 호출을 변경된 파라미터에 맞게 수정
+        return attendanceService.recordEndWork(employeeId);
     }
 }

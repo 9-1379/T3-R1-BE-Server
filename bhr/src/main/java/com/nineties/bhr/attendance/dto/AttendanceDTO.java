@@ -1,29 +1,26 @@
 package com.nineties.bhr.attendance.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
 public class AttendanceDTO {
+
     private Long id;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
+
+    @JsonFormat(pattern = "HH:mm:ss")
     private Date timeIn;
+
+    @JsonFormat(pattern = "HH:mm:ss")
     private Date timeOut;
+
     private Long employeeId;
-    private String type; // 출근(IN) 또는 퇴근(OUT)을 나타내는 문자열 필드
-
-    public AttendanceDTO() {
-    }
-
-    public AttendanceDTO(Long id, Date startDate, Date endDate, Date timeIn, Date timeOut, Long employeeId, String type) {
-        this.id = id;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.timeIn = timeIn;
-        this.timeOut = timeOut;
-        this.employeeId = employeeId;
-        this.type = type;
-    }
 }

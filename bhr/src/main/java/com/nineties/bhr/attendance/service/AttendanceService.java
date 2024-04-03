@@ -1,6 +1,7 @@
 package com.nineties.bhr.attendance.service;
 
 import com.nineties.bhr.attendance.domain.Attendance;
+import com.nineties.bhr.attendance.dto.AttendanceDTO;
 import com.nineties.bhr.attendance.repository.AttendanceRepository;
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
@@ -8,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Optional;
 
 @Service
 public class AttendanceService {
@@ -18,23 +22,72 @@ public class AttendanceService {
     @Autowired
     private EmployeesRepository employeesRepository;
 
-    public Attendance recordStartWork(Long employeeId) {
+    public AttendanceDTO recordStartWork(Long employeeId) {
         Employees employee = employeesRepository.findById(String.valueOf(employeeId))
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
 
+        LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
+        LocalDateTime startOfDay = now.withHour(6).withMinute(0).withSecond(0).withNano(0);
+        if (now.getHour() < 6) {
+            startOfDay = startOfDay.minusDays(1);
+        }
+        Date todayStart = Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
+
+        Optional<Attendance> existingRecord = attendanceRepository
+                .findTopByEmployeesAndStartDateAfterOrderByStartDateDesc(employee, todayStart);
+
+        if (existingRecord.isPresent()) {
+            throw new RuntimeException("Start work record already exists for today.");
+        }
+
         Attendance attendance = new Attendance();
-        attendance.setStartDate(new Date()); // 시스템의 현재 날짜
-        attendance.setTimeIn(new Date()); // 시스템의 현재 시간
-        attendance.setEmployees(employee); // 로그인한 직원의 ID
-        return attendanceRepository.save(attendance);
+        attendance.setEmployees(employee);
+        attendance.setStartDate(new Date());
+        attendance.setTimeIn(new Date());
+        Attendance savedAttendance = attendanceRepository.save(attendance);
+
+        return convertToDto(savedAttendance);
     }
 
-    public Attendance recordEndWork(Long attendanceId) {
-        Attendance attendance = attendanceRepository.findById(attendanceId)
-                .orElseThrow(() -> new RuntimeException("Attendance record not found with id: " + attendanceId));
+    public AttendanceDTO recordEndWork(Long employeeId) {
+        Employees employee = employeesRepository.findById(String.valueOf(employeeId))
+                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
 
-        attendance.setEndDate(new Date()); // 시스템의 현재 날짜
-        attendance.setTimeOut(new Date()); // 시스템의 현재 시간
-        return attendanceRepository.save(attendance);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime startOfDay = now.withHour(6).withMinute(0).withSecond(0).withNano(0);
+        if (now.getHour() < 6) {
+            startOfDay = startOfDay.minusDays(1);
+        }
+        Date start = Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
+        Date end = Date.from(startOfDay.plusDays(1).minusMinutes(1).atZone(ZoneId.systemDefault()).toInstant());
+
+        Optional<Attendance> attendanceOptional = attendanceRepository
+                .findTopByEmployeesAndStartDateBetweenOrderByStartDateDesc(employee, start, end);
+
+        if (!attendanceOptional.isPresent()) {
+            throw new RuntimeException("No start work record found for today.");
+        }
+
+        Attendance attendance = attendanceOptional.get();
+        if (attendance.getEndDate() != null) {
+            throw new RuntimeException("End work already recorded for today.");
+        }
+
+        attendance.setEndDate(new Date());
+        attendance.setTimeOut(new Date());
+        Attendance updatedAttendance = attendanceRepository.save(attendance);
+
+        return convertToDto(updatedAttendance);
+    }
+
+    private AttendanceDTO convertToDto(Attendance attendance) {
+        AttendanceDTO dto = new AttendanceDTO();
+        dto.setId(attendance.getId());
+        dto.setStartDate(attendance.getStartDate());
+        dto.setEndDate(attendance.getEndDate());
+        dto.setTimeIn(attendance.getTimeIn());
+        dto.setTimeOut(attendance.getTimeOut());
+        dto.setEmployeeId(Long.valueOf(attendance.getEmployees().getId()));
+        return dto;
     }
 }
