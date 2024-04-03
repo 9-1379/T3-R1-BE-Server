@@ -12,8 +12,7 @@ import com.nineties.bhr.badge.repository.BadgeMasterRepository;
 import com.nineties.bhr.badge.repository.EmpBadgeRepository;
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +26,9 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@Slf4j
 public class BadgeService {
 
-    private static final Logger log = LoggerFactory.getLogger(BadgeService.class);
     private final BadgeMasterRepository badgeMasterRepository;
     private final EmpBadgeRepository empBadgeRepository;
     private final AttendanceRepository attendanceRepository;
@@ -64,8 +63,9 @@ public class BadgeService {
         }
     }
 
+    // 여기서 직원의 생년을 기반으로 세대를 결정
     private String determineGenerationBadge(Date birthday) {
-        // 여기서 직원의 생년을 기반으로 세대를 결정하는 로직 구현
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(birthday);
         int year = cal.get(Calendar.YEAR);
@@ -126,11 +126,16 @@ public class BadgeService {
     @Scheduled(cron = "0 0 0 * * *")
     public void assignDecadeBadge() {
         LocalDate tenYearsAgo = LocalDate.now().minusYears(10);
+
+        // 활성화 되어 있는지 확인
         BadgeMaster decadeBadge = badgeMasterRepository.findByBadgeNameAndStatus("전설속의 그대", BadgeStatus.Enabled);
 
         if (decadeBadge != null) {
+
+            // 10년 넘은 직원 리스트
             List<Employees> employeesList = employeesRepository.findByHireDateBefore(java.sql.Date.valueOf(tenYearsAgo));
             for (Employees employee : employeesList) {
+                // 이미 배지가 있는지 확인
                 boolean alreadyHasValidBadge = empBadgeRepository.existsByEmployeesAndBadgeMasterAndEndDateAfterOrEndDateIsNull(employee, decadeBadge, new Date());
                 if (!alreadyHasValidBadge) {
                     // 배지의 종료일은 설정하지 않습니다 (무기한으로 유효)
@@ -165,9 +170,9 @@ public class BadgeService {
         }
     }
 
-    // 매일 밤 12시에 실행
+    // 매일 밤 12시에 실행 하여 워라밸 마스터 배지 부여
     @Scheduled(cron = "0 0 0 * * *")
-    public void assignWorkLifeBalanceBadgeToAllEmployees() {
+    public void assignWorkLifeBalanceBadge() {
         List<Employees> allEmployees = employeesRepository.findAll();
         for (Employees employee : allEmployees) {
             workLifeBalanceBadge(employee);
@@ -213,14 +218,13 @@ public class BadgeService {
         }
     }
 
-
-
     private LocalDate convertToLocalDate(Date date) {
         return Instant.ofEpochMilli(date.getTime())
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
     }
-    private void assignBadge(Employees employee, BadgeMaster badge, LocalDate endDate) {
+
+    public void assignBadge(Employees employee, BadgeMaster badge, LocalDate endDate) {
 
         EmpBadge empBadge = new EmpBadge();
         empBadge.setEmployees(employee);
