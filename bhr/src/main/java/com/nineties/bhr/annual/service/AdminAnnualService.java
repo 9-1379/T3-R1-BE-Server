@@ -46,8 +46,6 @@ public class AdminAnnualService {
     public List<AdminAnnualStatusDTO> empStatusAll(String annualYear) {
 
         List<Employees> employeesList = employeesRepository.findAll();
-        List<Annual> annualInfo = adminAnnualRepository.findAll();
-        List<AnnualList> annualLists = annualListRepository.findAll();
 
         List<AdminAnnualStatusDTO> statusDTOList = new ArrayList<>();
 
