@@ -12,4 +12,6 @@ public class EmployeeProfileDTO {
     private String deptName;
     private String position;
     private String introduction;
+    private String profilePicture;
+
 }

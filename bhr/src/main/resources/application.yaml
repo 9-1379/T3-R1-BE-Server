@@ -21,5 +21,7 @@ spring:
     defer-datasource-initialization: true
 
 
+file:
+  upload-dir: /path/to/uploads
 server:
   port: 8000

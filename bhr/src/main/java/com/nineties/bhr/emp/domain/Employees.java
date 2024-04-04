@@ -60,8 +60,11 @@ public class Employees {
     @Embedded
     private Address address;
 
-    @Lob
-    private Byte[] profilePicture;
+    //@Lob
+    //private Byte[] profilePicture;
+
+    @Column(columnDefinition = "TEXT")
+    private String profilePicture;
 
     @Column(columnDefinition = "TEXT")
     private String introduction;
