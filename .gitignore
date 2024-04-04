@@ -152,3 +152,9 @@ replay_pid*
 
 #idea 차단
 .idea
+
+#환경변수
+.env
+
+#taget
+target
