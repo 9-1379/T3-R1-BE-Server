@@ -16,12 +16,13 @@ public class EmployeeProfileController {
     @Autowired
     private EmployeeProfileService employeeProfileService;
 
-    @GetMapping("/{employeeId}")
-    public ResponseEntity<EmployeeProfileDTO> getEmployeeById(@PathVariable("employeeId") String id) {
+    @GetMapping
+    public ResponseEntity<EmployeeProfileDTO> getEmployeeById() {
 
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
+
         System.out.println(name);
-        EmployeeProfileDTO employeeProfile = employeeProfileService.getEmployeeById(id);
+        EmployeeProfileDTO employeeProfile = employeeProfileService.getEmployeeById(name);
         if (employeeProfile != null) {
             return ResponseEntity.ok(employeeProfile);
         } else {
@@ -29,9 +30,12 @@ public class EmployeeProfileController {
         }
     }
 
-    @PatchMapping("/{employeeId}")
-    public ResponseEntity<EmployeeProfileDTO> updateEmployeeIntroduction(@PathVariable("employeeId") String id, @RequestBody EmployeeProfileDTO employeeProfileDTO) {
-        EmployeeProfileDTO updatedEmployeeProfile = employeeProfileService.updateEmployeeIntroduction(id, employeeProfileDTO.getIntroduction());
+    @PostMapping
+    public ResponseEntity<EmployeeProfileDTO> updateEmployeeIntroduction(@RequestBody EmployeeProfileDTO employeeProfileDTO) {
+
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        EmployeeProfileDTO updatedEmployeeProfile = employeeProfileService.updateEmployeeIntroduction(name, employeeProfileDTO.getIntroduction());
         if (updatedEmployeeProfile != null) {
             return ResponseEntity.ok(updatedEmployeeProfile);
         } else {
@@ -39,14 +43,14 @@ public class EmployeeProfileController {
         }
     }
 
-    @PostMapping("/{employeeId}")
-    public ResponseEntity<?> uploadProfilePicture(@PathVariable String employeeId, @RequestParam("file") MultipartFile file) {
-        try {
-            EmployeeProfileDTO updatedProfile = employeeProfileService.updateProfilePicture(employeeId, file);
-            return ResponseEntity.ok(updatedProfile); //업데이트된 사용자 프로필을 반환
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일을 업로드할 수 없습니다." + e.getMessage());
-        }
-    }
+//    @PostMapping("/{employeeId}")
+//    public ResponseEntity<?> uploadProfilePicture(@PathVariable String employeeId, @RequestParam("file") MultipartFile file) {
+//        try {
+//            EmployeeProfileDTO updatedProfile = employeeProfileService.updateProfilePicture(employeeId, file);
+//            return ResponseEntity.ok(updatedProfile); //업데이트된 사용자 프로필을 반환
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일을 업로드할 수 없습니다." + e.getMessage());
+//        }
+//    }
 }
 
