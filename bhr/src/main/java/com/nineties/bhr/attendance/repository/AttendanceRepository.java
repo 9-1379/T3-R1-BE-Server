@@ -17,4 +17,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, String> 
     Optional<Attendance> findFirstByEmployeesIdOrderByStartDateAsc(String employeeId);
 
     Optional<Attendance> findFirstByEmployeesIdOrderByStartDateDesc(String employeeId);
+
+    Optional<Attendance> findFirstByEmployeesAndStartDateBetweenOrderByStartDateAsc(Employees employee, Date startOfDay, Date endOfDay);
 }
