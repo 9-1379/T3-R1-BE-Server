@@ -1,14 +1,9 @@
 package com.nineties.bhr.badge.service;
 
-import com.nineties.bhr.annual.domain.Annual;
-import com.nineties.bhr.annual.domain.AnnualList;
-import com.nineties.bhr.annual.repository.AnnualListRepository;
-import com.nineties.bhr.annual.repository.AnnualRepository;
-import com.nineties.bhr.attendance.repository.AttendanceRepository;
 import com.nineties.bhr.badge.domain.BadgeMaster;
 import com.nineties.bhr.badge.domain.BadgeStatus;
+import com.nineties.bhr.badge.exception.BadgeNotFoundException;
 import com.nineties.bhr.badge.repository.BadgeMasterRepository;
-import com.nineties.bhr.badge.repository.EmpBadgeRepository;
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import jakarta.transaction.Transactional;
@@ -25,20 +20,12 @@ import java.util.List;
 public class ActiveBadgeService {
 
     private final BadgeMasterRepository badgeMasterRepository;
-    private final EmpBadgeRepository empBadgeRepository;
-    private final AttendanceRepository attendanceRepository;
     private final EmployeesRepository employeesRepository;
-    private final AnnualListRepository annualListRepository;
-    private final AnnualRepository annualRepository;
     private final BadgeService badgeService;
 
-    public ActiveBadgeService(BadgeMasterRepository badgeMasterRepository, EmpBadgeRepository empBadgeRepository, AttendanceRepository attendanceRepository, EmployeesRepository employeesRepository, AnnualListRepository annualListRepository, AnnualRepository annualRepository, BadgeService badgeService) {
+    public ActiveBadgeService(BadgeMasterRepository badgeMasterRepository, EmployeesRepository employeesRepository, BadgeService badgeService) {
         this.badgeMasterRepository = badgeMasterRepository;
-        this.empBadgeRepository = empBadgeRepository;
-        this.attendanceRepository = attendanceRepository;
         this.employeesRepository = employeesRepository;
-        this.annualListRepository = annualListRepository;
-        this.annualRepository = annualRepository;
         this.badgeService = badgeService;
     }
 
@@ -66,8 +53,7 @@ public class ActiveBadgeService {
     private void activateAndAssignGenerationBadge(String badgeName, int startYear, int endYear) {
         BadgeMaster badge = badgeMasterRepository.findByBadgeName(badgeName);
         if (badge == null) {
-            log.error("배지를 찾을 수 없습니다: {}", badgeName);
-            return;
+            throw new BadgeNotFoundException("배지를 찾을 수 없습니다: " + badgeName);
         }
 
         // 배지 상태를 Enabled로 설정
@@ -96,8 +82,7 @@ public class ActiveBadgeService {
         BadgeMaster newbieBadge = badgeMasterRepository.findByBadgeName(badgeName);
 
         if (newbieBadge == null) {
-            log.error("배지를 찾을 수 없습니다: {}", badgeName);
-            return;
+            throw new BadgeNotFoundException("배지를 찾을 수 없습니다: " + badgeName);
         }
 
         // 배지 상태를 Enabled로 설정
@@ -126,8 +111,7 @@ public class ActiveBadgeService {
         BadgeMaster nightOwlBadge = badgeMasterRepository.findByBadgeName(badgeName);
 
         if (nightOwlBadge == null) {
-            log.error("배지를 찾을 수 없습니다: {}", badgeName);
-            return;
+            throw new BadgeNotFoundException("배지를 찾을 수 없습니다: " + badgeName);
         }
 
         // 배지 상태를 Enabled로 설정
@@ -146,8 +130,7 @@ public class ActiveBadgeService {
         BadgeMaster legendBadge = badgeMasterRepository.findByBadgeName(badgeName);
 
         if (legendBadge == null) {
-            log.error("배지를 찾을 수 없습니다: {}", badgeName);
-            return;
+            throw new BadgeNotFoundException("배지를 찾을 수 없습니다: " + badgeName);
         }
 
         // 배지 상태를 Enabled로 설정
@@ -166,8 +149,7 @@ public class ActiveBadgeService {
         BadgeMaster dobbyBadge = badgeMasterRepository.findByBadgeName(badgeName);
 
         if (dobbyBadge == null) {
-            log.error("배지를 찾을 수 없습니다: {}", badgeName);
-            return;
+            throw new BadgeNotFoundException("배지를 찾을 수 없습니다: " + badgeName);
         }
 
         // 배지 상태를 Enabled로 설정
@@ -180,14 +162,14 @@ public class ActiveBadgeService {
     }
 
 
+    //워라밸 마스터 배지 활성화
     @Transactional
     public void activateWorkLifeBalanceBadge() {
         String badgeName = "워라벨 마스터";
         BadgeMaster workLifeBalanceBadge = badgeMasterRepository.findByBadgeName(badgeName);
 
         if (workLifeBalanceBadge == null) {
-            log.error("배지를 찾을 수 없습니다: {}", badgeName);
-            return;
+            throw new BadgeNotFoundException("배지를 찾을 수 없습니다: " + badgeName);
         }
 
         // 배지 상태를 Enabled로 설정

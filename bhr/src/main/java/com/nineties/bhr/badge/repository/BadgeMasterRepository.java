@@ -15,5 +15,6 @@ public interface BadgeMasterRepository extends JpaRepository<BadgeMaster, Long> 
     List<BadgeProjection> findAllProjectedBy();
 
     BadgeMaster findByBadgeName(String badgeName);
+
     BadgeMaster findByBadgeNameAndStatus(String badgeName, BadgeStatus status);
 }
