@@ -25,12 +25,12 @@ public class EmployeeProfileService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    public EmployeeProfileDTO getEmployeeById(String id) {
-        return employeesRepository.findById(id).map(this::convertEntityToDTO).orElse(null);
+    public EmployeeProfileDTO getEmployeeById(String username) {
+        return employeesRepository.findByUsernameProfile(username).map(this::convertEntityToDTO).orElse(null);
     }
 
-    public EmployeeProfileDTO updateEmployeeIntroduction(String id, String introduction) {
-        Employees employee = employeesRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee not found"));
+    public EmployeeProfileDTO updateEmployeeIntroduction(String username, String introduction) {
+        Employees employee = employeesRepository.findByUsernameProfile(username).orElseThrow(() -> new RuntimeException("Employee not found"));
         employee.setIntroduction(introduction);
         employee = employeesRepository.save(employee);
         return convertEntityToDTO(employee);

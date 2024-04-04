@@ -16,6 +16,10 @@ public interface EmployeesRepository extends JpaRepository<Employees, String> {
 
     Optional<Employees> findById(String id);
     Employees findByUsername(String username);
+
+    @Query("select m from Employees m where m.username = :username")
+    Optional<Employees> findByUsernameProfile(String username);
+
     Boolean existsByUsername(String username);
 
     @Query("SELECT MAX(e.empNo) FROM Employees e")

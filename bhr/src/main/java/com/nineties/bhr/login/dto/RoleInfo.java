@@ -1,10 +1,16 @@
 package com.nineties.bhr.login.dto;
 
 public class RoleInfo {
+    private String empId;
     private String role;
 
-    public RoleInfo(String role) {
+    public RoleInfo(String role, String empId) {
+
         this.role = role;
+        this.empId = empId;
+    }
+
+    public RoleInfo(String role) {
     }
 
     // Getter and Setter
@@ -14,5 +20,13 @@ public class RoleInfo {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(String empId) {
+        this.empId = empId;
     }
 }
