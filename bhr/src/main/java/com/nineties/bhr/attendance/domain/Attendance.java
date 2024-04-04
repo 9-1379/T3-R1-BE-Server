@@ -23,10 +23,10 @@ public class Attendance {
     @Temporal(TemporalType.DATE)
     private Date endDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIME)
     private Date timeIn;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIME)
     private Date timeOut;
 
     @ManyToOne

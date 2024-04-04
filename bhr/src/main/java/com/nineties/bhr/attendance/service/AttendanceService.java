@@ -8,6 +8,7 @@ import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -28,13 +29,15 @@ public class AttendanceService {
 
         LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         LocalDateTime startOfDay = now.withHour(6).withMinute(0).withSecond(0).withNano(0);
-        if (now.getHour() < 6) {
+        if (now.toLocalTime().isBefore(LocalTime.of(6, 0))) {
             startOfDay = startOfDay.minusDays(1);
         }
+
         Date todayStart = Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
+        Date endOfDay = Date.from(startOfDay.plusDays(1).minusSeconds(1).atZone(ZoneId.systemDefault()).toInstant());
 
         Optional<Attendance> existingRecord = attendanceRepository
-                .findTopByEmployeesAndStartDateAfterOrderByStartDateDesc(employee, todayStart);
+                .findTopByEmployeesAndStartDateBetweenOrderByStartDateDesc(employee, todayStart, endOfDay);
 
         if (existingRecord.isPresent()) {
             throw new RuntimeException("Start work record already exists for today.");
@@ -49,17 +52,18 @@ public class AttendanceService {
         return convertToDto(savedAttendance);
     }
 
+
     public AttendanceDTO recordEndWork(Long employeeId) {
         Employees employee = employeesRepository.findById(String.valueOf(employeeId))
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime startOfDay = now.withHour(6).withMinute(0).withSecond(0).withNano(0);
-        if (now.getHour() < 6) {
+        if (now.toLocalTime().isBefore(LocalTime.of(6, 0))) {
             startOfDay = startOfDay.minusDays(1);
         }
         Date start = Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
-        Date end = Date.from(startOfDay.plusDays(1).minusMinutes(1).atZone(ZoneId.systemDefault()).toInstant());
+        Date end = Date.from(startOfDay.plusDays(1).minusSeconds(1).atZone(ZoneId.systemDefault()).toInstant());
 
         Optional<Attendance> attendanceOptional = attendanceRepository
                 .findTopByEmployeesAndStartDateBetweenOrderByStartDateDesc(employee, start, end);
@@ -79,6 +83,7 @@ public class AttendanceService {
 
         return convertToDto(updatedAttendance);
     }
+
 
     private AttendanceDTO convertToDto(Attendance attendance) {
         AttendanceDTO dto = new AttendanceDTO();
