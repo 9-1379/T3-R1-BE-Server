@@ -10,7 +10,7 @@ permissions:
     pattern: "*.sh"
     owner: ubuntu
     group: ubuntu
-    mode: 0744
+    mode: 744
 
 hooks:
   AfterInstall:
