@@ -3,7 +3,7 @@ name: Deployaws
 on:
   push:
     branches:
-      - meme
+      - dev
   pull_request:
     types:
       - closed
@@ -16,13 +16,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Run a script
-        env:
-          DB_URL: ${{ secrets.DB_URL }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        run: echo "Run a script"
 
       # AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
       - name: Configure AWS credentials
