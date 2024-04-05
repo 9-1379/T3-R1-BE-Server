@@ -6,11 +6,11 @@ files:
     overwrite: yes
 
 permissions:
-  - object: /
+  - object: /home/ubuntu/app/bhr
     pattern: "*.sh"
     owner: ubuntu
     group: ubuntu
-    mode: 744
+    mode: 0744
 
 hooks:
   AfterInstall:
