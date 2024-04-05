@@ -12,9 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/emp/dashboard")
 public class EmployeeProfileController {
 
+    private final EmployeeProfileService employeeProfileService;
 
     @Autowired
-    private EmployeeProfileService employeeProfileService;
+    public  EmployeeProfileController(EmployeeProfileService employeeProfileService) {
+        this.employeeProfileService = employeeProfileService;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeProfileDTO> getEmployeeById(@PathVariable("id") String id) {
@@ -26,7 +29,7 @@ public class EmployeeProfileController {
         }
     }
 
-    @PostMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<EmployeeProfileDTO> updateEmployeeIntroduction(@PathVariable("id") String id, @RequestBody EmployeeProfileDTO employeeProfileDTO) {
         EmployeeProfileDTO updatedEmployeeProfile = employeeProfileService.updateEmployeeIntroduction(id, employeeProfileDTO.getIntroduction());
         if (updatedEmployeeProfile != null) {
