@@ -8,8 +8,12 @@ Ubuntu 22.04.3 LTS
 ```
 ## 프로젝트 실행 방법 (Intellij) 
 1. Git clone
-2. 반드시 프로젝트 폴더 안에 `bhr` 폴더로 Open
-3. Intellij 내의 환경 변수 세팅
+2. `bhr` 폴더로 이동
+```
+$ cd bhr
+```
+3. 반드시 해당 폴더에서 프로젝트 실행 (`bhr` 폴더)
+4. Intellij 내의 환경 변수 세팅
    (방법 참고 : https://lahezy.tistory.com/105 )
  ```
  // JWT 
