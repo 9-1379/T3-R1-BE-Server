@@ -18,7 +18,7 @@ $ cd bhr
    (방법 참고 : https://lahezy.tistory.com/105 )
  ```
  // JWT 
- JWT_SECRET (영어로 아무거나 길게 치면 됨) 
+ JWT_SECRET (영어로 아무거나 길게 작성해주시면 됩니다.) 
  // DB (자신의 MariaDB 서버를 사용하거나, 저희 팀에게 문의해 주세요)
  SPRING_DATASOURCE_DRIVER_CLASS_NAME
  SPRING_DATASOURCE_PASSWORD
