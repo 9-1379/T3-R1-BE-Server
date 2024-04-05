@@ -1,4 +1,4 @@
-version: 0.1
+version: 0.0
 os: linux
 files:
   - source: /
@@ -6,7 +6,7 @@ files:
     overwrite: yes
 
 permissions:
-  - object: /
+  - object: /home/ubuntu/app/bhr
     pattern: "*.sh"
     owner: ubuntu
     group: ubuntu
