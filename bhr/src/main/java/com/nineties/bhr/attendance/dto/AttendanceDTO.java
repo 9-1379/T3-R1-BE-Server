@@ -22,5 +22,5 @@ public class AttendanceDTO {
     @JsonFormat(pattern = "HH:mm:ss")
     private Date timeOut;
 
-    private Long employeeId;
+    private String employeeId;
 }

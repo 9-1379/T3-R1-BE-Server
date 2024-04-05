@@ -23,8 +23,8 @@ public class AttendanceService {
     @Autowired
     private EmployeesRepository employeesRepository;
 
-    public AttendanceDTO recordStartWork(Long employeeId) {
-        Employees employee = employeesRepository.findById(String.valueOf(employeeId))
+    public AttendanceDTO recordStartWork(String employeeId) {
+        Employees employee = employeesRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
 
         LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
@@ -53,28 +53,30 @@ public class AttendanceService {
     }
 
 
-    public AttendanceDTO recordEndWork(Long employeeId) {
-        Employees employee = employeesRepository.findById(String.valueOf(employeeId))
+    public AttendanceDTO recordEndWork(String employeeId) {
+        Employees employee = employeesRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
 
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime startOfDay = now.withHour(6).withMinute(0).withSecond(0).withNano(0);
-        if (now.toLocalTime().isBefore(LocalTime.of(6, 0))) {
-            startOfDay = startOfDay.minusDays(1);
-        }
-        Date start = Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
-        Date end = Date.from(startOfDay.plusDays(1).minusSeconds(1).atZone(ZoneId.systemDefault()).toInstant());
+        LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
+        Date current = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
 
-        Optional<Attendance> attendanceOptional = attendanceRepository
-                .findTopByEmployeesAndStartDateBetweenOrderByStartDateDesc(employee, start, end);
+        // 현재 시간과 가장 가까운 이전 출근 기록을 찾습니다.
+        Optional<Attendance> closestAttendanceRecord = attendanceRepository
+                .findTopByEmployeesAndTimeInBeforeOrderByTimeInDesc(employee, current);
 
-        if (!attendanceOptional.isPresent()) {
-            throw new RuntimeException("No start work record found for today.");
+        if (!closestAttendanceRecord.isPresent()) {
+            throw new RuntimeException("No start work record found.");
         }
 
-        Attendance attendance = attendanceOptional.get();
+        Attendance attendance = closestAttendanceRecord.get();
+
+        // 퇴근 기록이 출근 기록보다 빠른 경우 에러 처리
+        if (attendance.getTimeIn().compareTo(current) > 0) {
+            throw new RuntimeException("End work time cannot be earlier than start work time.");
+        }
+
         if (attendance.getEndDate() != null) {
-            throw new RuntimeException("End work already recorded for today.");
+            throw new RuntimeException("End work already recorded for this entry.");
         }
 
         attendance.setEndDate(new Date());
@@ -92,7 +94,7 @@ public class AttendanceService {
         dto.setEndDate(attendance.getEndDate());
         dto.setTimeIn(attendance.getTimeIn());
         dto.setTimeOut(attendance.getTimeOut());
-        dto.setEmployeeId(Long.valueOf(attendance.getEmployees().getId()));
+        dto.setEmployeeId(attendance.getEmployees().getId());
         return dto;
     }
 }

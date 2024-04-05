@@ -13,13 +13,13 @@ public class AttendanceController {
     private AttendanceService attendanceService;
 
     @PostMapping("/startWork")
-    public AttendanceDTO startWork(@RequestParam Long employeeId) {
+    public AttendanceDTO startWork(@RequestParam String employeeId) {
         return attendanceService.recordStartWork(employeeId);
     }
 
     // attendanceId 대신 employeeId를 사용하여 퇴근 기록을 처리하는 메서드로 수정
     @PostMapping("/endWork")
-    public AttendanceDTO endWork(@RequestParam Long employeeId) {
+    public AttendanceDTO endWork(@RequestParam String employeeId) {
         // 서비스 메서드 호출을 변경된 파라미터에 맞게 수정
         return attendanceService.recordEndWork(employeeId);
     }
