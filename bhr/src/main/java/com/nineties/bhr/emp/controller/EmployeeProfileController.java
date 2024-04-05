@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/emp/dashboard")
 public class EmployeeProfileController {
@@ -39,11 +41,11 @@ public class EmployeeProfileController {
         }
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/uploads")
     public ResponseEntity<?> uploadProfilePicture(@PathVariable String id, @RequestParam("file") MultipartFile file) {
         try {
             String uploadedFilePath = employeeProfileService.uploadProfilePicture(id, file);
-            return ResponseEntity.ok("파일이 성공적으로 업로드되었습니다: " + uploadedFilePath);
+            return ResponseEntity.ok(Map.of("filePath", uploadedFilePath));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일을 업로드할 수 없습니다." + e.getMessage());
         }
