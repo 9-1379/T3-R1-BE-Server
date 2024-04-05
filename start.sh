@@ -2,6 +2,6 @@
 
 cd /home/ubuntu/app/bhr
 
-mvn clean install -DskipTests
+sudo mvn clean install -D skipTests
 
 sudo docker compose -f docker-compose.yml up -d --force-recreate --build
