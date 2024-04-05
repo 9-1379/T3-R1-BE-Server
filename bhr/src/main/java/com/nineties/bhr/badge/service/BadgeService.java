@@ -136,7 +136,7 @@ public class BadgeService {
             List<Employees> employeesList = employeesRepository.findByHireDateBefore(java.sql.Date.valueOf(tenYearsAgo));
             for (Employees employee : employeesList) {
                 // 이미 배지가 있는지 확인
-                boolean alreadyHasValidBadge = empBadgeRepository.existsByEmployeesAndBadgeMasterAndEndDateAfterOrEndDateIsNull(employee, decadeBadge, new Date());
+                boolean alreadyHasValidBadge = empBadgeRepository.badgeCheck(employee, decadeBadge, new Date());
                 if (!alreadyHasValidBadge) {
                     // 배지의 종료일은 설정하지 않습니다 (무기한으로 유효)
                     assignBadge(employee, decadeBadge, null);
@@ -154,14 +154,14 @@ public class BadgeService {
 
         if (leaveBadge != null) {
             //오늘 연차 중인 직원 찾기
-            List<AnnualList> activeAnnualLists = annualListRepository.findByStartDateBeforeAndEndDateAfterOrEndDateIsNull(todayDate);
+            List<AnnualList> activeAnnualLists = annualListRepository.findByStartDateBeforeAndEndDateAfterOrEndDateIsNull(todayDate, todayDate);
             for (AnnualList annualList : activeAnnualLists) {
                 Employees employee = annualList.getEmployees();
                 // annualListStartDate와 annualListEndDate를 직접 Date 타입으로 사용합니다.
                 Date annualListStartDate = annualList.getStartDate(); // 이미 Date 타입
                 Date annualListEndDate = annualList.getEndDate();
                 // 현재 시간 이전, 연차 시작일 이후, 배지 종료일이 오늘 이후인 경우에 이미 배지가 존재하는지 확인
-                boolean alreadyAssigned = empBadgeRepository.existsByEmployeesAndBadgeMasterAndDateAfterAndDateBeforeAndEndDateAfter(employee, leaveBadge, annualListStartDate, todayDate, todayDate);
+                boolean alreadyAssigned = empBadgeRepository.annualBadgeCheck(employee, leaveBadge, annualListStartDate, todayDate);
                 if (!alreadyAssigned) {
                     // 해당 기간 동안 유효한 배지가 없으면 새로운 배지를 부여
                     assignBadge(employee, leaveBadge, convertToLocalDate(annualListEndDate));
@@ -189,7 +189,7 @@ public class BadgeService {
 
         if (workLifeBadge != null) {
 
-            boolean alreadyHasBadge = empBadgeRepository.existsByEmployeesAndBadgeMasterAndEndDateAfterOrIsNull(employee, workLifeBadge, java.sql.Date.valueOf(today));
+            boolean alreadyHasBadge = empBadgeRepository.badgeCheck(employee, workLifeBadge, java.sql.Date.valueOf(today));
 
             if (!alreadyHasBadge) {
                 // 이번 년도 연차 확인

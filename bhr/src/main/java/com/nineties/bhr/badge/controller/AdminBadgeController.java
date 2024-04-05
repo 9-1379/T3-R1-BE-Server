@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/admin/badge")
+@RequestMapping("/api/admin/badge")
 public class AdminBadgeController {
 
     private final BadgeManageService badgeManageService;
