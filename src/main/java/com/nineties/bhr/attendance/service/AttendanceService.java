@@ -105,12 +105,14 @@ public class AttendanceService {
         Optional<Attendance> startRecord = attendanceRepository.findFirstByEmployeesIdOrderByStartDateAsc(employeeId);
         if (startRecord.isPresent()) {
             dto.setTimeIn(startRecord.get().getTimeIn());
+            dto.setStartDate(startRecord.get().getStartDate());
         }
 
         // 직원의 퇴근 기록을 가져옵니다.
         Optional<Attendance> endRecord = attendanceRepository.findFirstByEmployeesIdOrderByStartDateDesc(employeeId);
         if (endRecord.isPresent()) {
             dto.setTimeOut(endRecord.get().getTimeOut());
+            dto.setEndDate(endRecord.get().getEndDate());
         }
 
         return dto;

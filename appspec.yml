@@ -1,0 +1,23 @@
+version: 0.1
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/app/bhr
+    overwrite: yes
+
+permissions:
+  - object: /
+    pattern: "*.sh"
+    owner: ubuntu
+    group: ubuntu
+    mode: 744
+
+hooks:
+  AfterInstall:
+    - location: stop.sh
+      timeout: 120
+      runas: ubuntu
+  ApplicationStart:
+    - location: start.sh
+      timeout: 120
+      runas: ubuntu
