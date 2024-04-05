@@ -86,6 +86,23 @@ public class AttendanceService {
         return convertToDto(updatedAttendance);
     }
 
+    public AttendanceDTO getAttendanceRecord(String employeeId) {
+        AttendanceDTO dto = new AttendanceDTO();
+
+        // 직원의 출근 기록을 가져옵니다.
+        Optional<Attendance> startRecord = attendanceRepository.findFirstByEmployeesIdOrderByStartDateAsc(employeeId);
+        if (startRecord.isPresent()) {
+            dto.setTimeIn(startRecord.get().getTimeIn());
+        }
+
+        // 직원의 퇴근 기록을 가져옵니다.
+        Optional<Attendance> endRecord = attendanceRepository.findFirstByEmployeesIdOrderByStartDateDesc(employeeId);
+        if (endRecord.isPresent()) {
+            dto.setTimeOut(endRecord.get().getTimeOut());
+        }
+
+        return dto;
+    }
 
     private AttendanceDTO convertToDto(Attendance attendance) {
         AttendanceDTO dto = new AttendanceDTO();

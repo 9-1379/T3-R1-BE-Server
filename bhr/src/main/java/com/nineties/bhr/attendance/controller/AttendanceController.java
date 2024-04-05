@@ -23,4 +23,9 @@ public class AttendanceController {
         // 서비스 메서드 호출을 변경된 파라미터에 맞게 수정
         return attendanceService.recordEndWork(employeeId);
     }
+
+    @GetMapping("/record/{employeeId}")
+    public AttendanceDTO getAttendanceRecord(@PathVariable String employeeId) {
+        return attendanceService.getAttendanceRecord(employeeId);
+    }
 }
