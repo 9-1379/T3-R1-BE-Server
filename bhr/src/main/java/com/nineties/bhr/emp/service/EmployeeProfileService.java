@@ -5,6 +5,13 @@ import com.nineties.bhr.emp.dto.EmployeeProfileDTO;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 @Service
 public class EmployeeProfileService {
@@ -23,6 +30,28 @@ public class EmployeeProfileService {
         return convertEntityToDTO(employee);
 
     }
+
+    public String uploadProfilePicture(String id, MultipartFile file) throws IOException {
+        Employees employee = employeesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+
+        //파일 저장 로직
+        String fileName = file.getOriginalFilename();
+        Path uploadPath = Paths.get("uploads/");
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+        Path filePath = uploadPath.resolve(fileName);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        
+        //파일 경로를 데이터베이스에 저장
+        String relativePath = "/uploads/" + fileName;
+        employee.setProfilePicture(relativePath);
+        employeesRepository.save(employee);
+        
+        return relativePath; // 상대 경로 반환
+    }
+
     private EmployeeProfileDTO convertEntityToDTO(Employees employee) {
         EmployeeProfileDTO dto = new EmployeeProfileDTO();
         dto.setId(employee.getId());
@@ -30,6 +59,7 @@ public class EmployeeProfileService {
         dto.setDeptName(employee.getDept().getDeptName()); // dept가 Employee 엔티티에 연결되어 있다고 가정합니다.
         dto.setPosition(employee.getPosition());
         dto.setIntroduction(employee.getIntroduction());
+        dto.setProfilePicture(employee.getProfilePicture()); // 프로필 사진 경로 추가
         return dto;
     }
 

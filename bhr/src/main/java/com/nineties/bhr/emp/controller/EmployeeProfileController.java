@@ -15,7 +15,7 @@ public class EmployeeProfileController {
     private final EmployeeProfileService employeeProfileService;
 
     @Autowired
-    public  EmployeeProfileController(EmployeeProfileService employeeProfileService) {
+    public EmployeeProfileController(EmployeeProfileService employeeProfileService) {
         this.employeeProfileService = employeeProfileService;
     }
 
@@ -38,15 +38,16 @@ public class EmployeeProfileController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> uploadProfilePicture(@PathVariable String id, @RequestParam("file") MultipartFile file) {
+        try {
+            String uploadedFilePath = employeeProfileService.uploadProfilePicture(id, file);
+            return ResponseEntity.ok("파일이 성공적으로 업로드되었습니다: " + uploadedFilePath);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일을 업로드할 수 없습니다." + e.getMessage());
+        }
+    }
+
 }
 
-//    @PostMapping("/{id}")
-//    public ResponseEntity<?> uploadProfilePicture(@PathVariable String id, @RequestParam("file") MultipartFile file) {
-//        try {
-//            String uploadedFilePath = employeeProfileService.uploadProfilePicture(id, file);
-//            return ResponseEntity.ok("파일이 성공적으로 업로드되었습니다: " + uploadedFilePath);
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일을 업로드할 수 없습니다." + e.getMessage());
-//        }
-//    }
-//}
