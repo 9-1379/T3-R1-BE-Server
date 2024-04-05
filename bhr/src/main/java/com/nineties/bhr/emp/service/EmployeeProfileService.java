@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,7 +38,7 @@ public class EmployeeProfileService {
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
         //파일 저장 로직
-        String fileName = file.getOriginalFilename();
+        String fileName = URLEncoder.encode(file.getOriginalFilename(), StandardCharsets.UTF_8.toString());
         Path uploadPath = Paths.get("uploads/");
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
