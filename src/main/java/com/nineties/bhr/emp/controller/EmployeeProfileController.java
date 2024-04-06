@@ -41,7 +41,7 @@ public class EmployeeProfileController {
         }
     }
 
-    @PostMapping("/{id}/uploads")
+    @PostMapping("/{id}")
     public ResponseEntity<?> uploadProfilePicture(@PathVariable String id, @RequestParam("file") MultipartFile file) {
         try {
             String uploadedFilePath = employeeProfileService.uploadProfilePicture(id, file);

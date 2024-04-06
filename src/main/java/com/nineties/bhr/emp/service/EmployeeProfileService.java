@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -38,7 +40,7 @@ public class EmployeeProfileService {
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
         //파일 저장 로직
-        String fileName = URLEncoder.encode(file.getOriginalFilename(), StandardCharsets.UTF_8.toString());
+        String fileName = URLEncoder.encode(file.getOriginalFilename(), StandardCharsets.UTF_8);
         Path uploadPath = Paths.get("uploads/");
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
@@ -47,11 +49,12 @@ public class EmployeeProfileService {
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         
         //파일 경로를 데이터베이스에 저장
-        String relativePath = "/uploads/" + fileName;
-        employee.setProfilePicture(relativePath);
+        String fullPath = "/uploads/" + fileName;
+        employee.setProfilePicture(fullPath);
         employeesRepository.save(employee);
         
-        return relativePath; // 상대 경로 반환
+       return fullPath; // 상대 경로 반환
+
     }
 
     private EmployeeProfileDTO convertEntityToDTO(Employees employee) {
@@ -61,8 +64,14 @@ public class EmployeeProfileService {
         dto.setDeptName(employee.getDept().getDeptName()); // dept가 Employee 엔티티에 연결되어 있다고 가정합니다.
         dto.setPosition(employee.getPosition());
         dto.setIntroduction(employee.getIntroduction());
-        dto.setProfilePicture(employee.getProfilePicture()); // 프로필 사진 경로 추가
-        return dto;
+
+        String filePath = employee.getProfilePicture();
+        if (filePath != null) {
+            dto.setFilePath(filePath); // 프로필 사진 경로 추가
+        } else {
+            dto.setFilePath(null);
+        }
+            return dto;
     }
 
 }

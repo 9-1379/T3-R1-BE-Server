@@ -20,6 +20,9 @@ spring:
     show-sql: true
     defer-datasource-initialization: true
 
+  web:
+    resources:
+      static-locations: file:/uploads/
 
 server:
   port: 8000
