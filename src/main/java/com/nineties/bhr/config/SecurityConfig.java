@@ -56,7 +56,7 @@ public class SecurityConfig {
                             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                                 CorsConfiguration configuration = new CorsConfiguration();
 
-                                configuration.setAllowedOrigins(Collections.singletonList("http://ec2-52-79-35-219.ap-northeast-2.compute.amazonaws.com"));
+                                configuration.setAllowedOrigins(Collections.singletonList("https://9-1379.store"));
                                 configuration.setAllowedMethods(Collections.singletonList("*"));
                                 configuration.setAllowCredentials(true);
                                 configuration.setAllowedHeaders(Collections.singletonList("*"));
