@@ -8,11 +8,10 @@ import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
-import java.util.Date;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Optional;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
+import java.util.*;
 
 @Service
 public class AttendanceService {
@@ -29,7 +28,6 @@ public class AttendanceService {
 
         LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         LocalTime currentTime = now.toLocalTime();
-        // 출근 버튼은 오전 6시부터 오후 11시 59분까지만 누를 수 있도록 합니다.
         if (currentTime.isBefore(LocalTime.of(6, 0)) || currentTime.isAfter(LocalTime.of(23, 59))) {
             throw new RuntimeException("출근 버튼은 오전 6시부터 오후 11시 59분까지만 누를 수 있습니다.");
         }
@@ -39,8 +37,8 @@ public class AttendanceService {
             startOfDay = startOfDay.minusDays(1);
         }
 
-        Date todayStart = Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
-        Date endOfDay = Date.from(startOfDay.plusDays(1).minusSeconds(1).atZone(ZoneId.systemDefault()).toInstant());
+        Date todayStart = getStartOfDay(startOfDay);
+        Date endOfDay = getEndOfDay(startOfDay);
 
         Optional<Attendance> existingRecord = attendanceRepository
                 .findTopByEmployeesAndStartDateBetweenOrderByStartDateDesc(employee, todayStart, endOfDay);
@@ -58,21 +56,18 @@ public class AttendanceService {
         return convertToDto(savedAttendance);
     }
 
-
     public AttendanceDTO recordEndWork(String employeeId) {
         Employees employee = employeesRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
 
         LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         LocalTime currentTime = now.toLocalTime();
-        // 퇴근 버튼은 오전 6시부터 오후 11시 59분까지만 누를 수 있도록 합니다.
         if (currentTime.isBefore(LocalTime.of(6, 0)) || currentTime.isAfter(LocalTime.of(23, 59))) {
             throw new RuntimeException("퇴근 버튼은 오전 6시부터 오후 11시 59분까지만 누를 수 있습니다.");
         }
 
         Date current = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
 
-        // 현재 날짜와 일치하는 출근 기록을 찾습니다.
         Optional<Attendance> todayStartRecord = attendanceRepository
                 .findFirstByEmployeesAndStartDateBetweenOrderByStartDateAsc(employee, getStartOfDay(now), getEndOfDay(now));
 
@@ -82,7 +77,6 @@ public class AttendanceService {
 
         Attendance attendance = todayStartRecord.get();
 
-        // 퇴근 기록이 출근 기록보다 빠른 경우 에러 처리
         if (attendance.getTimeIn().compareTo(current) > 0) {
             throw new RuntimeException("End work time cannot be earlier than start work time.");
         }
@@ -99,24 +93,81 @@ public class AttendanceService {
     }
 
     public AttendanceDTO getAttendanceRecord(String employeeId) {
-        AttendanceDTO dto = new AttendanceDTO();
+        Optional<Attendance> attendanceRecord = attendanceRepository
+                .findFirstByEmployeesIdOrderByStartDateDesc(employeeId);
 
-        // 직원의 출근 기록을 가져옵니다.
-        Optional<Attendance> startRecord = attendanceRepository.findFirstByEmployeesIdOrderByStartDateAsc(employeeId);
-        if (startRecord.isPresent()) {
-            dto.setTimeIn(startRecord.get().getTimeIn());
-            dto.setStartDate(startRecord.get().getStartDate());
-        }
-
-        // 직원의 퇴근 기록을 가져옵니다.
-        Optional<Attendance> endRecord = attendanceRepository.findFirstByEmployeesIdOrderByStartDateDesc(employeeId);
-        if (endRecord.isPresent()) {
-            dto.setTimeOut(endRecord.get().getTimeOut());
-            dto.setEndDate(endRecord.get().getEndDate());
-        }
-
-        return dto;
+        return attendanceRecord.map(this::convertToDto).orElse(null);
     }
+
+    public Map<String, Integer> getMonthlyAttendanceSummary(String employeeId) {
+        Map<String, Integer> summary = new HashMap<>();
+        int attendanceCount = 0;
+        int lateCount = 0;
+        int absenceCount = 0;
+
+        Employees employee = employeesRepository.findById(employeeId)
+                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
+
+        LocalDate today = LocalDate.now();
+        LocalDate startOfMonth = today.with(TemporalAdjusters.firstDayOfMonth());
+        LocalDate endOfPeriod = today.minusDays(1);
+
+        // 주말에 해당하는 날짜를 식별합니다.
+        Set<LocalDate> weekendDays = new HashSet<>();
+        for (LocalDate date = startOfMonth; date.isBefore(endOfPeriod.plusDays(1)); date = date.plusDays(1)) {
+            if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                weekendDays.add(date);
+            }
+        }
+
+        List<Attendance> monthlyRecords = attendanceRepository
+                .findByEmployeesAndStartDateBetweenOrderByStartDateAsc(employee, getStartOfMonth(startOfMonth), getEndOfPeriod(endOfPeriod));
+
+        Set<LocalDate> recordedDays = new HashSet<>();
+        for (Attendance record : monthlyRecords) {
+            LocalDate recordDate = Instant.ofEpochMilli(record.getStartDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+
+            // 주말에 해당하는 경우 개수에 추가하지 않습니다.
+            if (weekendDays.contains(recordDate)) {
+                // 주말에 출근한 경우 출근 숫자에 포함시킵니다.
+                attendanceCount++;
+                continue;
+            }
+
+            recordedDays.add(recordDate);
+
+            if (record.getTimeIn() != null) {
+                attendanceCount++;
+
+                // 지각 여부를 체크합니다.
+                if (record.getTimeIn().after(java.sql.Time.valueOf("09:00:00"))) {
+                    lateCount++;
+                }
+            }
+        }
+
+        // 주말에 결근하거나 지각한 경우 개수에서 빼줍니다.
+        for (LocalDate weekendDay : weekendDays) {
+            if (recordedDays.contains(weekendDay)) {
+                recordedDays.remove(weekendDay);
+            }
+        }
+
+        // 주말을 제외한 실제 근무일 수를 계산합니다.
+        int workingDays = (int) (ChronoUnit.DAYS.between(startOfMonth, endOfPeriod) + 1) - weekendDays.size();
+
+        // 총 결근 횟수를 계산합니다.
+        absenceCount = workingDays - recordedDays.size();
+
+        summary.put("출근", attendanceCount);
+        summary.put("지각", lateCount);
+        summary.put("결근", absenceCount);
+
+        return summary;
+    }
+
+
+
 
     private AttendanceDTO convertToDto(Attendance attendance) {
         AttendanceDTO dto = new AttendanceDTO();
@@ -125,17 +176,29 @@ public class AttendanceService {
         dto.setEndDate(attendance.getEndDate());
         dto.setTimeIn(attendance.getTimeIn());
         dto.setTimeOut(attendance.getTimeOut());
-        dto.setEmployeeId(attendance.getEmployees().getId());
+        if (attendance.getEmployees() != null) {
+            dto.setEmployeeId(attendance.getEmployees().getId());
+        }
         return dto;
     }
 
     private Date getStartOfDay(LocalDateTime dateTime) {
-        LocalDateTime startOfDay = dateTime.withHour(0).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime startOfDay = dateTime.toLocalDate().atStartOfDay();
         return Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
     }
 
     private Date getEndOfDay(LocalDateTime dateTime) {
-        LocalDateTime endOfDay = dateTime.withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+        LocalDateTime endOfDay = dateTime.toLocalDate().atTime(23, 59, 59, 999999999);
         return Date.from(endOfDay.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    private Date getStartOfMonth(LocalDate date) {
+        LocalDateTime startOfMonth = date.atStartOfDay();
+        return Date.from(startOfMonth.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    private Date getEndOfPeriod(LocalDate date) {
+        LocalDateTime endOfPeriod = date.atTime(23, 59, 59, 999999999);
+        return Date.from(endOfPeriod.atZone(ZoneId.systemDefault()).toInstant());
     }
 }

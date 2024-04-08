@@ -4,7 +4,9 @@ import com.nineties.bhr.attendance.domain.Attendance;
 import com.nineties.bhr.emp.domain.Employees;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public interface AttendanceRepository extends JpaRepository<Attendance, String> {
@@ -19,4 +21,8 @@ public interface AttendanceRepository extends JpaRepository<Attendance, String> 
     Optional<Attendance> findFirstByEmployeesIdOrderByStartDateDesc(String employeeId);
 
     Optional<Attendance> findFirstByEmployeesAndStartDateBetweenOrderByStartDateAsc(Employees employee, Date startOfDay, Date endOfDay);
+
+    List<Attendance> findByEmployeesAndStartDateBetweenOrderByStartDate(Employees employee, LocalDate startOfMonth, LocalDate endOfMonth);
+
+    List<Attendance> findByEmployeesAndStartDateBetweenOrderByStartDateAsc(Employees employee, Date startOfMonth, Date endOfPeriod);
 }
