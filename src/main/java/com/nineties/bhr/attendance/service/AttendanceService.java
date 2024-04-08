@@ -131,9 +131,9 @@ public class AttendanceService {
         long daysInPeriod = ChronoUnit.DAYS.between(startOfMonth, endOfPeriod) + 1;
         absenceCount = (int) (daysInPeriod - recordedDays.size());
 
-        summary.put("출석", attendanceCount);
+        summary.put("출근", attendanceCount);
         summary.put("지각", lateCount);
-        summary.put("결석", absenceCount);
+        summary.put("결근", absenceCount);
 
         return summary;
     }
