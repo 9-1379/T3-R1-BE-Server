@@ -1,10 +1,12 @@
 package com.nineties.bhr.emp.controller;
 
 import com.nineties.bhr.emp.dto.EmployeeProfileDTO;
+import com.nineties.bhr.emp.dto.EmployeeProfileProjection;
 import com.nineties.bhr.emp.service.EmployeeProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,19 +23,17 @@ public class EmployeeProfileController {
         this.employeeProfileService = employeeProfileService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<EmployeeProfileDTO> getEmployeeById(@PathVariable("id") String id) {
-        EmployeeProfileDTO employeeProfile = employeeProfileService.getEmployeeById(id);
-        if (employeeProfile != null) {
-            return ResponseEntity.ok(employeeProfile);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping
+    public EmployeeProfileProjection getEmployeeByUsername() {
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return employeeProfileService.getEmployeeByUsername(username);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<EmployeeProfileDTO> updateEmployeeIntroduction(@PathVariable("id") String id, @RequestBody EmployeeProfileDTO employeeProfileDTO) {
-        EmployeeProfileDTO updatedEmployeeProfile = employeeProfileService.updateEmployeeIntroduction(id, employeeProfileDTO.getIntroduction());
+    @PatchMapping
+    public ResponseEntity<EmployeeProfileDTO> updateEmployeeIntroduction(@RequestBody EmployeeProfileDTO employeeProfileDTO) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        EmployeeProfileDTO updatedEmployeeProfile = employeeProfileService.updateEmployeeIntroduction(username, employeeProfileDTO.getIntroduction());
         if (updatedEmployeeProfile != null) {
             return ResponseEntity.ok(updatedEmployeeProfile);
         } else {

@@ -2,6 +2,7 @@ package com.nineties.bhr.emp.service;
 
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.dto.EmployeeProfileDTO;
+import com.nineties.bhr.emp.dto.EmployeeProfileProjection;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,12 @@ public class EmployeeProfileService {
     @Autowired
     private EmployeesRepository employeesRepository;
 
-    public EmployeeProfileDTO getEmployeeById(String id) {
-        return employeesRepository.findById(id).map(this::convertEntityToDTO).orElse(null);
+    public EmployeeProfileProjection getEmployeeByUsername(String username) {
+        return employeesRepository.findEmpProfile(username);
     }
 
-    public EmployeeProfileDTO updateEmployeeIntroduction(String id, String introduction) {
-        Employees employee = employeesRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee not found"));
+    public EmployeeProfileDTO updateEmployeeIntroduction(String username, String introduction) {
+        Employees employee = employeesRepository.findByUsername(username);
         employee.setIntroduction(introduction);
         employee = employeesRepository.save(employee);
         return convertEntityToDTO(employee);
