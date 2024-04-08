@@ -112,24 +112,52 @@ public class AttendanceService {
         LocalDate startOfMonth = today.with(TemporalAdjusters.firstDayOfMonth());
         LocalDate endOfPeriod = today.minusDays(1);
 
+        // 주말에 해당하는 날짜를 식별합니다.
+        Set<LocalDate> weekendDays = new HashSet<>();
+        for (LocalDate date = startOfMonth; date.isBefore(endOfPeriod.plusDays(1)); date = date.plusDays(1)) {
+            if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                weekendDays.add(date);
+            }
+        }
+
         List<Attendance> monthlyRecords = attendanceRepository
                 .findByEmployeesAndStartDateBetweenOrderByStartDateAsc(employee, getStartOfMonth(startOfMonth), getEndOfPeriod(endOfPeriod));
 
         Set<LocalDate> recordedDays = new HashSet<>();
         for (Attendance record : monthlyRecords) {
             LocalDate recordDate = Instant.ofEpochMilli(record.getStartDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+
+            // 주말에 해당하는 경우 개수에 추가하지 않습니다.
+            if (weekendDays.contains(recordDate)) {
+                // 주말에 출근한 경우 출근 숫자에 포함시킵니다.
+                attendanceCount++;
+                continue;
+            }
+
             recordedDays.add(recordDate);
 
             if (record.getTimeIn() != null) {
                 attendanceCount++;
+
+                // 지각 여부를 체크합니다.
                 if (record.getTimeIn().after(java.sql.Time.valueOf("09:00:00"))) {
                     lateCount++;
                 }
             }
         }
 
-        long daysInPeriod = ChronoUnit.DAYS.between(startOfMonth, endOfPeriod) + 1;
-        absenceCount = (int) (daysInPeriod - recordedDays.size());
+        // 주말에 결근하거나 지각한 경우 개수에서 빼줍니다.
+        for (LocalDate weekendDay : weekendDays) {
+            if (recordedDays.contains(weekendDay)) {
+                recordedDays.remove(weekendDay);
+            }
+        }
+
+        // 주말을 제외한 실제 근무일 수를 계산합니다.
+        int workingDays = (int) (ChronoUnit.DAYS.between(startOfMonth, endOfPeriod) + 1) - weekendDays.size();
+
+        // 총 결근 횟수를 계산합니다.
+        absenceCount = workingDays - recordedDays.size();
 
         summary.put("출근", attendanceCount);
         summary.put("지각", lateCount);
@@ -137,6 +165,9 @@ public class AttendanceService {
 
         return summary;
     }
+
+
+
 
     private AttendanceDTO convertToDto(Attendance attendance) {
         AttendanceDTO dto = new AttendanceDTO();
