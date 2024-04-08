@@ -7,11 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,43 +32,63 @@ public class EmployeeProfileService {
 
     }
 
-    public String uploadProfilePicture(String id, MultipartFile file) throws IOException {
-        Employees employee = employeesRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+    public EmployeeProfileDTO uploadProfilePicture(String id, MultipartFile file) {
+        try {
+            Employees employee = employeesRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Employee not found"));
 
-        //파일 저장 로직
-        String fileName = URLEncoder.encode(file.getOriginalFilename(), StandardCharsets.UTF_8);
-        Path uploadPath = Paths.get("uploads/");
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
+            //파일 저장 로직
+//        String fileName = URLEncoder.encode(file.getOriginalFilename(), StandardCharsets.UTF_8);
+//        Path uploadPath = Paths.get("uploads/");
+
+            if (!file.isEmpty()) {
+                String originalFilename = file.getOriginalFilename();
+                String storedFileName = System.currentTimeMillis() + "_" + originalFilename;
+                String uploadDir = "uploads/";
+                String savePath = uploadDir + storedFileName;
+
+                Path uploadPath = Paths.get(savePath);
+                try {
+                    System.out.println("Creating directories: " + uploadPath.getParent());
+                    Files.createDirectories(uploadPath.getParent());
+                    System.out.println("Copying file: " + uploadPath);
+                    Files.copy(file.getInputStream(), uploadPath, StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e) {
+                    System.out.println("Failed to save file: " + e.getMessage());
+                    throw new RuntimeException("파일을 저장하는 데 실패했습니다.", e);
+                }
+
+                //파일 경로를 데이터베이스에 저장
+                String fullPath = "/" + savePath;
+                employee.setProfilePicture(fullPath);
+                employeesRepository.save(employee);
+
+                return convertEntityToDTO(employee);
+            } else {
+                throw new IOException("File is empty");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("파일을 저장하는 데 실패했습니다.", e);
         }
-        Path filePath = uploadPath.resolve(fileName);
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-        
-        //파일 경로를 데이터베이스에 저장
-        String fullPath = "/uploads/" + fileName;
-        employee.setProfilePicture(fullPath);
-        employeesRepository.save(employee);
-        
-       return fullPath; // 상대 경로 반환
-
     }
 
-    private EmployeeProfileDTO convertEntityToDTO(Employees employee) {
-        EmployeeProfileDTO dto = new EmployeeProfileDTO();
-        dto.setId(employee.getId());
-        dto.setName(employee.getName());
-        dto.setDeptName(employee.getDept().getDeptName()); // dept가 Employee 엔티티에 연결되어 있다고 가정합니다.
-        dto.setPosition(employee.getPosition());
-        dto.setIntroduction(employee.getIntroduction());
+        private EmployeeProfileDTO convertEntityToDTO (Employees employee) {
+            EmployeeProfileDTO dto = new EmployeeProfileDTO();
+            dto.setId(employee.getId());
+            dto.setName(employee.getName());
+            dto.setDeptName(employee.getDept().getDeptName()); // dept가 Employee 엔티티에 연결되어 있다고 가정합니다.
+            dto.setPosition(employee.getPosition());
+            dto.setIntroduction(employee.getIntroduction());
 
-        String filePath = employee.getProfilePicture();
-        if (filePath != null) {
-            dto.setFilePath(filePath); // 프로필 사진 경로 추가
-        } else {
-            dto.setFilePath(null);
-        }
+            String profilePicturePath = employee.getProfilePicture();
+            if (profilePicturePath != null) {
+                String serverUrl = "http://localhost:8000";
+                dto.setProfilePicture(serverUrl + profilePicturePath);
+            } else {
+                dto.setProfilePicture(null);
+            }
+
             return dto;
-    }
+        }
+     }
 
-}

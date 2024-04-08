@@ -14,5 +14,4 @@ public class EmployeeProfileDTO {
     private String position;
     private String introduction;
     private String profilePicture;
-    private String filePath;
 }
