@@ -9,12 +9,7 @@ MariaDB 10.11.7
 ```
 ## 프로젝트 실행 방법 (Intellij) 
 1. Git clone
-2. `bhr` 폴더로 이동
-```
-$ cd bhr
-```
-3. 반드시 해당 폴더에서 프로젝트 실행 (`bhr` 폴더)
-4. Intellij 내의 환경 변수 세팅
+2. Intellij 내의 환경 변수 세팅
    (방법 참고 : https://lahezy.tistory.com/105 )
  ```
  // JWT 
@@ -25,4 +20,4 @@ $ cd bhr
  SPRING_DATASOURCE_URL
  SPRING_DATASOURCE_USERNAME
  ```
-4. 프로젝트 실행 (`BhrApplication.java` 파일 내의 `main` 메소드 실행)
+3. 프로젝트 실행 (`BhrApplication.java` 파일 내의 `main` 메소드 실행)
