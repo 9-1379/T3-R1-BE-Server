@@ -23,4 +23,14 @@ public class AttendanceDTO {
     private Date timeOut;
 
     private String employeeId;
+
+    private boolean late; // 지각 여부를 나타내는 필드
+
+    private boolean absent; // 결근 여부를 나타내는 필드
+
+    private int attendanceCount; // 출석 횟수
+
+    private int lateCount; // 지각 횟수
+
+    private int absenceCount; // 결석 횟수
 }
