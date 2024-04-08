@@ -20,4 +20,4 @@ MariaDB 10.11.7
  SPRING_DATASOURCE_URL
  SPRING_DATASOURCE_USERNAME
  ```
-3. 프로젝트 실행 (`BhrApplication.java` 파일 내의 `main` 메소드 실행)
+3. 프로젝트 실행(`BhrApplication.java` 파일 내의 `main` 메소드 실행)
