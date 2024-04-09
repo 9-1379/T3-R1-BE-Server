@@ -1,5 +1,6 @@
 package com.nineties.bhr.emp.controller;
 
+import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.dto.EmployeeProfileDTO;
 import com.nineties.bhr.emp.dto.EmployeeProfileProjection;
 import com.nineties.bhr.emp.service.EmployeeProfileService;
@@ -41,11 +42,13 @@ public class EmployeeProfileController {
         }
     }
 
-    @PostMapping("/{id}/uploads")
+    @PostMapping("/{id}")
     public ResponseEntity<?> uploadProfilePicture(@PathVariable String id, @RequestParam("file") MultipartFile file) {
         try {
-            String uploadedFilePath = employeeProfileService.uploadProfilePicture(id, file);
-            return ResponseEntity.ok(Map.of("filePath", uploadedFilePath));
+
+            EmployeeProfileDTO updatedProfile = employeeProfileService.uploadProfilePicture(id, file);
+           // String uploadedFilePath = employeeProfileService.uploadProfilePicture(id, file);
+            return ResponseEntity.ok(updatedProfile);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일을 업로드할 수 없습니다." + e.getMessage());
         }
