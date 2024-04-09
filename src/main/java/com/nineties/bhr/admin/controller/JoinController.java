@@ -21,7 +21,7 @@ public class JoinController {
         this.joinService = joinService;
     }
 
-    @GetMapping("/join")
+    @GetMapping("/join/new")
     public JoinPageDTO joinPage() {
         return joinService.showId();
     }
