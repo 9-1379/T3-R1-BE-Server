@@ -9,4 +9,5 @@ public class AdminAnnualStatusDTO {
     private String name;
     private Long annualTotal;
     private Long annualCnt;
+    private Long annualUsed;
 }

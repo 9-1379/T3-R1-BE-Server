@@ -79,11 +79,7 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-<<<<<<< HEAD:bhr/src/main/java/com/nineties/bhr/config/SecurityConfig.java
-                        .requestMatchers("/status/*","/api/hrCard/*","/api/join","/*","/login", "/api/login", "/api/login/join", "/employees/{id}").permitAll()
-=======
                         .requestMatchers("/api/hrCard/*","/api/join","/*","/login", "/api/login", "/api/login/join", "/employees/{id}", "/attendance/startWork", "/attendance/endWork","attendance/record/{id}").permitAll()
->>>>>>> dev:src/main/java/com/nineties/bhr/config/SecurityConfig.java
                         .requestMatchers("/admin").hasRole("MANAGER")
                         .requestMatchers("/admin").hasRole("HRMANAGER")
                         .anyRequest().authenticated());

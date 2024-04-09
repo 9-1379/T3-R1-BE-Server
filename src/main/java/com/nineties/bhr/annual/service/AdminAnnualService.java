@@ -51,6 +51,7 @@ public class AdminAnnualService {
 
         for (int i = 0; i < employeesList.size(); i++){
             Employees employees = employeesList.get(i);
+            System.out.println(employees.getEmpNo());
             Annual annualIF = adminAnnualRepository.findByEmployeesAndAnnualYear(employees, annualYear);
             Long cnt = annualListRepository.findAnnualCountByEmployeeAndYear(employees.getId(), annualYear);
 
@@ -59,6 +60,7 @@ public class AdminAnnualService {
             statusDTO.setName(employees.getName());
             statusDTO.setAnnualTotal(annualIF.getAnnualTotal());
             statusDTO.setAnnualCnt(cnt);
+            statusDTO.setAnnualUsed(annualIF.getAnnualUsed());
 
             statusDTOList.add(statusDTO);
         }
