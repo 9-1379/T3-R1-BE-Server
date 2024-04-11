@@ -1,5 +1,6 @@
 package com.nineties.bhr.annual.repository;
 
+import com.nineties.bhr.annual.domain.Annual;
 import com.nineties.bhr.annual.domain.AnnualList;
 import com.nineties.bhr.emp.domain.Employees;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +20,12 @@ public interface AnnualListRepository extends JpaRepository<AnnualList, Long> {
 
     @Query("SELECT a.employees FROM AnnualList a WHERE :today BETWEEN a.startDate AND a.endDate")
     List<Employees> findByDateWithinAnnualLeave(@Param("today") Date today);
+
+    List<AnnualList> findByStartDate(Date today);
+
+    List<AnnualList> findByStartDateBeforeAndEndDateAfterOrEndDateIsNull(Date startDate, Date endDate);
+
+    List<AnnualList> findByAnnualYearAndEmployees(String currentYear, Employees employee);
 
     @Query("SELECT COALESCE(SUM(a.annualCnt), 0) FROM AnnualList a WHERE a.employees.id = :empId AND a.annualYear = :year")
     Long findAnnualCountByEmployeeAndYear(@Param("empId") String empId, @Param("year") String year);
