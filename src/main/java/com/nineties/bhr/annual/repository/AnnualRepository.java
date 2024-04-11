@@ -19,6 +19,7 @@ public interface AnnualRepository extends JpaRepository<Annual, AnnualPK> {
     Annual findByEmployeesAndAnnualYear(Employees employees, String annualYear);
 
     List<Annual> findByAnnualYear(String annualYear);
+}
 
 
     

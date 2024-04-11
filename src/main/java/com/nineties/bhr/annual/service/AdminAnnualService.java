@@ -5,7 +5,6 @@ import com.nineties.bhr.annual.dto.AdminAnnualDTO;
 import com.nineties.bhr.annual.dto.AdminAnnualStatusDTO;
 import com.nineties.bhr.annual.repository.AnnualRepository;
 import com.nineties.bhr.annual.repository.AnnualListRepository;
-import com.nineties.bhr.emp.domain.Dept;
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +50,7 @@ public class AdminAnnualService {
                 annual.setAnnualTotal(adminAnnualDTO.getAnnualTotal());
                 annual.setAnnualUsed(0L);
                 annualRepository.save(annual);
+            }
         }
     }
 
@@ -78,3 +78,4 @@ public class AdminAnnualService {
             return statusDTOList;
         }
     }
+
