@@ -3,6 +3,8 @@ package com.nineties.bhr.attendance.repository;
 import com.nineties.bhr.attendance.domain.Attendance;
 import com.nineties.bhr.emp.domain.Employees;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -10,19 +12,18 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AttendanceRepository extends JpaRepository<Attendance, String> {
-    Optional<Attendance> findTopByEmployeesAndStartDateAfterOrderByStartDateDesc(Employees employee, Date start);
+
     Optional<Attendance> findTopByEmployeesAndStartDateBetweenOrderByStartDateDesc(Employees employee, Date start, Date end);
-
-
-    Optional<Attendance> findTopByEmployeesAndTimeInBeforeOrderByTimeInDesc(Employees employee, Date current);
-
-    Optional<Attendance> findFirstByEmployeesIdOrderByStartDateAsc(String employeeId);
 
     Optional<Attendance> findFirstByEmployeesIdOrderByStartDateDesc(String employeeId);
 
     Optional<Attendance> findFirstByEmployeesAndStartDateBetweenOrderByStartDateAsc(Employees employee, Date startOfDay, Date endOfDay);
 
-    List<Attendance> findByEmployeesAndStartDateBetweenOrderByStartDate(Employees employee, LocalDate startOfMonth, LocalDate endOfMonth);
-
     List<Attendance> findByEmployeesAndStartDateBetweenOrderByStartDateAsc(Employees employee, Date startOfMonth, Date endOfPeriod);
+
+    @Query("SELECT COUNT(a) FROM Attendance a WHERE a.startDate = :today AND a.timeIn < :nineAm")
+    int countPresentBeforeNine(@Param("today") Date today, @Param("nineAm") Date nineAm);
+
+    @Query("SELECT COUNT(a) FROM Attendance a WHERE a.startDate = :today AND a.timeIn >= :nineAm")
+    int countLateAfterNine(@Param("today") Date today, @Param("nineAm") Date nineAm);
 }

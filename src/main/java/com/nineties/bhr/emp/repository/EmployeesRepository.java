@@ -25,4 +25,6 @@ public interface EmployeesRepository extends JpaRepository<Employees, String> {
     List<EmployeeProjection> findEmpNoNameDeptNameEmail();
 
     List<Employees> findAll();
+
+    long count();
 }
