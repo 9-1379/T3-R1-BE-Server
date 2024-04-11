@@ -23,9 +23,11 @@ public class AdminAnnualController {
 
     @PostMapping("/annualTotal")
     public ResponseEntity<Object> totalAnnualSave(@RequestBody AdminAnnualDTO adminAnnualDTO) {
-        adminAnnualService.newTotalAnnual(adminAnnualDTO);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+            adminAnnualService.newTotalAnnual(adminAnnualDTO);
+
+            return ResponseEntity.status(HttpStatus.OK).build();
+
     }
 
     @GetMapping("/status/{annualYear}")
