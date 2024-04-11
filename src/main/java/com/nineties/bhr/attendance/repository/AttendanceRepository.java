@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AttendanceRepository extends JpaRepository<Attendance, String> {
-
+    Optional<Attendance> findTopByEmployeesAndStartDateAfterOrderByStartDateDesc(Employees employee, Date start);
     Optional<Attendance> findTopByEmployeesAndStartDateBetweenOrderByStartDateDesc(Employees employee, Date start, Date end);
 
     Optional<Attendance> findFirstByEmployeesIdOrderByStartDateDesc(String employeeId);
@@ -26,4 +26,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, String> 
 
     @Query("SELECT COUNT(a) FROM Attendance a WHERE a.startDate = :today AND a.timeIn >= :nineAm")
     int countLateAfterNine(@Param("today") Date today, @Param("nineAm") Date nineAm);
+
+    Optional<Attendance> findFirstByEmployeesIdAndStartDate(String employeeId, LocalDate today);
 }
