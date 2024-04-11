@@ -32,4 +32,7 @@ public class Attendance {
     @ManyToOne
     @JoinColumn(name = "emp_id")
     private Employees employees;
+
+    @Enumerated(EnumType.STRING)
+    private AttendanceStatus status; // PRESENT, LATE, ABSENT, ON_LEAVE
 }

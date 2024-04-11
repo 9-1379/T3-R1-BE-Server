@@ -27,4 +27,10 @@ public interface EmployeesRepository extends JpaRepository<Employees, String> {
     List<Employees> findAll();
 
     long count();
+
+    @Query("SELECT e FROM Employees e WHERE e.status <> 'REST' AND e.status <> 'LEAVE'")
+    List<Employees> findActiveEmployees();
+
+    @Query("SELECT count(e) FROM Employees e WHERE e.status <> 'REST' AND e.status <> 'LEAVE'")
+    long countActiveEmployees();
 }

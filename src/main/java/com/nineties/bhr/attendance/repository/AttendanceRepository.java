@@ -26,4 +26,8 @@ public interface AttendanceRepository extends JpaRepository<Attendance, String> 
     int countLateAfterNine(@Param("today") Date today, @Param("nineAm") Date nineAm);
 
     Optional<Attendance> findFirstByEmployeesIdAndStartDate(String employeeId, LocalDate today);
+
+    // 오늘 퇴근한 직원을 찾는 JPQL 쿼리
+    @Query("SELECT COUNT(a) FROM Attendance a WHERE a.startDate = CURRENT_DATE AND a.timeIn IS NOT NULL AND a.endDate IS NOT NULL AND a.timeOut IS NOT NULL")
+    int findTodaysLeavers();
 }
