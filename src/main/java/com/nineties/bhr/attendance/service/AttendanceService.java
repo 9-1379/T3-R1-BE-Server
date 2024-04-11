@@ -93,9 +93,8 @@ public class AttendanceService {
     }
 
     public AttendanceDTO getAttendanceRecord(String employeeId) {
-        Optional<Attendance> attendanceRecord = attendanceRepository
-                .findFirstByEmployeesIdOrderByStartDateDesc(employeeId);
-
+        LocalDate today = LocalDate.now();
+        Optional<Attendance> attendanceRecord = attendanceRepository.findFirstByEmployeesIdAndStartDate(employeeId, today);
         return attendanceRecord.map(this::convertToDto).orElse(null);
     }
 
