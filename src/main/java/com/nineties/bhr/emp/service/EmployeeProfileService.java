@@ -34,26 +34,59 @@ public class EmployeeProfileService {
 
     }
 
-    public String uploadProfilePicture(String id, MultipartFile file) throws IOException {
-        Employees employee = employeesRepository.findById(id)
+//    public String uploadProfilePicture(String id, MultipartFile file) throws IOException {
+//        Employees employee = employeesRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Employee not found"));
+//
+//        //파일 저장 로직
+//        String fileName = URLEncoder.encode(file.getOriginalFilename(), StandardCharsets.UTF_8.toString());
+//        Path uploadPath = Paths.get("uploads/");
+//        if (!Files.exists(uploadPath)) {
+//            Files.createDirectories(uploadPath);
+//        }
+//        Path filePath = uploadPath.resolve(fileName);
+//        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+//
+//        //파일 경로를 데이터베이스에 저장
+//        String relativePath = "/uploads/" + fileName;
+//        employee.setProfilePicture(relativePath);
+//        employeesRepository.save(employee);
+//
+//        return relativePath; // 상대 경로 반환
+//    }
+
+    //파일 저장 외부 디렉토리 지정 (시스템의 루트 디렉토리 아래에 위치)
+    private final String UPLOAD_DIR = System.getProperty("user.home") + "/uploads/";
+
+    public String uploadProfilePicture(String empId, MultipartFile file) throws IOException {
+        Employees employee = employeesRepository.findById(empId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
-        //파일 저장 로직
-        String fileName = URLEncoder.encode(file.getOriginalFilename(), StandardCharsets.UTF_8.toString());
-        Path uploadPath = Paths.get("uploads/");
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
+        if (!file.isEmpty()) {
+            String originalFilename = file.getOriginalFilename();
+            String storedFileName = System.currentTimeMillis() + "_" + originalFilename;
+            String savePath = UPLOAD_DIR + storedFileName;
+
+            Path uploadPath = Paths.get(UPLOAD_DIR);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            Path filePath = uploadPath.resolve(storedFileName);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            // 파일 경로를 데이터베이스에 저장 (저장된 파일 경로)
+            String relativePath = "/uploads/" + storedFileName;
+            employee.setProfilePicture(relativePath);
+            employeesRepository.save(employee);
+
+            return relativePath;
+        } else {
+            throw new RuntimeException("File is empty");
+
         }
-        Path filePath = uploadPath.resolve(fileName);
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-        
-        //파일 경로를 데이터베이스에 저장
-        String relativePath = "/uploads/" + fileName;
-        employee.setProfilePicture(relativePath);
-        employeesRepository.save(employee);
-        
-        return relativePath; // 상대 경로 반환
     }
+
 
     private EmployeeProfileDTO convertEntityToDTO(Employees employee) {
         EmployeeProfileDTO dto = new EmployeeProfileDTO();

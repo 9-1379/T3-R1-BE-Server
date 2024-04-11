@@ -15,14 +15,14 @@ spring:
   #JPA
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     generate-ddl: false
     show-sql: true
     defer-datasource-initialization: true
 
   web:
     resources:
-      static-locations: file:uploads/
+      static-locations: file:${user.home}/uploads/
 
 server:
   port: 8000

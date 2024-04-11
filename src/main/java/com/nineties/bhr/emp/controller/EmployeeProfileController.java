@@ -42,11 +42,11 @@ public class EmployeeProfileController {
         }
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<?> uploadProfilePicture(@PathVariable String id, @RequestParam("file") MultipartFile file) {
+    @PostMapping("/{empId}")
+    public ResponseEntity<?> uploadProfilePicture(@PathVariable String empId, @RequestParam("file") MultipartFile file) {
         try {
 
-            EmployeeProfileDTO updatedProfile = employeeProfileService.uploadProfilePicture(id, file);
+            String updatedProfile = employeeProfileService.uploadProfilePicture(empId, file);
            // String uploadedFilePath = employeeProfileService.uploadProfilePicture(id, file);
             return ResponseEntity.ok(updatedProfile);
         } catch (Exception e) {

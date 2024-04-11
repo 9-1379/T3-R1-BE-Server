@@ -22,7 +22,7 @@ spring:
 
   web:
     resources:
-      static-locations: file:uploads/
+      static-locations: file:${user.home}/uploads/
 
 server:
   port: 8000
