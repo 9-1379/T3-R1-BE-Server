@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AdminAnnualRepository extends JpaRepository<Annual, AnnualPK> {
+public interface AnnualRepository extends JpaRepository<Annual, AnnualPK> {
 
-    Annual findByEmployeesAndAnnualYear(Employees employees, String annualYear);
+    Annual findByAnnualYearAndEmployees(String currentYear, Employees employee);
 }

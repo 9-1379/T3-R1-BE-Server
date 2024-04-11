@@ -15,7 +15,7 @@ public class EmployeeDTO {
     private Long empNo;
     private String name;
     private String gender;
-    private String birthday;
+    private Date birthday;
     private String phoneNumber;
     private String email;
     private String position;
