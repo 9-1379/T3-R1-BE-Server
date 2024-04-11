@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum Role {
-    MANAGER("ROLE_MANAGER"), HRMANAGER("ROLE_HRMANAGER"), EMPLOYEE("ROLE_MANAGER");
+    MANAGER("ROLE_MANAGER"), HRMANAGER("ROLE_HRMANAGER"), EMPLOYEE("ROLE_EMPLOYEE");
 
     Role(String value){
         this.value = value;

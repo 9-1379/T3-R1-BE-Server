@@ -7,6 +7,7 @@ import com.nineties.bhr.emp.domain.Employees;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -21,4 +22,4 @@ public interface AnnualRepository extends JpaRepository<Annual, AnnualPK> {
 
 
     
-}
+
