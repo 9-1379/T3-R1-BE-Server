@@ -4,8 +4,8 @@ import com.nineties.bhr.annual.domain.Annual;
 import com.nineties.bhr.annual.domain.AnnualList;
 import com.nineties.bhr.annual.dto.AdminAnnualDTO;
 import com.nineties.bhr.annual.dto.AdminAnnualStatusDTO;
-import com.nineties.bhr.annual.repository.AdminAnnualRepository;
 import com.nineties.bhr.annual.repository.AnnualListRepository;
+import com.nineties.bhr.annual.repository.AnnualRepository;
 import com.nineties.bhr.emp.domain.Dept;
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
@@ -18,13 +18,13 @@ import java.util.List;
 @Service
 public class AdminAnnualService {
 
-    private final AdminAnnualRepository adminAnnualRepository;
+    private final AnnualRepository annualRepository;
     private final EmployeesRepository employeesRepository;
     private final AnnualListRepository annualListRepository;
 
     @Autowired
-    public AdminAnnualService(AdminAnnualRepository adminAnnualRepository, EmployeesRepository employeesRepository, AnnualListRepository annualListRepository) {
-        this.adminAnnualRepository = adminAnnualRepository;
+    public AdminAnnualService(AnnualRepository annualRepository, EmployeesRepository employeesRepository, AnnualListRepository annualListRepository) {
+        this.annualRepository = annualRepository;
         this.employeesRepository = employeesRepository;
         this.annualListRepository = annualListRepository;
     }
@@ -40,7 +40,7 @@ public class AdminAnnualService {
             annual.setEmployees(employees);
             annual.setAnnualTotal(adminAnnualDTO.getAnnualTotal());
             annual.setAnnualUsed(0L);
-            adminAnnualRepository.save(annual);
+            annualRepository.save(annual);
         }
     }
 
@@ -53,7 +53,7 @@ public class AdminAnnualService {
         for (int i = 0; i < employeesList.size(); i++){
             Employees employees = employeesList.get(i);
             System.out.println(employees.getEmpNo());
-            Annual annualIF = adminAnnualRepository.findByEmployeesAndAnnualYear(employees, annualYear);
+            Annual annualIF = annualRepository.findByAnnualYearAndEmployees(annualYear, employees);
             Long cnt = annualListRepository.findAnnualCountByEmployeeAndYear(employees.getId(), annualYear);
 
 
