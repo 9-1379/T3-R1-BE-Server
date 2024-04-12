@@ -14,14 +14,11 @@ import java.util.Optional;
 @Repository
 public interface AnnualRepository extends JpaRepository<Annual, AnnualPK> {
 
-    Annual findByAnnualYearAndEmployees(String currentYear, Employees employee);
-
     Optional<Annual> findByAnnualYearAndEmployees(String annualYear, Employees employees);
 
     Annual findByEmployeesAndAnnualYear(Employees employees, String annualYear);
 
     List<Annual> findByAnnualYear(String annualYear);
-
 }
 
 
