@@ -80,10 +80,9 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/api/hrCard/*","/api/join","/*","/login", "/api/login",
-                                "/api/login/join", "/employees/{id}", "/emp/dashboard/{id}",
-                                "/emp/dashboard/{id}/uploads","/attendance/startWork", "/attendance/endWork",
-                                "attendance/record/{id}","/uploads/**", "myAnnual/{annualYear}/{empId}",
-                                "attendance/monthlySummary/{employeeId}").permitAll()
+                                "/api/login/join", "/employees/{id}", "/attendance/startWork",
+                                "/attendance/endWork","attendance/record/{id}",
+                                "myAnnual/{annualYear}/{empId}", "attendance/monthlySummary/{employeeId}","/api/admin/dashboard/metrics").permitAll()
                         .requestMatchers("/admin").hasRole("MANAGER")
                         .requestMatchers("/admin").hasRole("HRMANAGER")
                         .anyRequest().authenticated());
