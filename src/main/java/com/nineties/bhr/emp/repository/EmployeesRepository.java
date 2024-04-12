@@ -2,9 +2,11 @@ package com.nineties.bhr.emp.repository;
 
 
 import com.nineties.bhr.emp.domain.Employees;
+import com.nineties.bhr.emp.dto.EmployeeProfileProjection;
 import com.nineties.bhr.emp.dto.EmployeeProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -17,6 +19,9 @@ public interface EmployeesRepository extends JpaRepository<Employees, String> {
 
     Optional<Employees> findById(String id);
     Employees findByUsername(String username);
+
+    @Query("SELECT e.id as id, e.name as name, e.dept.deptName as deptName, e.position as position, e.introduction as introduction, e.profilePicture as profilePicture FROM Employees e where e.username = :username")
+    EmployeeProfileProjection findEmpProfile(@Param("username") String username);
     Boolean existsByUsername(String username);
 
     @Query("SELECT MAX(e.empNo) FROM Employees e")
