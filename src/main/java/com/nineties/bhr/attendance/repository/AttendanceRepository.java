@@ -43,4 +43,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, String>,
 
     Attendance findByEmployeesAndStartDate(Employees employee, Date today);
 
+    @Query("select a from Attendance a where a.employees.id = :employeeId and FUNCTION('MONTH', a.startDate) = :month")
+    List<Attendance> findByEmployeeIdAndMonth(@Param("employeeId") String employeeId, @Param("month") int month);
 }
