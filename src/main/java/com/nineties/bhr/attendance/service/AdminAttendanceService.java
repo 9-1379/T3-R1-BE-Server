@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -35,56 +36,89 @@ public class AdminAttendanceService {
 
     // 출근 현황 (출근자, 퇴근자, 지각자, 휴가자, 미출근자)
     public AttendanceStatusDTO calculateAttendanceStatus() {
-
         AttendanceStatusDTO dto = new AttendanceStatusDTO();
 
         LocalDate todayLocalDate = LocalDate.now();
-        LocalTime nineAM = LocalTime.of(9, 0,1);
 
-        // LocalDate + LocalTime -> Date
+        // LocalDate -> Date
         Date today = Date.from(todayLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        Date nineAmDate = Date.from(todayLocalDate.atTime(nineAM).atZone(ZoneId.systemDefault()).toInstant());
 
         // 전체 직원 수
         long totalEmployees = employeesRepository.countActiveEmployees();
 
-        // 출근자
-        int presentCount = attendanceRepository.countPresentBeforeNine(today, nineAmDate);
+        // 출근자: 상태가 PRESENT인 직원 수
+        int presentCount = attendanceRepository.countByStatusAndStartDate(AttendanceStatus.PRESENT, today);
         dto.setPresentCount(presentCount);
 
-        // 퇴근자
-        int leaveCount = attendanceRepository.findTodaysLeavers();
+        // 퇴근자: 상태가 LEAVE인 직원 수
+        int leaveCount = attendanceRepository.countByStatusAndStartDate(AttendanceStatus.LEAVE, today);
+        dto.setLeaveCount(leaveCount);
 
-        // 지각자
-        int lateCount = attendanceRepository.countLateAfterNine(today, nineAmDate);
+        // 지각자: 상태가 LATE인 직원 수
+        int lateCount = attendanceRepository.countByStatusAndStartDate(AttendanceStatus.LATE, today);
         dto.setLateCount(lateCount);
 
-        // 휴가자
-        int onLeaveCount = annualListRepository.countByDateWithinAnnualLeave(today);
+        // 휴가자: 상태가 ON_LEAVE인 직원 수
+        int onLeaveCount = attendanceRepository.countByStatusAndStartDate(AttendanceStatus.ON_LEAVE, today);
         dto.setOnLeaveCount(onLeaveCount);
 
-        // 미출근자
+        // 미출근자: 전체 직원 수에서 출근자, 지각자, 휴가자 수를 빼면 미출근자 수가 됩니다.
         int absentCount = (int) (totalEmployees - (presentCount + lateCount + onLeaveCount));
         dto.setAbsentCount(absentCount);
 
         return dto;
     }
 
+
     // 출근 현황 리스트
     // 다 null이면 오늘 날짜에 대한 근태 기록
     // status가 not null이면 오늘 날짜 기준으로 해당 상태 검색
     // name, date에 따른 동적 쿼리
-    public List<Attendance> getAttendanceList(String name, Date date, AttendanceStatus status) {
+    public List<AttendanceListDTO> getAttendanceList(String name, Date date, AttendanceStatus status) {
 
-        List<Attendance> results = null;
+        List<Attendance> results;
 
-        if(status == null) {
+        // LocalDate를 사용하여 오늘 날짜만 가져옵니다.
+        LocalDate todayLocalDate = LocalDate.now();
+        // LocalDate를 Date로 변환합니다.
+        Date today = Date.from(todayLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        if(name.isBlank() && date == null && status == null) {
+            results = attendanceRepository.findByStartDate(today);
+        } else if(status == null) {
             Specification<Attendance> spec = AttendanceSpecifications.buildSpecification(name, date);
             results = attendanceRepository.findAll(spec);
         } else {
-            Date today = new Date();
             results = attendanceRepository.findByStartDateAndStatus(today, status);
         }
-        return results;
+
+        List<AttendanceListDTO> dtoList = new ArrayList<>();
+        for (Attendance attendance : results) {
+            dtoList.add(convertToDTO(attendance));
+        }
+
+        return dtoList;
     }
+
+    // Attendance를 AttendanceListDTO로 변환
+    public AttendanceListDTO convertToDTO(Attendance attendance) {
+        AttendanceListDTO dto = new AttendanceListDTO();
+        dto.setStartDate(attendance.getStartDate());
+        dto.setTimeIn(attendance.getTimeIn());
+        dto.setTimeOut(attendance.getTimeOut());
+        dto.setStatus(attendance.getStatus());
+
+        Employees emp = attendance.getEmployees();
+        if (emp != null) {
+            dto.setEmpName(emp.getName());
+            dto.setEmpNo(emp.getEmpNo());
+            dto.setDeptName(emp.getDept().getDeptName());
+            dto.setJobId(emp.getJobId());
+        }
+
+        return dto;
+    }
+
+
+
 }

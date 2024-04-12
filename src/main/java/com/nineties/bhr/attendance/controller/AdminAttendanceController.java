@@ -27,7 +27,7 @@ public class AdminAttendanceController {
     }
 
     @GetMapping("/list")
-    public List<Attendance> getAttendanceList(
+    public List<AttendanceListDTO> getAttendanceList(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
             @RequestParam(value = "status", required = false) AttendanceStatus status) {
