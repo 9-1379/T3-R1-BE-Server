@@ -26,9 +26,10 @@ public class EmployeeProfileService {
         return employeesRepository.findEmpProfile(username);
     }
 
-    public EmployeeProfileDTO updateEmployeeIntroduction(String username, String introduction) {
+    public EmployeeProfileDTO updateEmployeeIntroduction(String username, EmployeeProfileDTO employeeProfileDTO) {
+
         Employees employee = employeesRepository.findByUsername(username);
-        employee.setIntroduction(introduction);
+        employee.setIntroduction(employeeProfileDTO.getIntroduction());
         employee = employeesRepository.save(employee);
         return convertEntityToDTO(employee);
 
@@ -72,6 +73,7 @@ public class EmployeeProfileService {
         dto.setId(employee.getId());
         dto.setName(employee.getName());
         dto.setDeptName(employee.getDept().getDeptName()); // dept가 Employee 엔티티에 연결되어 있다고 가정합니다.
+        dto.setPosition(employee.getPosition());
         dto.setPosition(employee.getPosition());
         dto.setIntroduction(employee.getIntroduction());
         dto.setProfilePicture(employee.getProfilePicture()); // 프로필 사진 경로 추가
