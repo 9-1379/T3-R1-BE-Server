@@ -79,7 +79,13 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/admin/badge/*", "/api/hrCard/*","/api/join","/*","/login", "/api/login", "/api/login/join", "/employees/{id}", "/attendance/startWork", "/attendance/endWork","attendance/record/{id}", "myAnnual/{annualYear}/{empId}", "attendance/monthlySummary/{employeeId}", "/static/**", "/badge/**").permitAll()
+
+                        .requestMatchers("/api/hrCard/*","/api/join","/*","/login", "/api/login",
+                                "/api/login/join", "/employees/{id}", "/emp/dashboard/{id}",
+                                "/emp/dashboard/{id}/uploads","/attendance/startWork", "/attendance/endWork",
+                                "attendance/record/{id}","/uploads/**", "myAnnual/{annualYear}/{empId}",
+                                "attendance/monthlySummary/{employeeId}","/api/admin/badge/*","/static/**","/badge/**").permitAll()
+
                         .requestMatchers("/admin").hasRole("MANAGER")
                         .requestMatchers("/admin").hasRole("HRMANAGER")
                         .anyRequest().authenticated());
