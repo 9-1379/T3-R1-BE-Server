@@ -1,6 +1,7 @@
 package com.nineties.bhr.attendance.service;
 
 import com.nineties.bhr.attendance.domain.Attendance;
+import com.nineties.bhr.attendance.domain.AttendanceStatus;
 import com.nineties.bhr.attendance.dto.AttendanceDTO;
 import com.nineties.bhr.attendance.repository.AttendanceRepository;
 import com.nineties.bhr.emp.domain.Employees;
@@ -22,40 +23,57 @@ public class AttendanceService {
     @Autowired
     private EmployeesRepository employeesRepository;
 
+    // 출근
     public AttendanceDTO recordStartWork(String employeeId) {
         Employees employee = employeesRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
 
+        // 현재 시간 확인
         LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         LocalTime currentTime = now.toLocalTime();
+
+        // 출근 시간 범위 확인
         if (currentTime.isBefore(LocalTime.of(6, 0)) || currentTime.isAfter(LocalTime.of(23, 59))) {
             throw new RuntimeException("출근 버튼은 오전 6시부터 오후 11시 59분까지만 누를 수 있습니다.");
         }
 
-        LocalDateTime startOfDay = now.withHour(6).withMinute(0).withSecond(0).withNano(0);
-        if (currentTime.isBefore(LocalTime.of(6, 0))) {
-            startOfDay = startOfDay.minusDays(1);
-        }
+        // 오늘 날짜
+        LocalDate todayDate = LocalDate.now();
+        Date today = Date.from(todayDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        Date todayStart = getStartOfDay(startOfDay);
-        Date endOfDay = getEndOfDay(startOfDay);
-
+        // 이미 출근한 기록이 있는지 확인
         Optional<Attendance> existingRecord = attendanceRepository
-                .findTopByEmployeesAndStartDateBetweenOrderByStartDateDesc(employee, todayStart, endOfDay);
+                .findFirstByEmployeesAndStartDateAndTimeInIsNotNull(employee, today);
 
         if (existingRecord.isPresent()) {
             throw new RuntimeException("Start work record already exists for today.");
         }
 
-        Attendance attendance = new Attendance();
-        attendance.setEmployees(employee);
-        attendance.setStartDate(new Date());
+        // 오늘 날짜의 attendance 찾기
+        Attendance attendance = attendanceRepository.findByEmployeesAndStartDate(employee, today);
+
+        // 만약 없다면 새로 생성
+        if (attendance == null) {
+            attendance = new Attendance();
+            attendance.setStartDate(today);
+            attendance.setEmployees(employee);
+        }
+
+        // 출근 상태 설정
+        if (currentTime.isBefore(LocalTime.of(9, 0, 1))) {
+            attendance.setStatus(AttendanceStatus.PRESENT);
+        } else {
+            attendance.setStatus(AttendanceStatus.LATE);
+        }
+
         attendance.setTimeIn(new Date());
+
         Attendance savedAttendance = attendanceRepository.save(attendance);
 
         return convertToDto(savedAttendance);
     }
 
+    // 퇴근
     public AttendanceDTO recordEndWork(String employeeId) {
         Employees employee = employeesRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));

@@ -42,4 +42,8 @@ public interface AttendanceRepository extends JpaRepository<Attendance, String>,
     List<Attendance> findByStartDate(Date date);
 
     int countByStatusAndStartDate(AttendanceStatus attendanceStatus, Date today);
+
+    Optional<Attendance> findFirstByEmployeesAndStartDateAndTimeInIsNotNull(Employees employee, Date todayStart);
+
+    Attendance findByEmployeesAndStartDate(Employees employee, Date today);
 }
