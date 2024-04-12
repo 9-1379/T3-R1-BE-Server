@@ -25,7 +25,13 @@ public class AttendanceService {
     @Autowired
     private EmployeesRepository employeesRepository;
 
-    // 출근
+    /**
+     * 출근
+     *
+     * 출근은 오전 6시 ~ 오후 23시 59분 까지 가능
+     * 오늘 날짜에 이미 time in이 존재할 경우 이미 출근 기록 있음
+     * 오늘 날짜의 attendance 레코드가 존재하지 않을 경우 새로 생성
+     */
     public AttendanceDTO recordStartWork(String employeeId) {
         Employees employee = employeesRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
@@ -75,7 +81,12 @@ public class AttendanceService {
         return convertToDto(savedAttendance);
     }
 
-    // 퇴근
+    /**
+     * 퇴근
+     *
+     * 퇴근은 언제나 가능
+     * 오전 6시 이전일 경우 전날에 대한 퇴근으로 처리
+     */
     public AttendanceDTO recordEndWork(String employeeId) {
         Employees employee = employeesRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));

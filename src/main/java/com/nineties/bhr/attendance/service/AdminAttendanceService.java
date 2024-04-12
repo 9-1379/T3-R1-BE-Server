@@ -34,7 +34,9 @@ public class AdminAttendanceService {
         this.employeesRepository = employeesRepository;
     }
 
-    // 출근 현황 (출근자, 퇴근자, 지각자, 휴가자, 미출근자)
+    /**
+     * 출근 현황 (출근자, 퇴근자, 지각자, 휴가자, 미출근자)
+     */
     public AttendanceStatusDTO calculateAttendanceStatus() {
         AttendanceStatusDTO dto = new AttendanceStatusDTO();
 
@@ -70,23 +72,23 @@ public class AdminAttendanceService {
     }
 
 
-    // 출근 현황 리스트
-    // 다 null이면 오늘 날짜에 대한 근태 기록
-    // status가 not null이면 오늘 날짜 기준으로 해당 상태 검색
-    // name, date에 따른 동적 쿼리
-    public List<AttendanceListDTO> getAttendanceList(String name, Date date, AttendanceStatus status) {
+    /**
+     * 출근 현황 리스트
+     * 다 null이면 오늘 날짜에 대한 근태 기록
+     * status가 not null이면 오늘 날짜 기준으로 해당 상태 검색
+     * search, date에 따른 동적 쿼리
+     */
+    public List<AttendanceListDTO> getAttendanceList(String search, Date date, AttendanceStatus status) {
 
         List<Attendance> results;
 
-        // LocalDate를 사용하여 오늘 날짜만 가져옵니다.
         LocalDate todayLocalDate = LocalDate.now();
-        // LocalDate를 Date로 변환합니다.
         Date today = Date.from(todayLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        if(name.isBlank() && date == null && status == null) {
+        if(search.isBlank() && date == null && status == null) {
             results = attendanceRepository.findByStartDate(today);
         } else if(status == null) {
-            Specification<Attendance> spec = AttendanceSpecifications.buildSpecification(name, date);
+            Specification<Attendance> spec = AttendanceSpecifications.buildSpecification(search, date);
             results = attendanceRepository.findAll(spec);
         } else {
             results = attendanceRepository.findByStartDateAndStatus(today, status);
@@ -100,7 +102,9 @@ public class AdminAttendanceService {
         return dtoList;
     }
 
-    // Attendance를 AttendanceListDTO로 변환
+    /**
+     * Attendance를 AttendanceListDTO로 변환
+     */
     public AttendanceListDTO convertToDTO(Attendance attendance) {
         AttendanceListDTO dto = new AttendanceListDTO();
         dto.setStartDate(attendance.getStartDate());
