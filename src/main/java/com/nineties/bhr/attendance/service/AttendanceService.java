@@ -6,6 +6,7 @@ import com.nineties.bhr.attendance.dto.AttendanceDTO;
 import com.nineties.bhr.attendance.repository.AttendanceRepository;
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 @Service
+@Transactional
 public class AttendanceService {
 
     @Autowired
@@ -77,33 +79,38 @@ public class AttendanceService {
     public AttendanceDTO recordEndWork(String employeeId) {
         Employees employee = employeesRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
+        // 현재 시간
+        Calendar now = Calendar.getInstance();
 
-        LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
-        LocalTime currentTime = now.toLocalTime();
-        if (currentTime.isBefore(LocalTime.of(6, 0)) || currentTime.isAfter(LocalTime.of(23, 59))) {
-            throw new RuntimeException("퇴근 버튼은 오전 6시부터 오후 11시 59분까지만 누를 수 있습니다.");
+        // 현재 시간이 6시 이전인지 확인
+        Calendar sixAmToday = (Calendar) now.clone();
+        sixAmToday.set(Calendar.HOUR_OF_DAY, 6);
+        sixAmToday.set(Calendar.MINUTE, 0);
+        sixAmToday.set(Calendar.SECOND, 0);
+        sixAmToday.set(Calendar.MILLISECOND, 0);
+
+        Date targetDate = now.getTime();
+        if (now.before(sixAmToday)) {
+            // 만약 6시 이전이라면 전날 데이터 가져옴
+            now.add(Calendar.DATE, -1);
+            targetDate = now.getTime();
         }
 
-        Date current = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
+        Attendance attendance = attendanceRepository.findByEmployeesAndStartDate(employee, targetDate);
 
-        Optional<Attendance> todayStartRecord = attendanceRepository
-                .findFirstByEmployeesAndStartDateBetweenOrderByStartDateAsc(employee, getStartOfDay(now), getEndOfDay(now));
-
-        if (!todayStartRecord.isPresent()) {
-            throw new RuntimeException("No start work record found for today.");
+        if (attendance == null) {
+            throw new IllegalStateException("해당 직원과 해당 날짜에 맞는 데이터를 찾을 수 없습니다.");
         }
 
-        Attendance attendance = todayStartRecord.get();
-
-        if (attendance.getTimeIn().compareTo(current) > 0) {
-            throw new RuntimeException("End work time cannot be earlier than start work time.");
+        if (attendance.getTimeOut() != null) {
+            throw new IllegalStateException("퇴근 기록이 이미 존재합니다.");
         }
 
-        if (attendance.getEndDate() != null) {
-            throw new RuntimeException("End work already recorded for this entry.");
+        if (attendance.getTimeIn() == null) {
+            throw new IllegalStateException("출근 기록이 존재하지 않습니다.");
         }
 
-        attendance.setEndDate(new Date());
+        attendance.setEndDate(targetDate);
         attendance.setTimeOut(new Date());
         Attendance updatedAttendance = attendanceRepository.save(attendance);
 

@@ -46,4 +46,5 @@ public interface AttendanceRepository extends JpaRepository<Attendance, String>,
     Optional<Attendance> findFirstByEmployeesAndStartDateAndTimeInIsNotNull(Employees employee, Date todayStart);
 
     Attendance findByEmployeesAndStartDate(Employees employee, Date today);
+
 }
