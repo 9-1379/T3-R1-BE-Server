@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,4 +31,8 @@ public interface EmployeesRepository extends JpaRepository<Employees, String> {
     List<EmployeeProjection> findEmpNoNameDeptNameEmail();
 
     List<Employees> findAll();
+
+    @Query("SELECT e FROM Employees e WHERE e.hireDate <= :cutoffDate")
+    List<Employees> findByHireDateBefore(Date cutoffDate);
+
 }

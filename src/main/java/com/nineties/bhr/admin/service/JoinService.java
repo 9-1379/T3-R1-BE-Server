@@ -1,5 +1,6 @@
 package com.nineties.bhr.admin.service;
 
+import com.nineties.bhr.badge.service.BadgeService;
 import com.nineties.bhr.emp.domain.Dept;
 import com.nineties.bhr.emp.repository.DeptRepository;
 import com.nineties.bhr.emp.domain.*;
@@ -8,33 +9,41 @@ import com.nineties.bhr.admin.dto.JoinDTO;
 import com.nineties.bhr.admin.dto.JoinPageDTO;
 import com.nineties.bhr.sequence.domain.SequenceTable;
 import com.nineties.bhr.sequence.repository.SequenceTableRespository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
+import static java.rmi.server.LogStream.log;
+
 @Service
 public class JoinService {
 
+    private static final Logger log = LoggerFactory.getLogger(JoinService.class);
     private final EmployeesRepository employeesRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final DeptRepository deptRepository;
     private final SequenceTableRespository sequenceTableRespository;
 
-    public JoinService(EmployeesRepository employeesRepository, BCryptPasswordEncoder bCryptPasswordEncoder, DeptRepository deptRepository, SequenceTableRespository sequenceTableRespository) {
+    private final BadgeService badgeService;
+
+    public JoinService(EmployeesRepository employeesRepository, BCryptPasswordEncoder bCryptPasswordEncoder, DeptRepository deptRepository, SequenceTableRespository sequenceTableRespository, BadgeService badgeService) {
 
         this.employeesRepository = employeesRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.deptRepository = deptRepository;
         this.sequenceTableRespository = sequenceTableRespository;
+        this.badgeService = badgeService;
     }
 
     public void joinProcess(JoinDTO joinDTO) {
 
         String name = joinDTO.getName();
         Gender gender = joinDTO.getGender();
-        String birthday = joinDTO.getBirthday();
+        Date birthday = joinDTO.getBirthday();
         String phoneNumber = joinDTO.getPhoneNumber();
         String email = joinDTO.getEmail();
         String position = joinDTO.getPosition();
@@ -77,7 +86,10 @@ public class JoinService {
         data.setStatus(Status.WORKING);
         data.setAuthorization(Role.EMPLOYEE);
 
-        employeesRepository.save(data);
+        Employees emp = employeesRepository.save(data);
+        log.info("신규 직원 생성 완료 : {}", emp.getUsername());
+
+        badgeService.assignBadgesToNewEmployee(emp);
     }
 
     public JoinPageDTO showId() {
