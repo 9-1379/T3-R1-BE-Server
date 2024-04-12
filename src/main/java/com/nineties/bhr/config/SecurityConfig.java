@@ -79,24 +79,13 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-<<<<<<< HEAD
-<<<<<<< HEAD
-                        .requestMatchers("/api/admin/badge/*", "/api/hrCard/*","/api/join","/*","/login", "/api/login", "/api/login/join", "/employees/{id}", "/attendance/startWork", "/attendance/endWork","attendance/record/{id}", "myAnnual/{annualYear}/{empId}", "attendance/monthlySummary/{employeeId}", "/static/**", "/badge/**").permitAll()
-=======
-=======
 
->>>>>>> 93d90128d3c63c5a89663bdad8ca2e7cd8a1b241
                         .requestMatchers("/api/hrCard/*","/api/join","/*","/login", "/api/login",
                                 "/api/login/join", "/employees/{id}", "/emp/dashboard/{id}",
                                 "/emp/dashboard/{id}/uploads","/attendance/startWork", "/attendance/endWork",
                                 "attendance/record/{id}","/uploads/**", "myAnnual/{annualYear}/{empId}",
-<<<<<<< HEAD
-                                "attendance/monthlySummary/{employeeId}").permitAll()
->>>>>>> dev
-=======
                                 "attendance/monthlySummary/{employeeId}","/api/admin/badge/*","/static/**","/badge/**").permitAll()
 
->>>>>>> 93d90128d3c63c5a89663bdad8ca2e7cd8a1b241
                         .requestMatchers("/admin").hasRole("MANAGER")
                         .requestMatchers("/admin").hasRole("HRMANAGER")
                         .anyRequest().authenticated());
