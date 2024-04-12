@@ -164,9 +164,6 @@ public class AttendanceService {
         return summary;
     }
 
-
-
-
     private AttendanceDTO convertToDto(Attendance attendance) {
         AttendanceDTO dto = new AttendanceDTO();
         dto.setId(attendance.getId());
@@ -178,15 +175,5 @@ public class AttendanceService {
             dto.setEmployeeId(attendance.getEmployees().getId());
         }
         return dto;
-    }
-
-    private Date getStartOfMonth(LocalDate date) {
-        LocalDateTime startOfMonth = date.atStartOfDay();
-        return Date.from(startOfMonth.atZone(ZoneId.systemDefault()).toInstant());
-    }
-
-    private Date getEndOfPeriod(LocalDate date) {
-        LocalDateTime endOfPeriod = date.atTime(23, 59, 59, 999999999);
-        return Date.from(endOfPeriod.atZone(ZoneId.systemDefault()).toInstant());
     }
 }

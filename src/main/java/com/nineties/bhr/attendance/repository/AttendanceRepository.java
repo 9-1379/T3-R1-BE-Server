@@ -29,8 +29,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, String>,
             "WHERE overtime_count >= 3", nativeQuery = true)
     List<String> findEmployeesWithOvertimeLastWeek(@Param("startOfWeek") Date startOfWeek, @Param("endOfWeek") Date endOfWeek);
 
-    List<Attendance> findByEmployeesAndStartDateBetweenOrderByStartDateAsc(Employees employee, Date startOfMonth, Date endOfPeriod);
-
     Optional<Attendance> findFirstByEmployeesIdAndStartDate(String employeeId, LocalDate today);
 
     List<Attendance> findByStartDateAndStatus(Date date, AttendanceStatus status);
