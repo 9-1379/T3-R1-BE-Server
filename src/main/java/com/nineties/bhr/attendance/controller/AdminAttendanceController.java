@@ -1,6 +1,7 @@
 package com.nineties.bhr.attendance.controller;
 
 import com.nineties.bhr.attendance.domain.Attendance;
+import com.nineties.bhr.attendance.domain.AttendanceStatus;
 import com.nineties.bhr.attendance.dto.AttendanceListDTO;
 import com.nineties.bhr.attendance.dto.AttendanceStatusDTO;
 import com.nineties.bhr.attendance.service.AdminAttendanceService;
@@ -29,7 +30,7 @@ public class AdminAttendanceController {
     public List<Attendance> getAttendanceList(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
-            @RequestParam(value = "status", required = false) String status) {
+            @RequestParam(value = "status", required = false) AttendanceStatus status) {
         return adminAttendanceService.getAttendanceList(name, date, status);
     }
 }

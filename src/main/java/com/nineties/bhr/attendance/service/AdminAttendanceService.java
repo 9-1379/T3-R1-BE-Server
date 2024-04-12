@@ -1,12 +1,15 @@
 package com.nineties.bhr.attendance.service;
 
 import com.nineties.bhr.attendance.domain.Attendance;
+import com.nineties.bhr.attendance.domain.AttendanceStatus;
 import com.nineties.bhr.attendance.dto.AttendanceListDTO;
 import com.nineties.bhr.attendance.dto.AttendanceStatusDTO;
 import com.nineties.bhr.annual.repository.AnnualListRepository;
 import com.nineties.bhr.attendance.repository.AttendanceRepository;
+import com.nineties.bhr.attendance.repository.AttendanceSpecifications;
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
@@ -68,12 +71,20 @@ public class AdminAttendanceService {
     }
 
     // 출근 현황 리스트
-    // status에는 휴가와 결근만 표기
     // 다 null이면 오늘 날짜에 대한 근태 기록
     // status가 not null이면 오늘 날짜 기준으로 해당 상태 검색
     // name, date에 따른 동적 쿼리
-    public List<Attendance> getAttendanceList(String name, Date date, String status) {
+    public List<Attendance> getAttendanceList(String name, Date date, AttendanceStatus status) {
 
+        List<Attendance> results = null;
 
+        if(status == null) {
+            Specification<Attendance> spec = AttendanceSpecifications.buildSpecification(name, date);
+            results = attendanceRepository.findAll(spec);
+        } else {
+            Date today = new Date();
+            results = attendanceRepository.findByStartDateAndStatus(today, status);
+        }
+        return results;
     }
 }

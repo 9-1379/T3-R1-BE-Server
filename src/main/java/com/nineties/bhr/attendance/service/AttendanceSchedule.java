@@ -30,7 +30,7 @@ public class AttendanceSchedule {
     }
 
     // 매일 밤 12시에 실행 (주말 제외)
-    // 모든 직원의 그날 attendance data 넣기
+    // 모든 직원 (퇴사, 휴직 제외) 의 그날 attendance data 넣기
     // 휴가인 직원만 휴가로 놓고 다른 직원들은 default로 결근으로 넣음
     @Scheduled(cron = "0 0 0 * * MON-FRI")
     public void generateDailyAttendanceRecords() {
