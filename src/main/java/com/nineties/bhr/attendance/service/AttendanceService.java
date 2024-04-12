@@ -117,12 +117,14 @@ public class AttendanceService {
         return convertToDto(updatedAttendance);
     }
 
+    // 출근 기록
     public AttendanceDTO getAttendanceRecord(String employeeId) {
         LocalDate today = LocalDate.now();
         Optional<Attendance> attendanceRecord = attendanceRepository.findFirstByEmployeesIdAndStartDate(employeeId, today);
         return attendanceRecord.map(this::convertToDto).orElse(null);
     }
 
+    // 이번 달 출근 현황
     public Map<String, Integer> getMonthlyAttendanceSummary(String employeeId) {
         Map<String, Integer> summary = new HashMap<>();
         int attendanceCount = 0;
@@ -204,16 +206,6 @@ public class AttendanceService {
             dto.setEmployeeId(attendance.getEmployees().getId());
         }
         return dto;
-    }
-
-    private Date getStartOfDay(LocalDateTime dateTime) {
-        LocalDateTime startOfDay = dateTime.toLocalDate().atStartOfDay();
-        return Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
-    }
-
-    private Date getEndOfDay(LocalDateTime dateTime) {
-        LocalDateTime endOfDay = dateTime.toLocalDate().atTime(23, 59, 59, 999999999);
-        return Date.from(endOfDay.atZone(ZoneId.systemDefault()).toInstant());
     }
 
     private Date getStartOfMonth(LocalDate date) {

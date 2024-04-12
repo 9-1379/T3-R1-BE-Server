@@ -14,11 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AttendanceRepository extends JpaRepository<Attendance, String>, JpaSpecificationExecutor<Attendance> {
-
-    Optional<Attendance> findTopByEmployeesAndStartDateBetweenOrderByStartDateDesc(Employees employee, Date start, Date end);
-
-    Optional<Attendance> findFirstByEmployeesAndStartDateBetweenOrderByStartDateAsc(Employees employee, Date startOfDay, Date endOfDay);
-
+    
     @Query(value = "SELECT emp_id " +
             "FROM (SELECT a.emp_id, " +
             "             COUNT(*) AS overtime_count " +
