@@ -26,9 +26,3 @@ spring:
 
 server:
   port: 8000
-
-logging:
-  level:
-    org:
-      springframework:
-        web: DEBUG
