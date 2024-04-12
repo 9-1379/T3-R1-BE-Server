@@ -25,6 +25,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import java.util.Optional;
+
+
 @Service
 @Slf4j
 public class BadgeService {
@@ -193,7 +196,9 @@ public class BadgeService {
 
             if (!alreadyHasBadge) {
                 // 이번 년도 연차 확인
-                Annual annualData = annualRepository.findByAnnualYearAndEmployees(currentYear, employee);
+
+                Annual annualData = annualRepository.findByAnnualYearAndEmployees(currentYear, employee).orElseThrow();
+
 
                 if (annualData != null) {
 
