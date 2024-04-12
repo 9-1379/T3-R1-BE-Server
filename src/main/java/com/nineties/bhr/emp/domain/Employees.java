@@ -39,7 +39,7 @@ public class Employees {
     private Gender gender;
 
     @Column(nullable = false)
-    private String birthday;
+    private Date birthday;
 
     @Column(nullable = false)
     private String phoneNumber;
