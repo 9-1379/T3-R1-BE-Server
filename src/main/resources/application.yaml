@@ -15,7 +15,7 @@ spring:
   #JPA
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     generate-ddl: false
     show-sql: true
     defer-datasource-initialization: true
