@@ -1,0 +1,26 @@
+spring:
+  jwt:
+    secret: awsec2docker
+  sql:
+    init:
+      data-locations: classpath*:data.sql
+      platform: mariadb
+      encoding: UTF-8
+      mode: always
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://ec2-3-38-192-81.ap-northeast-2.compute.amazonaws.com:6000/exmple-database
+    username: example-user
+    password: my_cool_secret
+
+  #JPA
+  jpa:
+    hibernate:
+      ddl-auto: create
+    generate-ddl: false
+    show-sql: true
+    defer-datasource-initialization: true
+
+
+server:
+  port: 8000
