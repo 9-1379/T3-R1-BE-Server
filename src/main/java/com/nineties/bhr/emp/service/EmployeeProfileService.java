@@ -34,27 +34,6 @@ public class EmployeeProfileService {
 
     }
 
-//    public String uploadProfilePicture(String id, MultipartFile file) throws IOException {
-//        Employees employee = employeesRepository.findById(id)
-//                .orElseThrow(() -> new RuntimeException("Employee not found"));
-//
-//        //파일 저장 로직
-//        String fileName = URLEncoder.encode(file.getOriginalFilename(), StandardCharsets.UTF_8.toString());
-//        Path uploadPath = Paths.get("uploads/");
-//        if (!Files.exists(uploadPath)) {
-//            Files.createDirectories(uploadPath);
-//        }
-//        Path filePath = uploadPath.resolve(fileName);
-//        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-//
-//        //파일 경로를 데이터베이스에 저장
-//        String relativePath = "/uploads/" + fileName;
-//        employee.setProfilePicture(relativePath);
-//        employeesRepository.save(employee);
-//
-//        return relativePath; // 상대 경로 반환
-//    }
-
     //파일 저장 외부 디렉토리 지정 (시스템의 루트 디렉토리 아래에 위치)
     private final String UPLOAD_DIR = System.getProperty("user.home") + "/uploads/";
 
