@@ -34,7 +34,7 @@ public class Employees {
     @Column(name = "emp_name", nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "emp_gender",nullable = false)
     @Enumerated (EnumType.STRING)
     private Gender gender;
 
@@ -75,11 +75,11 @@ public class Employees {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(name = "emp_status",nullable = false)
     @Enumerated (EnumType.STRING)
     private Status status;
 
-    @Column(nullable = false)
+    @Column(name = "emp_authorization", nullable = false)
     @Enumerated (EnumType.STRING)
     private Role authorization;
 

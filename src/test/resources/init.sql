@@ -1,6 +1,9 @@
-INSERT INTO sequence_table (sequence_name, next_val)
-VALUES ('entity_sequence', 1)
-ON DUPLICATE KEY UPDATE next_val = next_val;
+MERGE INTO sequence_table USING (VALUES('entity_sequence', 1))
+    AS vals(sequence_name, next_val)
+    ON sequence_table.sequence_name = vals.sequence_name
+    WHEN MATCHED THEN UPDATE SET sequence_table.next_val = sequence_table.next_val
+    WHEN NOT MATCHED THEN INSERT (sequence_name, next_val) VALUES (vals.sequence_name, vals.next_val);
+
 
 INSERT INTO dept (dept_name)
 VALUES ('영업1팀'),
