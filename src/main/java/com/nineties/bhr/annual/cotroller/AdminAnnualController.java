@@ -31,9 +31,11 @@ public class AdminAnnualController {
     }
 
     @GetMapping("/status/{annualYear}")
-    public List<AdminAnnualStatusDTO> getStatus(@PathVariable("annualYear") String annualYear) {
+    public ResponseEntity<List<AdminAnnualStatusDTO>> getStatus(@PathVariable("annualYear") String annualYear) {
 
-        return adminAnnualService.empStatusAll(annualYear);
+        List<AdminAnnualStatusDTO> adminAnnualStatusDTO = adminAnnualService.empStatusAll(annualYear);
+
+        return ResponseEntity.ok(adminAnnualStatusDTO);
     }
 
 

@@ -74,12 +74,12 @@ public class Employees {
 
     @Column(nullable = false)
     private String password;
-
-    @Column(nullable = false)
+    // test를 위한 임시 컬럼명 변경
+    @Column(name = "emp_status", nullable = false )
     @Enumerated (EnumType.STRING)
     private Status status;
-
-    @Column(nullable = false)
+    // test를 위한 임시 컬럼명 변경
+    @Column(name = "auth", nullable = false)
     @Enumerated (EnumType.STRING)
     private Role authorization;
 

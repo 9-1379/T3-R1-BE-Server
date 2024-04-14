@@ -84,7 +84,12 @@
 <!--			<artifactId>jackson-databind</artifactId>-->
 <!--			<version>2.12.3</version>-->
 <!--		</dependency>-->
-
+		<dependency>
+<!--			unitTest를 위한 h2 의존성 추가-->
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
