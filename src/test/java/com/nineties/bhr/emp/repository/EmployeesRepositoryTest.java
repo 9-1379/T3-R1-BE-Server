@@ -4,11 +4,13 @@ import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.domain.Gender;
 import com.nineties.bhr.emp.domain.Role;
 import com.nineties.bhr.emp.domain.Status;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,14 +22,17 @@ class EmployeesRepositoryTest {
     @Autowired
     private EmployeesRepository employeesRepository;
 
+    @SneakyThrows
     @Test
     public void 임직원_정보_저장() {
         //given
         Employees emp1 = new Employees();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        Date birthdayDate = sdf.parse("19991122");
         emp1.setName("aaa");
         emp1.setEmpNo(1L);
         emp1.setGender(Gender.FEMALE);
-        emp1.setBirthday("19991122");
+        emp1.setBirthday(birthdayDate);
         emp1.setPhoneNumber("01042991435");
         emp1.setPosition("aaa");
         emp1.setJobId("aaa");
@@ -40,7 +45,7 @@ class EmployeesRepositoryTest {
         emp2.setName("bbb");
         emp1.setEmpNo(2L);
         emp2.setGender(Gender.FEMALE);
-        emp2.setBirthday("19991122");
+        emp2.setBirthday(birthdayDate);
         emp2.setPhoneNumber("01042991435");
         emp2.setPosition("bbb");
         emp2.setJobId("bbb");
