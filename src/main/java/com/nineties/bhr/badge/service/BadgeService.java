@@ -13,6 +13,8 @@ import com.nineties.bhr.badge.repository.EmpBadgeRepository;
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +26,6 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import java.util.Optional;
 
 
 @Service
@@ -240,6 +240,10 @@ public class BadgeService {
         }
         empBadgeRepository.save(empBadge);
         log.info("{} 사원에게 {} 배지 부여", employee.getName(), badge.getBadgeName());
+    }
+
+    public List<EmpBadge> getRecentBadgesForEmployee(String empId, Pageable pageable) {
+        return empBadgeRepository.findTop3ByEmployeeOrderByDateDesc(empId, pageable);
     }
 }
 
