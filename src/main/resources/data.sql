@@ -1,14 +1,13 @@
 INSERT INTO sequence_table (sequence_name, next_val)
-VALUES ('entity_sequence', 5) ON DUPLICATE KEY
-UPDATE next_val = next_val;
+VALUES ('entity_sequence', 1)
+ON DUPLICATE KEY UPDATE next_val = next_val;
 
 INSERT INTO dept (dept_name)
-VALUES ('영업팀'),
-       ('밤양갱팀'),
+VALUES ('영업1팀'),
+       ('재무팀'),
        ('개발팀'),
        ('인사팀'),
-       ('고구마팀');
-
+       ('영업2팀');
 
 INSERT INTO employees (hire_date, dept_id, emp_no, birthday, emp_id, emp_name, job_id, password, phone_number, position,
                        username)

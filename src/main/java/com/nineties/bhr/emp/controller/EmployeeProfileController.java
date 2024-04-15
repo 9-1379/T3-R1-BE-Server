@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -24,35 +25,34 @@ public class EmployeeProfileController {
         this.employeeProfileService = employeeProfileService;
     }
 
-    @GetMapping
-    public EmployeeProfileProjection getEmployeeByUsername() {
+    @GetMapping("/empToOne")
+    public List<EmployeeProfileDTO> getEmployeeByUsername() {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return employeeProfileService.getEmployeeByUsername(username);
+
+        List<EmployeeProfileDTO> employeeProfileDTOList = employeeProfileService.empProfile(username);
+
+        return employeeProfileDTOList;
     }
 
-    @PatchMapping
+    @PostMapping("/empIntro")
     public ResponseEntity<EmployeeProfileDTO> updateEmployeeIntroduction(@RequestBody EmployeeProfileDTO employeeProfileDTO) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        EmployeeProfileDTO updatedEmployeeProfile = employeeProfileService.updateEmployeeIntroduction(username, employeeProfileDTO.getIntroduction());
-        if (updatedEmployeeProfile != null) {
-            return ResponseEntity.ok(updatedEmployeeProfile);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        employeeProfileService.updateEmployeeIntroduction(username, employeeProfileDTO);
+            return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PostMapping("/{empId}")
-    public ResponseEntity<?> uploadProfilePicture(@PathVariable String empId, @RequestParam("file") MultipartFile file) {
-        try {
-
-            String updatedProfile = employeeProfileService.uploadProfilePicture(empId, file);
-           // String uploadedFilePath = employeeProfileService.uploadProfilePicture(id, file);
-            return ResponseEntity.ok(updatedProfile);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일을 업로드할 수 없습니다." + e.getMessage());
-        }
-    }
+//    @PostMapping("/{empId}")
+//    public ResponseEntity<?> uploadProfilePicture(@PathVariable String empId, @RequestParam("file") MultipartFile file) {
+//        try {
+//
+//            String updatedProfile = employeeProfileService.uploadProfilePicture(empId, file);
+//           // String uploadedFilePath = employeeProfileService.uploadProfilePicture(id, file);
+//            return ResponseEntity.ok(updatedProfile);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일을 업로드할 수 없습니다." + e.getMessage());
+//        }
+//    }
 
 }
 
