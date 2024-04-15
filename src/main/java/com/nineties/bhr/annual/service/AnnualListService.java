@@ -38,8 +38,7 @@ public class AnnualListService {
         annual.setStartDate(annualListDTO.getStartDate());
         annual.setEndDate(annualListDTO.getEndDate());
 
-        Employees employees = new Employees();
-        employees = employeesRepository.findByUsername(username);
+        Employees employees = employeesRepository.findByUsername(username);
         annual.setEmployees(employees);
 
         // Calculate days difference

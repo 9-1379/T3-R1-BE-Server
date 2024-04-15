@@ -7,4 +7,5 @@ public interface EmployeeProfileProjection {
     String getPosition();
     String getIntroduction();
     String getProfilePicture();
+
 }
