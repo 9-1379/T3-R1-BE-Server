@@ -42,17 +42,17 @@ public class EmployeeProfileController {
             return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-//    @PostMapping("/{empId}")
-//    public ResponseEntity<?> uploadProfilePicture(@PathVariable String empId, @RequestParam("file") MultipartFile file) {
-//        try {
-//
-//            String updatedProfile = employeeProfileService.uploadProfilePicture(empId, file);
-//           // String uploadedFilePath = employeeProfileService.uploadProfilePicture(id, file);
-//            return ResponseEntity.ok(updatedProfile);
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일을 업로드할 수 없습니다." + e.getMessage());
-//        }
-//    }
+    @PostMapping("/{empId}")
+    public ResponseEntity<?> uploadProfilePicture(@PathVariable String empId, @RequestParam("file") MultipartFile file) {
+        try {
+
+            String updatedProfile = employeeProfileService.uploadProfilePicture(empId, file);
+           // String uploadedFilePath = employeeProfileService.uploadProfilePicture(id, file);
+            return ResponseEntity.ok(updatedProfile);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일을 업로드할 수 없습니다." + e.getMessage());
+        }
+    }
 
 }
 
