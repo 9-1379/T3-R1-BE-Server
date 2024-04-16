@@ -123,9 +123,6 @@ public class AttendanceService {
 
         attendance.setEndDate(targetDate);
         attendance.setTimeOut(new Date());
-        if(!attendance.getStatus().equals(AttendanceStatus.LATE)) {
-            attendance.setStatus(AttendanceStatus.LEAVE);
-        }
         Attendance updatedAttendance = attendanceRepository.save(attendance);
 
         return convertToDto(updatedAttendance);
@@ -138,7 +135,9 @@ public class AttendanceService {
         return attendanceRecord.map(this::convertToDto).orElse(null);
     }
 
-    // 출근 현황
+    /**
+     * 출근 현황
+     */
     public Map<String, Integer> getMonthlyAttendanceSummary(String employeeId) {
         int currentMonth = LocalDate.now().getMonthValue();
         List<Attendance> attendances = attendanceRepository.findByEmployeeIdAndMonth(employeeId, currentMonth);
@@ -150,7 +149,6 @@ public class AttendanceService {
         for (Attendance attendance : attendances) {
             switch (attendance.getStatus()) {
                 case PRESENT:
-                case LEAVE:
                     summary.put("출근", summary.get("출근") + 1);
                     break;
                 case LATE:
