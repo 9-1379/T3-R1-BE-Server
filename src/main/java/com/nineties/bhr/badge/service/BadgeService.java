@@ -13,9 +13,11 @@ import com.nineties.bhr.badge.repository.EmpBadgeRepository;
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -61,7 +63,7 @@ public class BadgeService {
         // "세대" 배지가 활성화 상태인지 확인합니다.
         BadgeMaster generationBadge = badgeMasterRepository.findByBadgeNameAndStatus(generationBadgeName, BadgeStatus.Enabled);
 
-        if(generationBadge != null) {
+        if (generationBadge != null) {
             assignBadge(employee, generationBadge, null);
         }
     }
@@ -92,7 +94,7 @@ public class BadgeService {
         // "귀여운건 나도 알아" 배지가 활성화 상태인지 확인합니다.
         BadgeMaster newbieBadge = badgeMasterRepository.findByBadgeNameAndStatus("귀여운건 나도 알아", BadgeStatus.Enabled);
 
-        if(newbieBadge != null) {
+        if (newbieBadge != null) {
             assignBadge(employee, newbieBadge, badgeEndDate);
         }
     }
@@ -242,8 +244,13 @@ public class BadgeService {
         log.info("{} 사원에게 {} 배지 부여", employee.getName(), badge.getBadgeName());
     }
 
-    public List<EmpBadge> getRecentBadgesForEmployee(String empId, Pageable pageable) {
-        return empBadgeRepository.findTop3ByEmployeeOrderByDateDesc(empId, pageable);
+    public List<EmpBadge> getRecentBadgesForCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            String empId = ((UserDetails) principal).getUsername();
+            return empBadgeRepository.findTop3ByEmployees_IdOrderByDateDesc(empId);
+        } else {
+            return List.of(); // 현재 사용자 정보가 없으면 빈 리스트 반환
+        }
     }
 }
-
