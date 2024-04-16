@@ -11,21 +11,3 @@ spring:
 
 server:
   port: 8000
-
-
-  🐣$ date;ls -l --full-time *krb*
-  Sat Apr 13 03:03:43 KST 2024
-  -rw------- 1 ubuntu ubuntu 892 2024-04-13 03:00:01.464678670 +0900 airflow_krb5_ccache
-  -rw------- 1 ubuntu ubuntu 892 2024-04-13 03:03:28.395889023 +0900 krb5cc_500
-  
-  
-  🐣$ date;ls -l --full-time *krb*
-  Sat Apr 13 03:03:45 KST 2024
-  -rw------- 1 ubuntu ubuntu 892 2024-04-13 03:00:01.464678670 +0900 airflow_krb5_ccache
-  -rw------- 1 ubuntu ubuntu 892 2024-04-13 03:03:43.731126935 +0900 krb5cc_500
-  
-  
-  🐣$ date;ls -l --full-time *krb*
-  Sat Apr 13 03:03:46 KST 2024
-  -rw------- 1 ubuntu ubuntu 892 2024-04-13 03:00:01.464678670 +0900 airflow_krb5_ccache
-  -rw------- 1 ubuntu ubuntu 892 2024-04-13 03:03:45.350152053 +0900 krb5cc_50
