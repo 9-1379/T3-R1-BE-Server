@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    default: test
+  application:
+    name: papplan
+---
+spring:
+  config:
+    activate:
+      on-profile: dev, test, aws
+
+server:
+  port: 8000

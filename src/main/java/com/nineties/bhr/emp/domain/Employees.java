@@ -39,7 +39,7 @@ public class Employees {
     private Gender gender;
 
     @Column(nullable = false)
-    private String birthday;
+    private Date birthday;
 
     @Column(nullable = false)
     private String phoneNumber;
@@ -60,8 +60,11 @@ public class Employees {
     @Embedded
     private Address address;
 
-    @Lob
-    private Byte[] profilePicture;
+//    @Lob
+//    private Byte[] profilePicture;
+
+    @Column(length = 255)
+    private String profilePicture;
 
     @Column(columnDefinition = "TEXT")
     private String introduction;

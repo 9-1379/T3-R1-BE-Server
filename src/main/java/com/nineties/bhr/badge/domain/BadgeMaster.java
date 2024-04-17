@@ -22,8 +22,11 @@ public class BadgeMaster {
     private String badgeDetail;
 
     @Lob
-    @Column(nullable = false)
-    private byte[] badgeImage;
+//    @Column(nullable = false)
+    private String badgeImage;
+
+    @Enumerated (EnumType.STRING)
+    private BadgeStatus status;
 
     @OneToMany(mappedBy = "badgeMaster")
     private List<EmpBadge> empBadges = new ArrayList<>();
