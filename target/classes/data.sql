@@ -1,7 +1,17 @@
-INSERT INTO sequence_table (sequence_name, next_val)
-VALUES ('entity_sequence', 1)
-ON DUPLICATE KEY UPDATE next_val = next_val;
->>>>>>> junitTest/yjin
+-- unitTest를 위한 h2 문법
+MERGE INTO sequence_table AS st
+    USING (VALUES ('entity_sequence', 1)) AS new_values (sequence_name, next_val)
+    ON st.sequence_name = new_values.sequence_name
+    WHEN MATCHED THEN
+        UPDATE SET st.next_val = new_values.next_val
+    WHEN NOT MATCHED THEN
+        INSERT (sequence_name, next_val) VALUES (new_values.sequence_name, new_values.next_val);
+
+
+
+-- INSERT INTO sequence_table (sequence_name, next_val)
+-- VALUES ('entity_sequence', 1)
+-- ON DUPLICATE KEY UPDATE next_val = next_val;
 
 INSERT INTO dept (dept_name)
 VALUES ('영업1팀'),
