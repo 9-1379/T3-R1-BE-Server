@@ -23,7 +23,7 @@ public class EmployeeProfileService {
     private EmployeesRepository employeesRepository;
 
     // 파일 저장 외부 디렉토리 지정 (시스템의 루트 디렉토리 아래에 위치)
-    private final String UPLOAD_DIR = "/home/joo/finalProject/T3-R2-FE-Server/src/assets/";
+    private final String UPLOAD_DIR = "/home/ubuntu/app/bhr/src/assets/";
 
     public EmployeeProfileDTO empProfile (String username) {
 
