@@ -4,11 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 public interface EmployeeProjection {
-    Long getEmpNo();
-
+    String getId();
     String getName();
-
-    String getEmail();
-
     String getDeptName();
+    String getPosition();
+    String getIntroduction();
+    String getProfilePicture();
 }

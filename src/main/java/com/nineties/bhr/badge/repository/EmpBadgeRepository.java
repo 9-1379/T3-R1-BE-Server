@@ -23,10 +23,9 @@ public interface EmpBadgeRepository extends JpaRepository<EmpBadge, Long> {
 
     List<EmpBadge> findByBadgeMaster(BadgeMaster badgeMaster);
 
-    // 사용자 ID(empId)를 기준으로 최근에 부여된 배지 3개를 조회하는 메서드
-    List<EmpBadge> findTop3ByEmployees_IdOrderByDateDesc(String empId);
+    @Query("SELECT eb FROM EmpBadge eb " +
+            "WHERE eb.employees.id = :empId AND eb.date <= :today AND (eb.endDate IS NULL OR eb.endDate >= :today) " +
+            "ORDER BY eb.date DESC")
+    List<EmpBadge> findCurrentBadgesByEmployeeAndDate(@Param("empId") String empId, @Param("today") Date today);
 }
 
-//    @Query("SELECT e FROM EmpBadge e WHERE e.employees.id = :empId ORDER BY e.date DESC")
-//    List<EmpBadge> findByEmployeesIdOrderByDateDesc(String empId, Pageable pageable);
-//}
