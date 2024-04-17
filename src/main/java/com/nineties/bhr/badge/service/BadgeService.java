@@ -13,7 +13,11 @@ import com.nineties.bhr.badge.repository.EmpBadgeRepository;
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -24,7 +28,6 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -59,7 +62,7 @@ public class BadgeService {
         // "세대" 배지가 활성화 상태인지 확인합니다.
         BadgeMaster generationBadge = badgeMasterRepository.findByBadgeNameAndStatus(generationBadgeName, BadgeStatus.Enabled);
 
-        if(generationBadge != null) {
+        if (generationBadge != null) {
             assignBadge(employee, generationBadge, null);
         }
     }
@@ -90,7 +93,7 @@ public class BadgeService {
         // "귀여운건 나도 알아" 배지가 활성화 상태인지 확인합니다.
         BadgeMaster newbieBadge = badgeMasterRepository.findByBadgeNameAndStatus("귀여운건 나도 알아", BadgeStatus.Enabled);
 
-        if(newbieBadge != null) {
+        if (newbieBadge != null) {
             assignBadge(employee, newbieBadge, badgeEndDate);
         }
     }
@@ -194,7 +197,9 @@ public class BadgeService {
 
             if (!alreadyHasBadge) {
                 // 이번 년도 연차 확인
+
                 Annual annualData = annualRepository.findByAnnualYearAndEmployees(currentYear, employee).orElseThrow();
+
 
                 if (annualData != null) {
 
@@ -237,5 +242,10 @@ public class BadgeService {
         empBadgeRepository.save(empBadge);
         log.info("{} 사원에게 {} 배지 부여", employee.getName(), badge.getBadgeName());
     }
-}
 
+    public List<EmpBadge> getBadgesForEmployee(String empId) {
+        return empBadgeRepository.findByEmployees_Id(empId);
+        
+    }
+
+}

@@ -4,11 +4,14 @@ package com.nineties.bhr.admin.controller;
 import com.nineties.bhr.admin.dto.JoinDTO;
 import com.nineties.bhr.admin.dto.JoinPageDTO;
 import com.nineties.bhr.admin.service.JoinService;
+import com.nineties.bhr.badge.domain.EmpBadge;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -23,15 +26,15 @@ public class JoinController {
 
     @GetMapping("/join")
     public JoinPageDTO joinPage() {
+
         return joinService.showId();
     }
 
     @PostMapping("/join")
-    public ResponseEntity<Object> newEmployee (@RequestBody @Valid JoinDTO joinDTO, HttpServletResponse response ) {
+    public ResponseEntity<List<EmpBadge>> newEmployee (@RequestBody @Valid JoinDTO joinDTO, HttpServletResponse response ) {
+        List<EmpBadge> badges = joinService.joinProcess(joinDTO);
 
-        joinService.joinProcess(joinDTO);
+        return ResponseEntity.ok(badges);
 
-        return ResponseEntity
-                .status(HttpStatus.OK).build();  // 200(OK)를 응답 상태 코드로 지정
     }
 }

@@ -3,6 +3,7 @@ package com.nineties.bhr.badge.repository;
 import com.nineties.bhr.badge.domain.BadgeMaster;
 import com.nineties.bhr.badge.domain.EmpBadge;
 import com.nineties.bhr.emp.domain.Employees;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,4 +22,12 @@ public interface EmpBadgeRepository extends JpaRepository<EmpBadge, Long> {
     boolean annualBadgeCheck(@Param("employee") Employees employee, @Param("badgeMaster") BadgeMaster badgeMaster, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
     List<EmpBadge> findByBadgeMaster(BadgeMaster badgeMaster);
+
+    List<EmpBadge> findByEmployees_Id(String empId);
+
+    List<EmpBadge> findTop3ByEmployees_IdOrderByDateDesc(String empId);
 }
+
+//    @Query("SELECT e FROM EmpBadge e WHERE e.employees.id = :empId ORDER BY e.date DESC")
+//    List<EmpBadge> findByEmployeesIdOrderByDateDesc(String empId, Pageable pageable);
+//}
