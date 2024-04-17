@@ -47,6 +47,7 @@ public class AdminAttendanceService {
 
         // 전체 직원 수
         long totalEmployees = employeesRepository.countActiveEmployees();
+        dto.setTotal((int)totalEmployees);
 
         // 출근자: 상태가 PRESENT인 직원 수
         int presentCount = attendanceRepository.countByStatusAndStartDate(AttendanceStatus.PRESENT, today);
