@@ -3,6 +3,7 @@ package com.nineties.bhr.annual.cotroller;
 import com.nineties.bhr.annual.dto.AnnualListDTO;
 import com.nineties.bhr.annual.service.AnnualListService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +21,6 @@ public class AnnualController {
     public AnnualController(AnnualListService annualService) {
         this.annualService = annualService;
     }
-
 
     @GetMapping("/annualList")
     public List<AnnualListDTO> getAnnualList() {
