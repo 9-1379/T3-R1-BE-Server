@@ -9,7 +9,7 @@ spring:
       mode: always
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://ec2-3-38-192-81.ap-northeast-2.compute.amazonaws.com:6000/exmple-database
+    url: jdbc:mariadb://ec2-43-202-65-100.ap-northeast-2.compute.amazonaws.com:6000/exmple-database
     username: example-user
     password: my_cool_secret
 

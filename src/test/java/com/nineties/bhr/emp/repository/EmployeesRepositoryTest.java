@@ -27,7 +27,7 @@ class EmployeesRepositoryTest {
         emp1.setName("aaa");
         emp1.setEmpNo(1L);
         emp1.setGender(Gender.FEMALE);
-        emp1.setBirthday("19991122");
+        emp1.setBirthday(new Date(Long.parseLong("19991122")));
         emp1.setPhoneNumber("01042991435");
         emp1.setPosition("aaa");
         emp1.setJobId("aaa");
@@ -40,7 +40,7 @@ class EmployeesRepositoryTest {
         emp2.setName("bbb");
         emp1.setEmpNo(2L);
         emp2.setGender(Gender.FEMALE);
-        emp2.setBirthday("19991122");
+        emp2.setBirthday(new Date(Long.parseLong("19991122")));
         emp2.setPhoneNumber("01042991435");
         emp2.setPosition("bbb");
         emp2.setJobId("bbb");
