@@ -23,7 +23,8 @@ public interface EmpBadgeRepository extends JpaRepository<EmpBadge, Long> {
 
     List<EmpBadge> findByBadgeMaster(BadgeMaster badgeMaster);
 
-    // 사용자 ID(empId)를 기준으로 최근에 부여된 배지 3개를 조회하는 메서드
+    List<EmpBadge> findByEmployees_Id(String empId);
+
     List<EmpBadge> findTop3ByEmployees_IdOrderByDateDesc(String empId);
 }
 

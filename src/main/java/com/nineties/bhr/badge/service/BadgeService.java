@@ -243,4 +243,9 @@ public class BadgeService {
         log.info("{} 사원에게 {} 배지 부여", employee.getName(), badge.getBadgeName());
     }
 
+    public List<EmpBadge> getBadgesForEmployee(String empId) {
+        return empBadgeRepository.findByEmployees_Id(empId);
+        
+    }
+
 }

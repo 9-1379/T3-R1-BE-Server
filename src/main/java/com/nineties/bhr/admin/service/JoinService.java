@@ -1,5 +1,6 @@
 package com.nineties.bhr.admin.service;
 
+import com.nineties.bhr.badge.domain.EmpBadge;
 import com.nineties.bhr.badge.service.BadgeService;
 import com.nineties.bhr.emp.domain.Dept;
 import com.nineties.bhr.emp.repository.DeptRepository;
@@ -90,6 +91,15 @@ public class JoinService {
         log.info("신규 직원 생성 완료 : {}", emp.getUsername());
 
         badgeService.assignBadgesToNewEmployee(emp);
+
+        List<EmpBadge> assignedBadges = badgeService.getBadgesForEmployee(emp.getId());
+        if (assignedBadges != null && !assignedBadges.isEmpty()) {
+            for (EmpBadge badge : assignedBadges) {
+                log.info("할당된 배지: {}", badge.getBadgeMaster().getBadgeName());
+            }
+        } else {
+            log.info("할당된 배지가 없습니다.");
+        }
     }
 
     public JoinPageDTO showId() {
