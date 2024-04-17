@@ -49,6 +49,8 @@ public class AnnualListService {
 
         annualListRepository.save(annual);
     }
+
+    // 해당 직원의 연차 목록 출력
     public List<AnnualListDTO> getlist(String name) {
 
         return annualListRepository.findByEmployees_Username(name).stream()
