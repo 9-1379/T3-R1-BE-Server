@@ -36,5 +36,9 @@ public class AdminAnnualController {
         return adminAnnualService.empStatusAll(annualYear);
     }
 
-
+    @DeleteMapping("/annualTotal/delete")
+    public ResponseEntity<String> deleteAnnual() {
+        adminAnnualService.deleteAnnualTotal();
+        return ResponseEntity.ok("delete");
+    }
 }
