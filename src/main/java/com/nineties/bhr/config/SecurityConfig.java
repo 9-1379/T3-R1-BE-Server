@@ -84,7 +84,7 @@ public class SecurityConfig {
                                 "/api/login/join", "/employees/{id}", "/attendance/startWork",
                                 "/attendance/endWork","attendance/record/{id}",
                                 "myAnnual/{annualYear}/{empId}", "attendance/monthlySummary/{employeeId}","/api/admin/dashboard/metrics",
-                                "/emp/dashboard/{empId}", "/uploads/**", "/api/admin/badge/*","/static/**","/badge/**", "/myBadge/list").permitAll()
+                                "/emp/dashboard/{empId}", "/uploads/**", "/api/admin/badge/*","/static/**","/badge/**", "/emp/badge").permitAll()
 
                         .requestMatchers("/admin").hasRole("MANAGER")
                         .requestMatchers("/admin").hasRole("HRMANAGER")

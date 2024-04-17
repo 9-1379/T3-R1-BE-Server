@@ -29,7 +29,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-
 @Service
 @Slf4j
 public class BadgeService {
@@ -244,13 +243,4 @@ public class BadgeService {
         log.info("{} 사원에게 {} 배지 부여", employee.getName(), badge.getBadgeName());
     }
 
-    public List<EmpBadge> getRecentBadgesForCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            String empId = ((UserDetails) principal).getUsername();
-            return empBadgeRepository.findTop3ByEmployees_IdOrderByDateDesc(empId);
-        } else {
-            return List.of(); // 현재 사용자 정보가 없으면 빈 리스트 반환
-        }
-    }
 }
