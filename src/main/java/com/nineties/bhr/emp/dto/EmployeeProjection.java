@@ -11,4 +11,10 @@ public interface EmployeeProjection {
     String getEmail();
 
     String getDeptName();
+
+    String getPosition();
+
+    String getJobId();
+
+    String getIntroduction();
 }

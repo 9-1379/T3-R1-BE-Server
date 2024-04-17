@@ -155,7 +155,7 @@ public class BadgeService {
 
         if (leaveBadge != null) {
             //오늘 연차 중인 직원 찾기
-            List<AnnualList> activeAnnualLists = annualListRepository.findByStartDateBeforeAndEndDateAfterOrEndDateIsNull(todayDate, todayDate);
+            List<AnnualList> activeAnnualLists = annualListRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(todayDate, todayDate);
             for (AnnualList annualList : activeAnnualLists) {
                 Employees employee = annualList.getEmployees();
                 // annualListStartDate와 annualListEndDate를 직접 Date 타입으로 사용합니다.
@@ -238,4 +238,3 @@ public class BadgeService {
         log.info("{} 사원에게 {} 배지 부여", employee.getName(), badge.getBadgeName());
     }
 }
-

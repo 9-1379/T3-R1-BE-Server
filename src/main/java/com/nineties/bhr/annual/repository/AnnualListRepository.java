@@ -23,7 +23,7 @@ public interface AnnualListRepository extends JpaRepository<AnnualList, Long> {
 
     List<AnnualList> findByStartDate(Date today);
 
-    List<AnnualList> findByStartDateBeforeAndEndDateAfterOrEndDateIsNull(Date startDate, Date endDate);
+    List<AnnualList> findByStartDateLessThanEqualAndEndDateGreaterThanEqual(Date startDate, Date endDate);
 
     List<AnnualList> findByAnnualYearAndEmployees(String currentYear, Employees employee);
 
