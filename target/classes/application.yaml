@@ -22,7 +22,13 @@ spring:
 
   web:
     resources:
-      static-locations: file:${user.home}/uploads/
+      static-locations: classpath:/static/, file:${user.home}/uploads/
 
 server:
   port: 8000
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type: TRACE
+    org.springframework.web: DEBUG

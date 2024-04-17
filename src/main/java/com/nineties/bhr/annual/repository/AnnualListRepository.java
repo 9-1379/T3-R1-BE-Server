@@ -23,10 +23,11 @@ public interface AnnualListRepository extends JpaRepository<AnnualList, Long> {
 
     List<AnnualList> findByStartDate(Date today);
 
-    List<AnnualList> findByStartDateLessThanEqualAndEndDateGreaterThanEqual(Date startDate, Date endDate);
+    List<AnnualList> findByStartDateBeforeAndEndDateAfterOrEndDateIsNull(Date startDate, Date endDate);
 
     List<AnnualList> findByAnnualYearAndEmployees(String currentYear, Employees employee);
 
     @Query("SELECT COALESCE(SUM(a.annualCnt), 0) FROM AnnualList a WHERE a.employees.id = :empId AND a.annualYear = :year")
     Long findAnnualCountByEmployeeAndYear(@Param("empId") String empId, @Param("year") String year);
+
 }
