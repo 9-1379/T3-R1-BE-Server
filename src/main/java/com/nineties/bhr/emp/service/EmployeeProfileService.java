@@ -16,11 +16,9 @@ public class EmployeeProfileService {
     @Autowired
     private EmployeesRepository employeesRepository;
 
-    public List<EmployeeProfileDTO> empProfile (String username) {
+    public EmployeeProfileDTO empProfile (String username) {
 
         Employees employees = employeesRepository.findByUsername(username);
-
-        List<EmployeeProfileDTO> employeeProfileDTOList = new ArrayList<>();
 
         EmployeeProfileDTO empProfileDTO = new EmployeeProfileDTO();
         empProfileDTO.setName(employees.getName());
@@ -30,9 +28,7 @@ public class EmployeeProfileService {
         empProfileDTO.setHireDate(employees.getHireDate());
         empProfileDTO.setIntroduction(employees.getIntroduction());
 
-        employeeProfileDTOList.add(empProfileDTO);
-
-        return employeeProfileDTOList;
+        return empProfileDTO;
     }
 
 

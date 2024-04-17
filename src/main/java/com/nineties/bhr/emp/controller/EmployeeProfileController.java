@@ -26,13 +26,13 @@ public class EmployeeProfileController {
     }
 
     @GetMapping("/empToOne")
-    public List<EmployeeProfileDTO> getEmployeeByUsername() {
+    public EmployeeProfileDTO getEmployeeByUsername() {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        List<EmployeeProfileDTO> employeeProfileDTOList = employeeProfileService.empProfile(username);
+        EmployeeProfileDTO employeeProfileDTO = employeeProfileService.empProfile(username);
 
-        return employeeProfileDTOList;
+        return employeeProfileDTO;
     }
 
     @PostMapping("/empIntro")
