@@ -21,7 +21,9 @@ public class BadgeMaster {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String badgeDetail;
 
+
     @Lob
+    @Column(nullable = true)
     private String badgeImage;
 
     @Enumerated (EnumType.STRING)

@@ -10,7 +10,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/attendance")
-public class AttendanceController {
+public class
+AttendanceController {
 
     @Autowired
     private AttendanceService attendanceService;

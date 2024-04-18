@@ -47,14 +47,11 @@ public class AdminAttendanceService {
 
         // 전체 직원 수
         long totalEmployees = employeesRepository.countActiveEmployees();
+        dto.setTotal((int)totalEmployees);
 
         // 출근자: 상태가 PRESENT인 직원 수
         int presentCount = attendanceRepository.countByStatusAndStartDate(AttendanceStatus.PRESENT, today);
         dto.setPresentCount(presentCount);
-
-        // 퇴근자: 상태가 LEAVE인 직원 수
-        int leaveCount = attendanceRepository.countByStatusAndStartDate(AttendanceStatus.LEAVE, today);
-        dto.setLeaveCount(leaveCount);
 
         // 지각자: 상태가 LATE인 직원 수
         int lateCount = attendanceRepository.countByStatusAndStartDate(AttendanceStatus.LATE, today);
@@ -63,10 +60,6 @@ public class AdminAttendanceService {
         // 휴가자: 상태가 ON_LEAVE인 직원 수
         int onLeaveCount = attendanceRepository.countByStatusAndStartDate(AttendanceStatus.ON_LEAVE, today);
         dto.setOnLeaveCount(onLeaveCount);
-
-        // 미출근자: 전체 직원 수에서 출근자, 지각자, 휴가자 수를 빼면 미출근자 수가 됩니다.
-        int absentCount = (int) (totalEmployees - (presentCount + lateCount + onLeaveCount));
-        dto.setAbsentCount(absentCount);
 
         return dto;
     }
