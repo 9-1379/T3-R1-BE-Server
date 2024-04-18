@@ -2,13 +2,9 @@ package com.nineties.bhr.emp.service;
 
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.dto.EmployeeProfileDTO;
-import com.nineties.bhr.emp.dto.EmployeeProfileProjection;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class EmployeeProfileService {

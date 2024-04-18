@@ -1,6 +1,5 @@
 package com.nineties.bhr.annual.dto;
 
-import com.nineties.bhr.emp.domain.Dept;
 import lombok.Getter;
 import lombok.Setter;
 

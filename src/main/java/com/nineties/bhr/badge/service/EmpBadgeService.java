@@ -5,9 +5,6 @@ import com.nineties.bhr.badge.dto.MyBadgeDTO;
 import com.nineties.bhr.badge.repository.EmpBadgeRepository;
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

@@ -1,7 +1,7 @@
 package com.nineties.bhr.admin.service;
 
-import com.nineties.bhr.emp.domain.*;
 import com.nineties.bhr.admin.dto.EmployeeDTO;
+import com.nineties.bhr.emp.domain.*;
 import com.nineties.bhr.emp.repository.DeptRepository;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import jakarta.persistence.Embedded;

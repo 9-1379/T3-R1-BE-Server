@@ -1,6 +1,5 @@
 package com.nineties.bhr.badge.domain;
 
-import com.nineties.bhr.annual.domain.AnnualList;
 import jakarta.persistence.*;
 import lombok.Data;
 

@@ -1,10 +1,10 @@
 package com.nineties.bhr.attendance.service;
 
+import com.nineties.bhr.annual.repository.AnnualListRepository;
 import com.nineties.bhr.attendance.domain.Attendance;
 import com.nineties.bhr.attendance.domain.AttendanceStatus;
 import com.nineties.bhr.attendance.dto.AttendanceListDTO;
 import com.nineties.bhr.attendance.dto.AttendanceStatusDTO;
-import com.nineties.bhr.annual.repository.AnnualListRepository;
 import com.nineties.bhr.attendance.repository.AttendanceRepository;
 import com.nineties.bhr.attendance.repository.AttendanceSpecifications;
 import com.nineties.bhr.emp.domain.Employees;
@@ -12,14 +12,11 @@ import com.nineties.bhr.emp.repository.EmployeesRepository;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AdminAttendanceService {

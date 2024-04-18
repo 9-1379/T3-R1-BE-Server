@@ -2,7 +2,6 @@ package com.nineties.bhr.emp.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.sql.ast.SqlAstTranslator;
 
 import java.util.Date;
 

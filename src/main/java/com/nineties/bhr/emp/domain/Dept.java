@@ -1,6 +1,5 @@
 package com.nineties.bhr.emp.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 

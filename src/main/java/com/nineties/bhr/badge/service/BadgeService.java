@@ -13,11 +13,7 @@ import com.nineties.bhr.badge.repository.EmpBadgeRepository;
 import com.nineties.bhr.emp.domain.Employees;
 import com.nineties.bhr.emp.repository.EmployeesRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;

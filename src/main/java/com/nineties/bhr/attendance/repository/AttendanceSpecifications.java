@@ -1,15 +1,14 @@
 package com.nineties.bhr.attendance.repository;
 
 import com.nineties.bhr.attendance.domain.Attendance;
-import com.nineties.bhr.attendance.domain.AttendanceStatus;
 import com.nineties.bhr.emp.domain.Employees;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AttendanceSpecifications {

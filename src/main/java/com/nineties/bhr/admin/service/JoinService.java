@@ -1,12 +1,11 @@
 package com.nineties.bhr.admin.service;
 
-import com.nineties.bhr.badge.service.BadgeService;
-import com.nineties.bhr.emp.domain.Dept;
-import com.nineties.bhr.emp.repository.DeptRepository;
-import com.nineties.bhr.emp.domain.*;
-import com.nineties.bhr.emp.repository.EmployeesRepository;
 import com.nineties.bhr.admin.dto.JoinDTO;
 import com.nineties.bhr.admin.dto.JoinPageDTO;
+import com.nineties.bhr.badge.service.BadgeService;
+import com.nineties.bhr.emp.domain.*;
+import com.nineties.bhr.emp.repository.DeptRepository;
+import com.nineties.bhr.emp.repository.EmployeesRepository;
 import com.nineties.bhr.sequence.domain.SequenceTable;
 import com.nineties.bhr.sequence.repository.SequenceTableRespository;
 import org.slf4j.Logger;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-
-import static java.rmi.server.LogStream.log;
 
 @Service
 public class JoinService {

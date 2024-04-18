@@ -2,6 +2,7 @@ package com.nineties.bhr.attendance.dto;
 
 import com.nineties.bhr.attendance.domain.AttendanceStatus;
 import lombok.Data;
+
 import java.util.Date;
 
 @Data
