@@ -31,10 +31,11 @@ public class JoinController {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<List<EmpBadge>> newEmployee (@RequestBody @Valid JoinDTO joinDTO, HttpServletResponse response ) {
-        List<EmpBadge> badges = joinService.joinProcess(joinDTO);
+    public ResponseEntity<Object> newEmployee (@RequestBody @Valid JoinDTO joinDTO, HttpServletResponse response ) {
 
-        return ResponseEntity.ok(badges);
+        joinService.joinProcess(joinDTO);
 
+        return ResponseEntity
+                .status(HttpStatus.OK).build();  // 200(OK)를 응답 상태 코드로 지정
     }
 }
