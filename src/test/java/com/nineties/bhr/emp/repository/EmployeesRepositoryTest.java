@@ -8,13 +8,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("test")
+@Sql("/init.sql")
 class EmployeesRepositoryTest {
 
     @Autowired
@@ -27,7 +31,7 @@ class EmployeesRepositoryTest {
         emp1.setName("aaa");
         emp1.setEmpNo(1L);
         emp1.setGender(Gender.FEMALE);
-        emp1.setBirthday("19991122");
+        emp1.setBirthday(new Date());
         emp1.setPhoneNumber("01042991435");
         emp1.setPosition("aaa");
         emp1.setJobId("aaa");
@@ -40,7 +44,7 @@ class EmployeesRepositoryTest {
         emp2.setName("bbb");
         emp1.setEmpNo(2L);
         emp2.setGender(Gender.FEMALE);
-        emp2.setBirthday("19991122");
+        emp2.setBirthday(new Date());
         emp2.setPhoneNumber("01042991435");
         emp2.setPosition("bbb");
         emp2.setJobId("bbb");
