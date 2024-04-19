@@ -5,6 +5,8 @@ import lombok.Setter;
 
 public interface EmployeeProjection {
     String getId();
+    String getEmpNo();
+    String getEmail();
     String getName();
     String getDeptName();
     String getPosition();
