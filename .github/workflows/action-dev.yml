@@ -3,10 +3,10 @@ name: Deploy2aws 🚀
 on:
   push:
     branches:
-      - release/v2.0.0
+      - main
   pull_request:
     branches:
-      - release/v2.0.0
+      - main 
     types:
       - closed
 
