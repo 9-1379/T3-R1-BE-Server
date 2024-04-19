@@ -4,6 +4,7 @@ ON DUPLICATE KEY UPDATE next_val = next_val;
 
 INSERT INTO dept (dept_name)
 VALUES ('영업1팀'),
+       ('영업3팀'),
        ('재무팀'),
        ('개발팀'),
        ('인사팀'),
