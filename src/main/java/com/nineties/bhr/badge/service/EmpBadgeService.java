@@ -30,7 +30,7 @@ public class EmpBadgeService {
         List<EmpBadge> allBadges = empBadgeRepository.findCurrentBadgesByEmployeeAndDate(emp.getId(), new Date());
 
         // 배지를 badge_id 기준으로 중복 제거하고 가장 최근 것만 유지
-        allBadges =  allBadges.stream()
+        allBadges = allBadges.stream()
                 .sorted(Comparator.comparing(EmpBadge::getDate).reversed()) // 최신 날짜 우선으로 정렬
                 .collect(Collectors.collectingAndThen(
                         Collectors.toMap(

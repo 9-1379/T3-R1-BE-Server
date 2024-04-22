@@ -18,6 +18,7 @@ public interface EmployeesRepository extends JpaRepository<Employees, String> {
 
 
     Optional<Employees> findById(String id);
+
     Employees findByUsername(String username);
 
     @Query("SELECT e.id as id, e.name as name, e.dept.deptName as deptName, e.position as position, e.introduction as introduction, e.profilePicture as profilePicture FROM Employees e where e.username = :username")
