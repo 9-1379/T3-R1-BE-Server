@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("test")
+@Sql("/init.sql")
 class EmployeesRepositoryTest {
 
     @Autowired
@@ -28,12 +28,7 @@ class EmployeesRepositoryTest {
         emp1.setName("aaa");
         emp1.setEmpNo(1L);
         emp1.setGender(Gender.FEMALE);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, 2015);
-        calendar.set(Calendar.MONTH, 4);
-        calendar.set(Calendar.DATE, 28);
-        Date date = calendar.getTime();
-        emp1.setBirthday(date);
+        emp1.setBirthday(new Date());
         emp1.setPhoneNumber("01042991435");
         emp1.setPosition("aaa");
         emp1.setJobId("aaa");
@@ -46,11 +41,7 @@ class EmployeesRepositoryTest {
         emp2.setName("bbb");
         emp1.setEmpNo(2L);
         emp2.setGender(Gender.FEMALE);
-        calendar.set(Calendar.YEAR, 2015);
-        calendar.set(Calendar.MONTH, 4);
-        calendar.set(Calendar.DATE, 28);
-        Date date2 = calendar.getTime();
-        emp2.setBirthday(date2);
+        emp2.setBirthday(new Date());
         emp2.setPhoneNumber("01042991435");
         emp2.setPosition("bbb");
         emp2.setJobId("bbb");
