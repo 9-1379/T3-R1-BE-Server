@@ -39,7 +39,7 @@ public class JoinService {
         this.badgeService = badgeService;
     }
 
-    public void joinProcess(JoinDTO joinDTO) {
+    public void joinProcess(JoinDTO joinDTO) throws Exception {
 
         String name = joinDTO.getName();
         Gender gender = joinDTO.getGender();
@@ -51,14 +51,15 @@ public class JoinService {
         Date hireDate = joinDTO.getHireDate();
         Address address = joinDTO.getAddr();
         String username = joinDTO.getUsername();
+
+        Boolean isUsernameExist = employeesRepository.existsByUsername(username);
+
+        if (isUsernameExist) {
+            throw new Exception("Username '" + username + "' already exists.");
+        }
+
         String password = joinDTO.getPassword();
         Dept dept = deptRepository.findByDeptName(joinDTO.getDeptName());
-
-        Boolean isExist = employeesRepository.existsByUsername(username);
-
-        if (isExist) {
-            return;
-        }
 
         Employees data = new Employees();
 

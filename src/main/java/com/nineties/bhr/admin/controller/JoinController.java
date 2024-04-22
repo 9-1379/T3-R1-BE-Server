@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+
 @RestController
 @RequestMapping("/api")
 public class JoinController {
@@ -27,11 +29,15 @@ public class JoinController {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<Object> newEmployee (@RequestBody @Valid JoinDTO joinDTO, HttpServletResponse response ) {
+    public ResponseEntity<Object> newEmployee (@Valid @RequestBody JoinDTO joinDTO) {
 
-        joinService.joinProcess(joinDTO);
-
-        return ResponseEntity
-                .status(HttpStatus.OK).build();  // 200(OK)를 응답 상태 코드로 지정
+        try {
+            joinService.joinProcess(joinDTO);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Collections.singletonMap("message", e.getMessage()));
+        }
+        return ResponseEntity.ok(Collections.singletonMap("message", "New employee has been successfully added."));  // 200(OK)를 응답 상태 코드로 지정
     }
 }

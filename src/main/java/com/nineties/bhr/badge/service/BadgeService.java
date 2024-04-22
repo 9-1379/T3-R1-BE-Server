@@ -158,7 +158,8 @@ public class BadgeService {
 
         if (leaveBadge != null) {
             //오늘 연차 중인 직원 찾기
-            List<AnnualList> activeAnnualLists = annualListRepository.findByStartDateBeforeAndEndDateAfterOrEndDateIsNull(todayDate, todayDate);
+            List<AnnualList> activeAnnualLists = annualListRepository.findValidAnnualLists(todayDate);
+
             for (AnnualList annualList : activeAnnualLists) {
                 Employees employee = annualList.getEmployees();
                 // annualListStartDate와 annualListEndDate를 직접 Date 타입으로 사용합니다.
@@ -198,7 +199,7 @@ public class BadgeService {
             if (!alreadyHasBadge) {
                 // 이번 년도 연차 확인
 
-                Annual annualData = annualRepository.findByAnnualYearAndEmployees(currentYear, employee).orElseThrow();
+                Annual annualData = annualRepository.findByAnnualYearAndEmployees(currentYear, employee).orElse(null);
 
 
                 if (annualData != null) {
@@ -219,6 +220,8 @@ public class BadgeService {
                         assignBadge(employee, workLifeBadge, endOfYear); // 연차 사용률이 80% 이상일 경우 배지 부여
 
                     }
+                } else {
+                    return;
                 }
             }
         }
