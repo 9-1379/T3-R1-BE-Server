@@ -10,6 +10,7 @@ public interface EmployeeProjection {
     String getName();
     String getDeptName();
     String getPosition();
+    String getJobId();
     String getIntroduction();
     String getProfilePicture();
 }
