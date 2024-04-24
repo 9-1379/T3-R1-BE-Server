@@ -16,7 +16,7 @@ public class JoinDTO {
 
     @NotBlank(message = "이름은 필수 사항입니다")
     private String name;
-    @NotBlank(message = "성별은 필수 사항입니다")
+    @NotNull(message = "성별은 필수 사항입니다")
     private Gender gender;
     @NotNull(message = "생년월일은 필수 사항입니다")
     private Date birthday;
