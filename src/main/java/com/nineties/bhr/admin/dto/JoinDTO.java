@@ -4,6 +4,7 @@ import com.nineties.bhr.emp.domain.Address;
 import com.nineties.bhr.emp.domain.Gender;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +18,7 @@ public class JoinDTO {
     private String name;
     @NotBlank(message = "성별은 필수 사항입니다")
     private Gender gender;
-    @NotBlank(message = "생년월일은 필수 사항입니다")
+    @NotNull(message = "생년월일은 필수 사항입니다")
     private Date birthday;
     @NotBlank(message = "전화번호는 필수 사항입니다")
     private String phoneNumber;
@@ -28,7 +29,7 @@ public class JoinDTO {
     private String position;
     @NotBlank(message = "직무는 필수 사항입니다")
     private String jobId;
-    @NotBlank(message = "입사일은 필수 사항입니다")
+    @NotNull(message = "입사일은 필수 사항입니다")
     private Date hireDate;
     private Address addr;
     @NotBlank(message = "아이디는 필수 사항입니다")
